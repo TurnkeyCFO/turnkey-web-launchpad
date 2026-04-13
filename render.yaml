@@ -1,0 +1,263 @@
+services:
+  - type: web
+    name: turnkey-web-app
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: INLINE_WORKER
+        value: "true"
+      - key: PORT
+        value: "10000"
+      - key: APP_BASE_URL
+        sync: false
+      - key: TURNKEY_WEB_OWNER_NAME
+        sync: false
+      - key: TURNKEY_WEB_OWNER_EMAIL
+        sync: false
+      - key: TURNKEY_WEB_APPROVAL_BASE_URL
+        sync: false
+      - key: CRON_SECRET
+        generateValue: true
+      - key: GOOGLE_SPREADSHEET_ID
+        sync: false
+      - key: GOOGLE_DRIVE_ROOT_FOLDER_ID
+        sync: false
+      - key: GOOGLE_SERVICE_ACCOUNT_JSON
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_REFRESH_TOKEN
+        sync: false
+      - key: GMAIL_FROM_EMAIL
+        sync: false
+      - key: SLACK_BOT_TOKEN
+        sync: false
+      - key: SLACK_SIGNING_SECRET
+        sync: false
+      - key: SLACK_APPROVAL_CHANNEL
+        sync: false
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: GITHUB_OWNER
+        sync: false
+      - key: GITHUB_TEMPLATE_OWNER
+        sync: false
+      - key: GITHUB_TEMPLATE_REPO
+        sync: false
+      - key: GITHUB_COMMITTER_NAME
+        sync: false
+      - key: GITHUB_COMMITTER_EMAIL
+        sync: false
+      - key: PREVIEW_PROVIDER
+        value: github-pages
+      - key: GITHUB_PAGES_BRANCH
+        value: main
+      - key: GITHUB_PAGES_PATH
+        value: /docs
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: PRIMARY_AGENT_MODEL
+        sync: false
+      - key: SECONDARY_AGENT_MODEL
+        sync: false
+      - key: OPENROUTER_HTTP_REFERER
+        sync: false
+      - key: OPENROUTER_APP_TITLE
+        value: Turnkey Web Draft Pipeline
+  - type: worker
+    name: turnkey-web-worker
+    runtime: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm run worker
+    envVars:
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: APP_ENV
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: APP_BASE_URL
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: TURNKEY_WEB_OWNER_NAME
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: TURNKEY_WEB_OWNER_EMAIL
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: TURNKEY_WEB_APPROVAL_BASE_URL
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: CRON_SECRET
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: GOOGLE_SPREADSHEET_ID
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: GOOGLE_DRIVE_ROOT_FOLDER_ID
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: GOOGLE_SERVICE_ACCOUNT_JSON
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: GOOGLE_CLIENT_ID
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: GOOGLE_CLIENT_SECRET
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: GOOGLE_REFRESH_TOKEN
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: GMAIL_FROM_EMAIL
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: SLACK_BOT_TOKEN
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: SLACK_SIGNING_SECRET
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: SLACK_APPROVAL_CHANNEL
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: TELEGRAM_BOT_TOKEN
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: TELEGRAM_CHAT_ID
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: GITHUB_TOKEN
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: GITHUB_OWNER
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: GITHUB_TEMPLATE_OWNER
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: GITHUB_TEMPLATE_REPO
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: GITHUB_COMMITTER_NAME
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: GITHUB_COMMITTER_EMAIL
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: PREVIEW_PROVIDER
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: GITHUB_PAGES_BRANCH
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: GITHUB_PAGES_PATH
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: OPENROUTER_API_KEY
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: PRIMARY_AGENT_MODEL
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: SECONDARY_AGENT_MODEL
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: OPENROUTER_HTTP_REFERER
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: OPENROUTER_APP_TITLE
+  - type: cron
+    name: turnkey-web-cron
+    runtime: node
+    plan: starter
+    schedule: "*/15 * * * *"
+    buildCommand: npm install
+    startCommand: npm run cron
+    envVars:
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: APP_ENV
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: APP_BASE_URL
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: TURNKEY_WEB_OWNER_NAME
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: TURNKEY_WEB_OWNER_EMAIL
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: CRON_SECRET
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: GOOGLE_SPREADSHEET_ID
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: GOOGLE_SERVICE_ACCOUNT_JSON
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: GOOGLE_CLIENT_ID
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: GOOGLE_CLIENT_SECRET
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: GOOGLE_REFRESH_TOKEN
+      - fromService:
+          type: web
+          name: turnkey-web-app
+          envVarKey: GMAIL_FROM_EMAIL

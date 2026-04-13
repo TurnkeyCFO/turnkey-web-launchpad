@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Turnkey Web | Internal Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <nav class="top-nav">
+      <div class="brand-lock">
+        <div class="brand-eyebrow">Internal ops</div>
+        <div class="brand-name">Turnkey Web dashboard</div>
+      </div>
+      <div class="nav-links">
+        <a href="/">Public site</a>
+        <a href="/onboarding.html">Onboarding</a>
+        <a href="/social-agent">Social agent</a>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">Lead tracker / CRM</div>
+          <h1>See every lead, draft, and approval state in one place.</h1>
+          <p class="hero-copy">This view is intentionally lightweight for v1 so you can monitor the funnel without adding another subscription just to track the basics.</p>
+        </div>
+        <aside class="hero-panel">
+          <div class="eyebrow">Live summary</div>
+          <div class="price" id="lead-count">0</div>
+          <p>Total leads currently in the system.</p>
+          <ul>
+            <li><span class="dot"></span><span><strong id="draft-count">0</strong> draft records</span></li>
+            <li><span class="dot"></span><span><strong id="email-count">0</strong> email records</span></li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section admin-layout">
+      <div class="panel">
+        <div class="section-header">
+          <div class="eyebrow">Leads</div>
+          <h2>Current pipeline</h2>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Lead</th>
+                <th>Stage</th>
+                <th>Package</th>
+                <th>Estimate</th>
+                <th>Preview</th>
+              </tr>
+            </thead>
+            <tbody id="lead-table"></tbody>
+          </table>
+        </div>
+      </div>
+      <aside class="result-card">
+        <div class="eyebrow">What this dashboard covers</div>
+        <ul class="list">
+          <li><span class="dot"></span><span>Lead capture and estimate state</span></li>
+          <li><span class="dot"></span><span>Draft progress and preview links</span></li>
+          <li><span class="dot"></span><span>Approval scheduling and outbound email status</span></li>
+        </ul>
+      </aside>
+    </section>
+  </div>
+
+  <script type="module" src="/admin.js"></script>
+</body>
+</html>

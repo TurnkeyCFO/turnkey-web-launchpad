@@ -1,0 +1,24 @@
+{
+  "name": "turnkey-web-launchpad",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Turnkey Web async-first GTM site, CRM automation, and draft-generation pipeline.",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "worker": "node src/worker.js",
+    "cron": "node src/cron.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "dotenv": "^16.6.1",
+    "express": "^4.21.2",
+    "googleapis": "^154.0.0",
+    "multer": "^2.0.0",
+    "octokit": "^4.1.2"
+  }
+}
