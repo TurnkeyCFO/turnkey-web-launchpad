@@ -236,7 +236,13 @@ app.get("*", (request, response, next) => {
         ? "admin.html"
         : request.path === "/social-agent"
           ? "social-agent.html"
-          : "index.html";
+          : request.path === "/work"
+            ? "work.html"
+            : request.path === "/process"
+              ? "process.html"
+              : request.path === "/pricing"
+                ? "pricing.html"
+                : "index.html";
   response.sendFile(path.join(publicDir, target));
 });
 

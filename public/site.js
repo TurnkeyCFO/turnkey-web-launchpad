@@ -185,7 +185,8 @@ async function postJson(url, payload) {
   return response.json();
 }
 
-function activateTab(name) {
+function activateTab(name, options = {}) {
+  const { syncHash = false } = options;
   document.querySelectorAll(".tab-button").forEach((button) => {
     const active = button.dataset.tabTarget === name;
     button.classList.toggle("active", active);
@@ -195,6 +196,20 @@ function activateTab(name) {
   document.querySelectorAll(".tab-panel").forEach((panel) => {
     panel.classList.toggle("active", panel.id === `tab-${name}`);
   });
+
+  if (syncHash && window.location.pathname.toLowerCase().includes("pricing")) {
+    const nextHash = name === "quote" ? "#quote" : "#pricing";
+    window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}${nextHash}`);
+  }
+}
+
+function activateTabFromLocation() {
+  const hash = String(window.location.hash || "").replace("#", "").toLowerCase();
+  if (hash === "quote") {
+    activateTab("quote");
+  } else if (hash === "guide" || hash === "pricing") {
+    activateTab("guide");
+  }
 }
 
 function revealOnScroll() {
@@ -386,7 +401,7 @@ quoteForm?.addEventListener("change", updateChoicePills);
 quoteForm?.addEventListener("submit", submitEstimate);
 
 document.querySelectorAll(".tab-button").forEach((button) => {
-  button.addEventListener("click", () => activateTab(button.dataset.tabTarget));
+  button.addEventListener("click", () => activateTab(button.dataset.tabTarget, { syncHash: true }));
 });
 
 document.querySelectorAll("[data-open-tab]").forEach((trigger) => {
@@ -398,6 +413,8 @@ updateLockState();
 if (quoteForm) {
   renderPreview(getPayload());
 }
+activateTabFromLocation();
+window.addEventListener("hashchange", activateTabFromLocation);
 revealOnScroll();
 bindGlowCards();
 bindParallax();
