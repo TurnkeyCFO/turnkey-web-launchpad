@@ -1159,8 +1159,18 @@ button[disabled] {
     --container: min(100% - 24px, 100% - 24px);
   }
 
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .section {
+    padding: 36px 0 78px;
+  }
+
   .hero {
-    padding-top: 42px;
+    padding: 28px 0 38px;
   }
 
   .hero-metrics,
@@ -1170,6 +1180,19 @@ button[disabled] {
   .faq-grid,
   .form-grid {
     grid-template-columns: 1fr;
+  }
+
+  .hero-grid {
+    gap: 22px;
+    align-items: start;
+  }
+
+  .hero-copy {
+    gap: 18px;
+  }
+
+  .hero-stage {
+    min-height: auto;
   }
 
   .showcase-row,
@@ -1185,12 +1208,25 @@ button[disabled] {
   .showcase-media,
   .portfolio-media,
   .window-media {
-    min-height: 240px;
+    min-height: 220px;
   }
 
   .hero-float {
     position: static;
     margin-top: 16px;
+    max-width: none;
+  }
+
+  .nav-shell {
+    align-items: center;
+  }
+
+  .nav-actions {
+    margin-left: auto;
+  }
+
+  .nav-actions .btn-ghost {
+    display: none;
   }
 
   .process-board {
@@ -1207,7 +1243,7 @@ button[disabled] {
   .footer-shell,
   .package-top {
     flex-direction: column;
-    align-items: start;
+    align-items: stretch;
   }
 
   .btn,
@@ -1220,16 +1256,86 @@ button[disabled] {
 
 @media (max-width: 640px) {
   .nav-shell {
+    min-height: auto;
     padding: 14px 0;
+    align-items: start;
+    gap: 12px;
+  }
+
+  .brand-lock {
+    max-width: 142px;
+  }
+
+  .brand-eyebrow {
+    font-size: 9px;
+    letter-spacing: 0.13em;
+  }
+
+  .brand-name {
+    font-size: 20px;
+  }
+
+  .nav-actions {
+    width: 182px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .nav-actions .btn {
+    min-height: 44px;
+    padding: 0 16px;
   }
 
   h1 {
-    font-size: clamp(42px, 13vw, 66px);
+    font-size: clamp(32px, 10.8vw, 48px);
+    max-width: none;
+    line-height: 0.98;
   }
 
   h2 {
     font-size: clamp(28px, 10vw, 42px);
     max-width: none;
+  }
+
+  .hero-copy {
+    gap: 14px;
+  }
+
+  .hero-text,
+  .section-copy {
+    font-size: 14px;
+  }
+
+  .hero {
+    padding: 22px 0 34px;
+  }
+
+  .hero-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .tab-switcher {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .pill-select-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .choice-pill {
+    width: 100%;
+    justify-content: flex-start;
+    min-height: 46px;
+  }
+
+  .estimate-lock {
+    inset: 16px;
+    padding: 18px;
   }
 
   .showcase-copy,
