@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TurnkeyCFO | Social Agent Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .social-layout,
+    .approval-grid,
+    .brand-grid,
+    .workflow-grid,
+    .metric-strip {
+      display: grid;
+      gap: 18px;
+    }
+
+    .social-layout {
+      grid-template-columns: minmax(0, 1.28fr) minmax(320px, 0.72fr);
+    }
+
+    .approval-grid,
+    .brand-grid,
+    .workflow-grid,
+    .metric-strip {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .metric-chip,
+    .draft-card,
+    .queue-card,
+    .source-card {
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid var(--tk-border);
+      box-shadow: var(--shadow);
+    }
+
+    .metric-chip .large-value {
+      font-size: 28px;
+    }
+
+    .stack {
+      display: grid;
+      gap: 16px;
+    }
+
+    .status-note,
+    .tiny {
+      color: var(--tk-text-muted);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .draft-card,
+    .queue-card,
+    .source-card {
+      display: grid;
+      gap: 12px;
+    }
+
+    .draft-copy {
+      white-space: pre-wrap;
+      background: rgba(0, 38, 58, 0.03);
+      border: 1px solid rgba(0, 38, 58, 0.06);
+      border-radius: 18px;
+      padding: 14px;
+      color: var(--tk-text-soft);
+    }
+
+    .split {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+      flex-wrap: wrap;
+    }
+
+    .source-list,
+    .timeline,
+    .clean-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .timeline li,
+    .source-list li,
+    .clean-list li {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(0, 38, 58, 0.07);
+    }
+
+    .timeline strong,
+    .source-list strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+    }
+
+    .scroll {
+      max-height: 560px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    @media (max-width: 1180px) {
+      .social-layout,
+      .approval-grid,
+      .brand-grid,
+      .workflow-grid,
+      .metric-strip {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <nav class="top-nav reveal">
+      <div class="brand-lock">
+        <div class="brand-eyebrow">Social operations</div>
+        <div class="brand-name">TurnkeyCFO social agent console</div>
+        <div class="brand-subline">Approval-first content planning, publishing, and monitoring across TurnkeyCFO and Turnkey Web.</div>
+      </div>
+      <div class="nav-links">
+        <a href="/">Public site</a>
+        <a href="/admin">Internal dashboard</a>
+        <a href="/onboarding">Onboarding</a>
+      </div>
+    </nav>
+
+    <header class="hero reveal delay-1">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <div class="eyebrow">Brand strategist, research scout, publishing engine</div>
+          <h1>Run LinkedIn and Facebook with <span class="hero-title-accent">advisory control</span>.</h1>
+          <p class="hero-copy">
+            This console plans posts, decides when outside research is worth the time, drafts channel-specific copy, routes approvals, simulates or executes publishing, tracks engagement, and keeps TurnkeyCFO and Turnkey Web separated by brand rules.
+          </p>
+          <div class="toolbar">
+            <button class="btn" data-action="generate-plan" data-brand="turnkeycfo">Generate TurnkeyCFO slate</button>
+            <button class="btn-secondary" data-action="generate-plan" data-brand="turnkeyweb">Generate Turnkey Web slate</button>
+            <button class="btn-secondary" data-action="monitor">Run monitoring</button>
+            <button class="btn-ghost" data-action="advisor">Refresh advisor</button>
+            <button class="btn-ghost" data-action="publish">Publish approved</button>
+          </div>
+        </div>
+
+        <aside class="hero-panel">
+          <div class="eyebrow">Live operating snapshot</div>
+          <div class="metric-strip">
+            <div class="metric-chip">
+              <div class="stat-label">Brands</div>
+              <div class="large-value" id="brandCount">0</div>
+              <div class="tiny">TurnkeyCFO first, Turnkey Web scaffolded</div>
+            </div>
+            <div class="metric-chip">
+              <div class="stat-label">Awaiting approval</div>
+              <div class="large-value" id="awaitingApproval">0</div>
+              <div class="tiny">Every post stays human-approved</div>
+            </div>
+            <div class="metric-chip">
+              <div class="stat-label">Scheduled or live</div>
+              <div class="large-value" id="scheduledCount">0</div>
+              <div class="tiny">Pages publish, personal stays assist-first</div>
+            </div>
+            <div class="metric-chip">
+              <div class="stat-label">Open engagement</div>
+              <div class="large-value" id="openEngagement">0</div>
+              <div class="tiny">Reply suggestions only in phase one</div>
+            </div>
+          </div>
+          <p class="status-note" id="statusNote">The agent favors evergreen authority posts first, then adds timely research-backed posts when the operator takeaway is strong enough to matter.</p>
+        </aside>
+      </div>
+    </header>
+
+    <section class="section social-layout reveal">
+      <div class="stack">
+        <div class="panel">
+          <div class="section-header">
+            <div class="eyebrow">Brand workspace</div>
+            <h2>Brand operating profiles</h2>
+          </div>
+          <div class="brand-grid" id="brandGrid"></div>
+        </div>
+
+        <div class="panel">
+          <div class="section-header">
+            <div class="eyebrow">Weekly slate</div>
+            <h2>Upcoming content ideas</h2>
+          </div>
+          <div class="scroll">
+            <ul class="timeline" id="ideaList"></ul>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="section-header">
+            <div class="eyebrow">Approval queue</div>
+            <h2>Drafts waiting on you</h2>
+          </div>
+          <div class="approval-grid" id="approvalGrid"></div>
+        </div>
+      </div>
+
+      <div class="stack">
+        <div class="result-card">
+          <div class="section-header">
+            <div class="eyebrow">Research scout</div>
+            <h2>Recent research packets</h2>
+          </div>
+          <div class="scroll">
+            <div class="stack" id="researchList"></div>
+          </div>
+        </div>
+
+        <div class="result-card">
+          <div class="section-header">
+            <div class="eyebrow">Engagement monitor</div>
+            <h2>Reply suggestions and alerts</h2>
+          </div>
+          <div class="scroll">
+            <ul class="clean-list" id="engagementList"></ul>
+          </div>
+        </div>
+
+        <div class="result-card">
+          <div class="section-header">
+            <div class="eyebrow">Advisor layer</div>
+            <h2>Strategy brief</h2>
+          </div>
+          <div class="scroll" id="advisorList"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section workflow-grid reveal">
+      <div class="panel">
+        <div class="section-header">
+          <div class="eyebrow">Publishing queue</div>
+          <h2>Scheduled and published posts</h2>
+        </div>
+        <div class="scroll">
+          <ul class="clean-list" id="scheduledList"></ul>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="section-header">
+          <div class="eyebrow">Activity log</div>
+          <h2>Recent system actions</h2>
+        </div>
+        <div class="scroll">
+          <ul class="clean-list" id="activityList"></ul>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="/social-agent.js"></script>
+</body>
+</html>

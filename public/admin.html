@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Turnkey Web | Internal Dashboard</title>
+  <meta name="description" content="Turnkey Web internal dashboard for lead pipeline, drafts, and approval tracking.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -11,10 +12,11 @@
 </head>
 <body>
   <div class="app-shell">
-    <nav class="top-nav">
+    <nav class="top-nav reveal">
       <div class="brand-lock">
         <div class="brand-eyebrow">Internal ops</div>
         <div class="brand-name">Turnkey Web dashboard</div>
+        <div class="brand-subline">Lead flow, estimate value, preview status, and outbound readiness in one place.</div>
       </div>
       <div class="nav-links">
         <a href="/">Public site</a>
@@ -23,30 +25,71 @@
       </div>
     </nav>
 
-    <section class="hero">
+    <header class="hero reveal delay-1">
       <div class="hero-grid">
-        <div>
-          <div class="eyebrow">Lead tracker / CRM</div>
-          <h1>See every lead, draft, and approval state in one place.</h1>
-          <p class="hero-copy">This view is intentionally lightweight for v1 so you can monitor the funnel without adding another subscription just to track the basics.</p>
+        <div class="hero-content">
+          <div class="eyebrow">Lead tracker and review layer</div>
+          <h1>See every lead, draft, and approval state in <span class="hero-title-accent">one command view</span>.</h1>
+          <p class="hero-copy">
+            This dashboard is intentionally lightweight for v1. It gives you enough visibility to run the funnel cleanly without adding a separate CRM subscription just to monitor basics.
+          </p>
         </div>
+
         <aside class="hero-panel">
           <div class="eyebrow">Live summary</div>
-          <div class="price" id="lead-count">0</div>
-          <p>Total leads currently in the system.</p>
-          <ul>
-            <li><span class="dot"></span><span><strong id="draft-count">0</strong> draft records</span></li>
-            <li><span class="dot"></span><span><strong id="email-count">0</strong> email records</span></li>
-          </ul>
+          <div class="metric-grid">
+            <div class="metric-card">
+              <div class="summary-label">Total leads</div>
+              <div class="kpi-value small" id="lead-count">0</div>
+            </div>
+            <div class="metric-card">
+              <div class="summary-label">Draft records</div>
+              <div class="kpi-value small" id="draft-count">0</div>
+            </div>
+            <div class="metric-card">
+              <div class="summary-label">Email records</div>
+              <div class="kpi-value small" id="email-count">0</div>
+            </div>
+            <div class="metric-card">
+              <div class="summary-label">Internal review</div>
+              <div class="kpi-value small" id="review-count">0</div>
+            </div>
+          </div>
         </aside>
+      </div>
+    </header>
+
+    <section class="section reveal">
+      <div class="dashboard-metrics">
+        <article class="panel">
+          <div class="eyebrow">Pipeline value</div>
+          <div class="large-value" id="pipeline-value">$0</div>
+          <p>Midpoint value of all estimated deals currently in the system.</p>
+        </article>
+        <article class="panel">
+          <div class="eyebrow">Awaiting approval</div>
+          <div class="large-value" id="approval-count">0</div>
+          <p>Client draft emails or internal reviews waiting for a decision.</p>
+        </article>
+        <article class="panel">
+          <div class="eyebrow">Preview links live</div>
+          <div class="large-value" id="preview-count">0</div>
+          <p>Projects with a preview URL already attached and ready to inspect.</p>
+        </article>
+        <article class="panel">
+          <div class="eyebrow">Approved to send</div>
+          <div class="large-value" id="approved-count">0</div>
+          <p>Emails approved and scheduled for the delayed client-facing send.</p>
+        </article>
       </div>
     </section>
 
-    <section class="section admin-layout">
+    <section class="section admin-layout reveal">
       <div class="panel">
         <div class="section-header">
           <div class="eyebrow">Leads</div>
           <h2>Current pipeline</h2>
+          <p class="section-note">The table below keeps commercial status, estimate range, and preview availability visible in one scan.</p>
         </div>
         <div class="table-wrap">
           <table>
@@ -63,13 +106,17 @@
           </table>
         </div>
       </div>
-      <aside class="result-card">
-        <div class="eyebrow">What this dashboard covers</div>
-        <ul class="list">
-          <li><span class="dot"></span><span>Lead capture and estimate state</span></li>
-          <li><span class="dot"></span><span>Draft progress and preview links</span></li>
-          <li><span class="dot"></span><span>Approval scheduling and outbound email status</span></li>
-        </ul>
+
+      <aside class="result-card estimate-preview-card">
+        <div class="panel">
+          <div class="eyebrow">Stage mix</div>
+          <h3>Where the pipeline is sitting right now</h3>
+          <ul class="summary-list" id="pipeline-breakdown"></ul>
+        </div>
+        <div class="panel">
+          <div class="eyebrow">Ops notes</div>
+          <ul class="summary-list" id="ops-summary"></ul>
+        </div>
       </aside>
     </section>
   </div>

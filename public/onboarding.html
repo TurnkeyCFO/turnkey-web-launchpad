@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Turnkey Web | Onboarding Intake</title>
+  <title>Turnkey Web | Project Onboarding</title>
+  <meta name="description" content="Turnkey Web onboarding intake for assets, copy, references, and implementation details.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -11,52 +12,87 @@
 </head>
 <body>
   <div class="app-shell">
-    <nav class="top-nav">
+    <nav class="top-nav reveal">
       <div class="brand-lock">
-        <div class="brand-eyebrow">Turnkey Web</div>
-        <div class="brand-name">Async onboarding intake</div>
+        <div class="brand-eyebrow">Stage two</div>
+        <div class="brand-name">Turnkey Web onboarding</div>
+        <div class="brand-subline">The more precise this intake is, the more useful the first draft becomes.</div>
       </div>
       <div class="nav-links">
-        <a href="/">Back to site</a>
-        <a href="/admin.html">Internal Dashboard</a>
+        <a href="/">Public site</a>
+        <a href="/admin.html">Internal dashboard</a>
+      </div>
+      <div class="nav-actions">
+        <a class="btn-secondary" href="/">Back to site</a>
       </div>
     </nav>
 
-    <section class="hero">
+    <header class="hero reveal delay-1">
       <div class="hero-grid">
-        <div>
-          <div class="eyebrow">Stage 2</div>
-          <h1>Give us what we need to make the draft feel specific.</h1>
-          <p class="hero-copy">This step gathers the assets, examples, and constraints that make the first version more useful. The goal is enough clarity to move forward without turning this into a long discovery process.</p>
+        <div class="hero-content">
+          <div class="eyebrow">Async project intake</div>
+          <h1>Give us the inputs that make the draft feel <span class="hero-title-accent">specific</span>, not generic.</h1>
+          <p class="hero-copy">
+            This step collects the message, references, constraints, and assets we need to turn the estimate into a real project brief. It is meant to be thorough enough to replace a long discovery call.
+          </p>
+          <div class="hero-actions">
+            <a class="btn" href="#onboarding-form">Complete onboarding</a>
+            <a class="btn-secondary" href="/">Review offers again</a>
+          </div>
         </div>
+
         <aside class="hero-panel">
-          <div class="eyebrow">Lead record</div>
-          <div class="price" id="lead-company">Loading...</div>
+          <div class="eyebrow">Lead summary</div>
+          <h3 id="lead-company">Loading project...</h3>
           <p id="lead-summary">We are pulling in the estimate details for this onboarding step now.</p>
+          <div class="status-row">
+            <span class="pill success" id="lead-package-pill">Project package</span>
+            <span class="tag" id="lead-range-pill">Estimate loading</span>
+          </div>
+          <ul class="list" style="margin-top: 18px;">
+            <li><span class="dot"></span><span>Upload what you already have. Missing assets can be handled later.</span></li>
+            <li><span class="dot"></span><span>Short, direct answers are fine. We are looking for usable direction, not polished prose.</span></li>
+            <li><span class="dot"></span><span>Once submitted, the project is ready to move into draft generation.</span></li>
+          </ul>
         </aside>
       </div>
-    </section>
+    </header>
 
-    <section class="section">
+    <section class="section reveal">
       <div class="onboarding-layout">
         <form class="panel" id="onboarding-form">
           <input type="hidden" name="leadId" id="leadId">
           <div class="form-grid">
+            <section class="field-full form-section">
+              <div class="form-section-header">
+                <div class="eyebrow">Business foundation</div>
+                <h3>What should we understand before we write anything?</h3>
+              </div>
+            </section>
+
             <div class="field-full">
               <label for="businessSummary">Describe the business in plain language</label>
               <textarea id="businessSummary" name="businessSummary" required placeholder="What do you do, who do you serve, and what do people usually hire you for?"></textarea>
             </div>
             <div class="field-full">
               <label for="offerSummary">What offer or outcome should the site lead with?</label>
-              <textarea id="offerSummary" name="offerSummary" placeholder="What should visitors understand immediately when they land on the page?"></textarea>
+              <textarea id="offerSummary" name="offerSummary" placeholder="What should a new visitor understand immediately after landing?"></textarea>
             </div>
+
+            <section class="field-full form-section">
+              <div class="form-section-header">
+                <div class="eyebrow">Positioning and proof</div>
+                <h3>What makes this business believable?</h3>
+              </div>
+            </section>
+
             <div class="field">
               <label for="tone">Preferred tone</label>
-              <input id="tone" name="tone" placeholder="e.g. premium, approachable, direct">
+              <input id="tone" name="tone" placeholder="e.g. premium, direct, approachable">
             </div>
             <div class="field">
               <label for="testimonials">Testimonials or social proof</label>
-              <input id="testimonials" name="testimonials" placeholder="Short proof, awards, brands, certifications">
+              <input id="testimonials" name="testimonials" placeholder="Awards, certifications, reviews, recognizable clients">
             </div>
             <div class="field-full">
               <label for="competitors">Competitors or comparison sites</label>
@@ -66,36 +102,62 @@
               <label for="inspirationSites">Sites you like</label>
               <textarea id="inspirationSites" name="inspirationSites" placeholder="One per line"></textarea>
             </div>
+
+            <section class="field-full form-section">
+              <div class="form-section-header">
+                <div class="eyebrow">Growth and implementation</div>
+                <h3>What should the site connect to and support?</h3>
+              </div>
+            </section>
+
             <div class="field-full">
               <label for="seoPriorities">SEO or location priorities</label>
-              <textarea id="seoPriorities" name="seoPriorities" placeholder="Cities, service lines, keywords, or search intent we should account for"></textarea>
+              <textarea id="seoPriorities" name="seoPriorities" placeholder="Cities, services, keyword themes, or search intent we should account for"></textarea>
             </div>
             <div class="field-full">
               <label for="integrations">Integrations or tools needed</label>
-              <textarea id="integrations" name="integrations" placeholder="CRM, booking, analytics, email platform, chat, forms, payment tools"></textarea>
+              <textarea id="integrations" name="integrations" placeholder="CRM, booking, analytics, email platform, payments, chat, forms, or anything else that needs to connect"></textarea>
             </div>
             <div class="field-full">
-              <label for="offers">Current offer details, promos, or key CTAs</label>
-              <textarea id="offers" name="offers" placeholder="Anything time-sensitive, packaged, or central to the page messaging"></textarea>
+              <label for="offers">Current promotions, offers, or CTA priorities</label>
+              <textarea id="offers" name="offers" placeholder="Anything time-sensitive or central to how we should structure the site"></textarea>
             </div>
+
+            <section class="field-full form-section">
+              <div class="form-section-header">
+                <div class="eyebrow">Assets</div>
+                <h3>Upload whatever you already have.</h3>
+              </div>
+            </section>
+
             <div class="field-full">
-              <label for="assets">Upload available assets</label>
+              <label for="assets">Logos, photos, copy docs, brand files, or references</label>
               <input id="assets" name="assets" type="file" multiple>
             </div>
-            <div class="field-full">
+
+            <div class="field-full inline-actions">
               <button class="btn" type="submit">Submit onboarding</button>
+              <span class="small-note">Files route to the project folder and the lead moves into draft generation after submission.</span>
             </div>
           </div>
         </form>
 
-        <aside class="result-card" id="onboarding-status">
-          <div class="eyebrow">What happens next</div>
-          <h3>After you submit this, the project is ready to move into draft generation.</h3>
-          <ul class="list">
-            <li><span class="dot"></span><span>Assets route to the project folder automatically.</span></li>
-            <li><span class="dot"></span><span>The lead record moves into the next stage for draft generation.</span></li>
-            <li><span class="dot"></span><span>The internal team gets the context needed to review the first version before client send.</span></li>
-          </ul>
+        <aside class="result-card estimate-preview-card">
+          <div class="preview-highlight">
+            <div class="eyebrow">What happens next</div>
+            <h3>After this intake, the project is ready to move forward.</h3>
+          </div>
+          <div class="panel">
+            <ul class="list">
+              <li><span class="dot"></span><span>Your assets are attached to the project folder automatically.</span></li>
+              <li><span class="dot"></span><span>The lead record advances into draft generation and internal review.</span></li>
+              <li><span class="dot"></span><span>The team gets enough context to produce a much more accurate first pass.</span></li>
+            </ul>
+          </div>
+          <div class="panel">
+            <div class="eyebrow">Good answers look like</div>
+            <p>Specific, short, and directional. A few clear sentences about your offer, audience, proof, and priorities are much more useful than trying to sound polished.</p>
+          </div>
           <div class="footer-note hidden" id="onboarding-success"></div>
         </aside>
       </div>

@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import { config } from "./config.js";
 import { budgetBands, features, goals, pageCountBands, projectTypes, timelineBands } from "./lib/catalog.js";
 import { getLeadBundle, listDashboardData } from "./lib/crm.js";
+import { computeEstimate } from "./lib/pricing.js";
 import {
   applyDraftDecision,
   bootstrapSocialAgent,
@@ -57,6 +58,18 @@ app.post("/api/estimate", async (request, response) => {
   try {
     const result = await submitEstimate(request.body);
     response.status(201).json({ ok: true, ...result });
+  } catch (error) {
+    response.status(500).json({ ok: false, error: error instanceof Error ? error.message : String(error) });
+  }
+});
+
+app.post("/api/estimate-preview", (request, response) => {
+  try {
+    const estimate = computeEstimate({
+      ...request.body,
+      projectTypeLabel: projectTypes.find((item) => item.value === request.body.projectType)?.label
+    });
+    response.json({ ok: true, estimate });
   } catch (error) {
     response.status(500).json({ ok: false, error: error instanceof Error ? error.message : String(error) });
   }
