@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css">
 </head>
-<body>
+<body class="page-home">
   <div class="site-bg" aria-hidden="true">
     <div class="orb orb-a"></div>
     <div class="orb orb-b"></div>
@@ -27,8 +27,7 @@
 
       <div class="nav-links">
         <a class="active" href="./index.html">Home</a>
-        <a href="./work.html">Work</a>
-        <a href="./process.html">Process</a>
+        <a href="./work.html">Case Studies</a>
         <a href="./pricing.html">Pricing</a>
       </div>
 
@@ -50,11 +49,11 @@
 
         <div class="hero-actions">
           <a class="btn" href="./pricing.html#quote">Get a live estimate</a>
-          <a class="btn btn-secondary" href="./work.html">See the work</a>
+          <a class="btn btn-secondary" href="./work.html">See case studies</a>
         </div>
 
         <div class="trust-bar" data-reveal data-reveal-delay="110">
-          <span class="trust-pill">Pricing from $500</span>
+          <span class="trust-pill trust-pill-stars"><span>★★★★★</span> First-impression design</span>
           <span class="trust-pill">Landing pages and full sites</span>
           <span class="trust-pill">SEO-ready builds</span>
           <span class="trust-pill">Live quote builder</span>
@@ -62,9 +61,9 @@
 
         <div class="hero-metrics">
           <article class="metric-card glow-card" data-reveal data-reveal-delay="80">
-            <div class="metric-label">What you can buy</div>
-            <div class="metric-value">4 clear packages</div>
-            <p>Landing pages, full websites, website refreshes, and ongoing support.</p>
+            <div class="metric-label">What we build</div>
+            <div class="metric-value">Focused pages to full sites</div>
+            <p>Landing pages, full websites, refreshes, and ongoing support for businesses that need more trust online.</p>
           </article>
           <article class="metric-card glow-card" data-reveal data-reveal-delay="160">
             <div class="metric-label">Built to improve</div>
@@ -94,19 +93,9 @@
           </div>
         </div>
 
-        <div class="hero-float hero-float-a glow-card" data-parallax="-12">
-          <div class="eyebrow">What we build</div>
-          <div class="float-value">Pages that support growth</div>
-          <p>Choose a focused landing page, a full website, a refresh, or ongoing help after launch.</p>
-        </div>
-
-        <div class="hero-float hero-float-b glow-card" data-parallax="10">
-          <div class="eyebrow">Built to improve</div>
-          <div class="float-list">
-            <span>First impressions</span>
-            <span>Local visibility</span>
-            <span>Calls and quote requests</span>
-          </div>
+        <div class="hero-proof-strip glow-card" data-reveal data-reveal-delay="250">
+          <span class="star-row" aria-hidden="true">★★★★★</span>
+          <p>Designed for the kind of five-star first impression that helps visitors trust the business faster.</p>
         </div>
       </div>
     </div>
@@ -116,7 +105,7 @@
     <section class="section showcase-section">
       <div class="container">
         <div class="section-heading" data-reveal>
-          <div class="eyebrow">Selected launches</div>
+          <div class="eyebrow">Selected case studies</div>
           <h2>See the kind of work that helps a small business look established online.</h2>
           <p class="section-copy">These examples show the difference between a focused landing page and a fuller business website built to support long-term growth.</p>
         </div>
@@ -162,53 +151,46 @@
         </div>
 
         <div class="hero-actions" style="margin-top: 24px;" data-reveal>
-          <a class="btn" href="./work.html">Browse all work</a>
-          <a class="btn btn-secondary" href="./process.html">See the process</a>
+          <a class="btn" href="./work.html">Browse all case studies</a>
+          <a class="btn btn-secondary" href="#process">See how it works</a>
         </div>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section process-home-section" id="process">
       <div class="container">
         <div class="section-heading" data-reveal>
-          <div class="eyebrow">Choose your path</div>
-          <h2>Then go deeper based on what you want to know next.</h2>
-          <p class="section-copy">See more examples, review the process, or jump straight into pricing without digging through one long page.</p>
+          <div class="eyebrow">How it works</div>
+          <h2>A simple website process that keeps the project moving.</h2>
+          <p class="section-copy">Start with the quote, share the business details, review the first build, and launch with confidence.</p>
         </div>
 
-        <div class="portfolio-grid">
-          <a class="portfolio-card glow-card" href="./work.html" data-reveal>
-            <div class="portfolio-media">
-              <img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&w=900&q=80" alt="Work page preview" loading="lazy">
-            </div>
-            <div class="portfolio-body">
-              <div class="portfolio-label">Work page</div>
-              <h3>See landing pages and full business sites</h3>
-              <p>Browse real examples across service industries and see the level of polish before you commit.</p>
-            </div>
-          </a>
+        <div class="process-home-track glow-card" data-reveal>
+          <article class="process-home-step">
+            <div class="process-step">01</div>
+            <h3>Build your quote</h3>
+            <p>Choose the project type, pages, goals, and features that fit what the business needs now.</p>
+          </article>
+          <article class="process-home-step">
+            <div class="process-step">02</div>
+            <h3>Share the details</h3>
+            <p>Send the services, proof, photos, references, and anything important for SEO or integrations.</p>
+          </article>
+          <article class="process-home-step">
+            <div class="process-step">03</div>
+            <h3>Review the first build</h3>
+            <p>The site takes shape around the offer, the audience, and the actions you want visitors to take.</p>
+          </article>
+          <article class="process-home-step">
+            <div class="process-step">04</div>
+            <h3>Refine and launch</h3>
+            <p>We tighten the details, polish the experience, and get the site ready to go live cleanly.</p>
+          </article>
+        </div>
 
-          <a class="portfolio-card glow-card" href="./process.html" data-reveal>
-            <div class="portfolio-media">
-              <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=900&q=80" alt="Process page preview" loading="lazy">
-            </div>
-            <div class="portfolio-body">
-              <div class="portfolio-label">Process page</div>
-              <h3>Understand how the project moves</h3>
-              <p>See how we gather your details, shape the site, and move from idea to launch without dragging things out.</p>
-            </div>
-          </a>
-
-          <a class="portfolio-card glow-card" href="./pricing.html#quote" data-reveal>
-            <div class="portfolio-media">
-              <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=900&q=80" alt="Pricing page preview" loading="lazy">
-            </div>
-            <div class="portfolio-body">
-              <div class="portfolio-label">Pricing page</div>
-              <h3>Review pricing and build your quote</h3>
-              <p>Compare starting points, pick the right package, and get a planning range for your project.</p>
-            </div>
-          </a>
+        <div class="hero-actions" style="margin-top: 24px;" data-reveal>
+          <a class="btn" href="./pricing.html#quote">Build your quote</a>
+          <a class="btn btn-secondary" href="./work.html">See case studies</a>
         </div>
       </div>
     </section>
@@ -241,7 +223,7 @@
           <article class="insight-card glow-card" data-reveal>
             <div class="insight-visual signal-bars">
               <div class="signal-bar"><span>Proof clarity</span><i style="--bar: 86%"></i></div>
-              <div class="signal-bar"><span>Pricing confidence</span><i style="--bar: 82%"></i></div>
+              <div class="signal-bar"><span>Planning confidence</span><i style="--bar: 82%"></i></div>
               <div class="signal-bar"><span>Navigation intent</span><i style="--bar: 78%"></i></div>
             </div>
             <h3>The site works for both fast decisions and careful shoppers.</h3>
@@ -250,9 +232,9 @@
 
           <article class="insight-card glow-card" data-reveal>
             <div class="insight-visual expansion-ladder">
-              <span>Examples build trust</span>
+              <span>Case studies build trust</span>
               <span>Process removes uncertainty</span>
-              <span>Pricing helps people plan</span>
+              <span>Quote builder helps people plan</span>
               <span class="active">Homepage pulls it together</span>
             </div>
             <h3>Each page helps move the sale forward.</h3>
@@ -284,8 +266,8 @@
       </div>
       <div class="footer-links">
         <a href="./index.html">Home</a>
-        <a href="./work.html">Work</a>
-        <a href="./process.html">Process</a>
+        <a href="./work.html">Case Studies</a>
+        <a href="./index.html#process">How It Works</a>
         <a href="./pricing.html">Pricing</a>
         <a href="./privacy.html">Privacy</a>
         <a href="./terms.html">Terms</a>

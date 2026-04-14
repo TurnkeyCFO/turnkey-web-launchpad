@@ -193,6 +193,7 @@ function computeEstimate(payload) {
   const confidence = projectType === "website-care-plan" || band <= 450 ? "high" : "medium";
 
   return {
+    range,
     recommendedPackage: humanizeProjectType(projectType),
     formattedRange: `${formatCurrency(range.low)} - ${formatCurrency(range.high)}`,
     confidence,
@@ -204,6 +205,134 @@ function computeEstimate(payload) {
     ],
     monthlyRange: base.monthlyLow || base.monthlyHigh ? { low: base.monthlyLow, high: base.monthlyHigh } : null
   };
+}
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function buildTierOptions(estimate, payload) {
+  const isCarePlan = payload.projectType === "website-care-plan";
+  const pageSummary = payload.pageCountBand === "2-3 pages" ? "Up to 3 pages in the standard scope" : `${payload.pageCountBand} scope`;
+  const needsSeoDepth = payload.goals.includes("Improve SEO/local discovery") || payload.features.includes("Local SEO pages");
+  const needsCampaignSupport = payload.goals.includes("Launch paid ads");
+  const hasPayments = payload.features.includes("E-commerce / payments");
+  const featuredPoint = needsSeoDepth
+    ? "More room for SEO depth and stronger service structure"
+    : needsCampaignSupport
+      ? "More room for campaign support and stronger conversion flow"
+      : hasPayments
+        ? "More room for checkout, payments, and trust-building structure"
+        : "More room for proof, polish, and stronger page flow";
+
+  if (isCarePlan) {
+    const low = estimate.monthlyRange?.low || estimate.range.low;
+    const high = estimate.monthlyRange?.high || estimate.range.high;
+    const mid = roundTo50((low + high) / 2);
+    return [
+      {
+        badge: "Lean monthly support",
+        name: "Essential Care",
+        priceLabel: `${formatCurrency(low)}/mo`,
+        summary: "Reliable monthly upkeep for businesses that want the site looked after without a big retainer.",
+        points: [
+          "Core updates, routine maintenance, and light monthly improvements",
+          "Best when you mostly need support, edits, and simple SEO tune-ups",
+          "A good fit when the site already has a solid foundation"
+        ]
+      },
+      {
+        badge: "Most balanced",
+        name: "Growth Care",
+        priceLabel: `${formatCurrency(mid)}/mo`,
+        summary: "The strongest balance of monthly support, iterative improvements, and growth-focused website upkeep.",
+        points: [
+          "Faster turnaround on edits and more room for ongoing improvements",
+          needsSeoDepth ? "Includes more consistent SEO-focused page and content work" : "Includes more room for conversion and proof refinements",
+          "Best for businesses that want the site to keep getting sharper over time"
+        ]
+      },
+      {
+        badge: "Most complete",
+        name: "Priority Care",
+        priceLabel: `${formatCurrency(high)}/mo`,
+        summary: "The most hands-on option for businesses that want priority support and a more proactive monthly website partner.",
+        points: [
+          "Highest level of support, refinements, and strategic monthly attention",
+          needsSeoDepth ? "More proactive SEO improvements and growth-focused updates" : "More proactive polish, conversion improvements, and faster support",
+          "Best when the website is an active part of how the business grows"
+        ]
+      }
+    ];
+  }
+
+  const low = estimate.range.low;
+  const high = estimate.range.high;
+  const mid = roundTo50((low + high) / 2);
+
+  return [
+    {
+      badge: "Leanest path",
+      name: "Launch",
+      priceLabel: formatCurrency(low),
+      summary: "A clean, credible launch with the essentials in place and a tighter scope.",
+      points: [
+        pageSummary,
+        "Core messaging, mobile layout, and clear contact or booking path",
+        "Best when you want to get live fast and look more established online"
+      ]
+    },
+    {
+      badge: "Most balanced",
+      name: "Growth",
+      priceLabel: formatCurrency(mid),
+      summary: "The strongest balance of polish, proof, and conversion support for most small businesses.",
+      points: [
+        pageSummary,
+        "More proof, stronger page flow, and better conversion polish throughout",
+        featuredPoint
+      ]
+    },
+    {
+      badge: "Most complete",
+      name: "Authority",
+      priceLabel: formatCurrency(high),
+      summary: "The most developed version of the same project, with more refinement, depth, and strategic polish.",
+      points: [
+        pageSummary,
+        "The deepest version of the design, messaging, and trust structure",
+        needsCampaignSupport ? "Best when the site also needs campaign-ready or ad-ready support" : featuredPoint
+      ]
+    }
+  ];
+}
+
+function renderTierOptions(tiers) {
+  const container = document.getElementById("offer-tier-grid");
+  if (!container) {
+    return;
+  }
+
+  container.innerHTML = tiers.map((tier, index) => `
+    <article class="offer-tier${index === 1 ? " offer-tier-featured" : ""}">
+      <div class="tier-head">
+        <div>
+          <div class="tier-badge">${escapeHtml(tier.badge)}</div>
+          <h4>${escapeHtml(tier.name)}</h4>
+        </div>
+        <div class="tier-price">${escapeHtml(tier.priceLabel)}</div>
+      </div>
+      <p>${escapeHtml(tier.summary)}</p>
+      <ul>
+        ${tier.points.map((point) => `<li>${escapeHtml(point)}</li>`).join("")}
+      </ul>
+    </article>
+  `).join("");
 }
 
 function updateChoicePills() {
@@ -219,11 +348,11 @@ function updateLockState() {
   estimateCard?.classList.toggle("locked", !unlocked);
   if (statusNode) {
     if (!hasValidEmail) {
-      statusNode.textContent = "Enter a valid email, then press Complete estimate to reveal your finished estimate.";
+      statusNode.textContent = "Enter a valid email, then press Complete estimate to reveal your three quote options.";
     } else if (!estimateUnlocked) {
-      statusNode.textContent = "Press Complete estimate to reveal your finished estimate.";
+      statusNode.textContent = "Press Complete estimate to reveal your three quote options.";
     } else {
-      statusNode.textContent = "Your estimate is ready below.";
+      statusNode.textContent = "Your quote options are ready below.";
     }
   }
   return unlocked;
@@ -348,8 +477,11 @@ function bindParallax() {
   }, { passive: true });
 }
 
-function buildMailto(payload, estimate) {
+function buildMailto(payload, estimate, tiers = []) {
   const leadName = [payload.firstName, payload.lastName].filter(Boolean).join(" ") || payload.company || "Project lead";
+  const tierSummary = tiers.length
+    ? tiers.map((tier) => `${tier.name}: ${tier.priceLabel}`).join(" | ")
+    : "Not generated";
   const subject = encodeURIComponent(`Turnkey Web estimate request - ${estimate.recommendedPackage} - ${estimate.formattedRange}`);
   const body = encodeURIComponent(
 `Hi Ricky,
@@ -370,6 +502,7 @@ Goals: ${(payload.goals || []).join(", ") || "None listed"}
 Features: ${(payload.features || []).join(", ") || "None listed"}
 Recommended add-ons: ${estimate.addOns.join(", ") || "None"}
 Estimate range: ${estimate.formattedRange}
+Tier options: ${tierSummary}
 Notes: ${payload.notes || ""}
 
 Please send me the next step to get started.
@@ -379,26 +512,35 @@ Please send me the next step to get started.
 }
 
 function renderSuccess(estimate, payload, result = null) {
+  const tiers = buildTierOptions(estimate, payload);
   successPanel?.classList.remove("hidden");
-  setText("result-package", estimate.recommendedPackage);
-  setText("result-range", estimate.formattedRange);
-  setText("result-confidence", estimate.confidence.toUpperCase());
-  setText("result-addons", estimate.addOns.length ? estimate.addOns.join(", ") : "No extra add-ons suggested yet.");
-  setText("result-rationale", estimate.rationale.join(" - "));
-  setText("result-lead-id", result?.leadId || "EMAIL CONFIRMED");
+  renderTierOptions(tiers);
+  setText("result-package", `${estimate.recommendedPackage} options`);
+  setText(
+    "result-range",
+    payload.projectType === "website-care-plan" && estimate.monthlyRange
+      ? `${formatCurrency(estimate.monthlyRange.low)} - ${formatCurrency(estimate.monthlyRange.high)}/mo`
+      : estimate.formattedRange
+  );
+  setText(
+    "result-addons",
+    estimate.addOns.length
+      ? `Suggested extras based on your selections: ${estimate.addOns.join(", ")}.`
+      : "No major add-ons are being pushed into this quote. If you want more SEO, integrations, or campaign support, we can tighten that into the final version you choose."
+  );
+  setText(
+    "result-rationale",
+    "These three options keep the same core direction, then add more proof, polish, and strategic depth as the investment climbs."
+  );
+  setText("result-lead-id", result?.leadId ? `Reference ${result.leadId}` : "Ready when you are.");
 
   const link = document.getElementById("result-onboarding-link");
   if (!link) {
     return;
   }
 
-  if (result?.onboardingUrl) {
-    link.href = result.onboardingUrl;
-    link.textContent = "Share project details";
-  } else {
-    link.href = buildMailto(payload, estimate);
-    link.textContent = "Email this estimate";
-  }
+  link.href = buildMailto(payload, estimate, tiers);
+  link.textContent = "Email to lock in your quote";
 }
 
 async function submitEstimate(event) {
@@ -436,25 +578,21 @@ async function submitEstimate(event) {
       }
       renderSuccess(estimate, payload, result);
       if (statusNode) {
-        statusNode.textContent = "Your estimate is ready. Share your project details whenever you are ready to move forward.";
+        statusNode.textContent = "Your three quote options are ready below. Use the button under the options when you are ready to lock one in.";
       }
     } else {
-      const mailto = buildMailto(payload, estimate);
       renderSuccess(estimate, payload);
       if (statusNode) {
-        statusNode.textContent = "Your email app should open with the estimate details ready to send.";
+        statusNode.textContent = "Your three quote options are ready below. Use the email button when you are ready to lock one in.";
       }
-      window.location.href = mailto;
     }
 
     successPanel?.scrollIntoView({ behavior: "smooth", block: "start" });
   } catch (error) {
-    const mailto = buildMailto(payload, estimate);
     renderSuccess(estimate, payload);
     if (statusNode) {
-      statusNode.textContent = `${error.message || "Submission failed"}. Falling back to a prefilled email.`;
+      statusNode.textContent = `${error.message || "Submission failed"}. Your three quote options are still ready below.`;
     }
-    window.location.href = mailto;
   } finally {
     if (submitButton) {
       submitButton.disabled = false;
@@ -496,3 +634,34 @@ window.addEventListener("hashchange", activateTabFromLocation);
 revealOnScroll();
 bindGlowCards();
 bindParallax();
+
+const GHL_CHAT_LOCATION_ID = "REPLACE_WITH_TURNKEY_WEB_GHL_LOCATION_ID";
+const GHL_CHAT_LOADER_URL = "https://widgets.leadconnectorhq.com/loader.js";
+const GHL_CHAT_RESOURCES_URL = "https://widgets.leadconnectorhq.com/chat-widget/loader.js";
+const GHL_CHAT_SKIP_PAGES = new Set(["admin.html", "onboarding.html", "operations.html", "social-agent.html"]);
+
+function loadGhlChatWidget() {
+  const currentPage = window.location.pathname.split("/").filter(Boolean).pop() || "index.html";
+  const locationId = String(GHL_CHAT_LOCATION_ID || "").trim();
+  if (!locationId || locationId.startsWith("REPLACE_WITH_") || GHL_CHAT_SKIP_PAGES.has(currentPage)) {
+    return;
+  }
+
+  if (!document.querySelector(`chat-widget[location-id="${locationId}"]`)) {
+    const widget = document.createElement("chat-widget");
+    widget.setAttribute("location-id", locationId);
+    document.body.appendChild(widget);
+  }
+
+  if (document.querySelector(`script[src="${GHL_CHAT_LOADER_URL}"]`)) {
+    return;
+  }
+
+  const script = document.createElement("script");
+  script.src = GHL_CHAT_LOADER_URL;
+  script.async = true;
+  script.setAttribute("data-resources-url", GHL_CHAT_RESOURCES_URL);
+  document.body.appendChild(script);
+}
+
+loadGhlChatWidget();

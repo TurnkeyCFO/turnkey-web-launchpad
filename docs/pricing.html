@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css">
 </head>
-<body>
+<body class="page-pricing">
   <div class="site-bg" aria-hidden="true">
     <div class="orb orb-a"></div>
     <div class="orb orb-b"></div>
@@ -27,13 +27,12 @@
 
       <div class="nav-links">
         <a href="./index.html">Home</a>
-        <a href="./work.html">Work</a>
-        <a href="./process.html">Process</a>
+        <a href="./work.html">Case Studies</a>
         <a class="active" href="./pricing.html">Pricing</a>
       </div>
 
       <div class="nav-actions">
-        <a class="btn btn-ghost" href="./work.html">See examples</a>
+        <a class="btn btn-ghost" href="./work.html">See case studies</a>
         <a class="btn" href="#quote">Build your quote</a>
       </div>
     </div>
@@ -44,15 +43,15 @@
       <div class="hero-copy" data-reveal>
         <div class="eyebrow">Pricing for small businesses</div>
         <h1>Clear website pricing for small businesses that want results.</h1>
-        <p class="hero-text">Choose the kind of project you need, compare starting points, and build a quote based on your goals, pages, and features.</p>
+        <p class="hero-text">Use the quote builder to shape a realistic website range around your scope, goals, features, and timing.</p>
         <div class="hero-actions">
           <a class="btn" href="#quote">Build your quote</a>
-          <a class="btn btn-secondary" href="./work.html">See portfolio examples</a>
+          <a class="btn btn-secondary" href="./work.html">See case studies</a>
         </div>
         <div class="trust-bar" data-reveal data-reveal-delay="110">
-          <span class="trust-pill">Landing pages from $500</span>
-          <span class="trust-pill">Business websites from $1,000</span>
-          <span class="trust-pill">SEO basics included</span>
+          <span class="trust-pill trust-pill-stars"><span>★★★★★</span> First-impression design</span>
+          <span class="trust-pill">3 pages in the standard scope</span>
+          <span class="trust-pill">SEO-ready builds</span>
           <span class="trust-pill">Tight estimate bands</span>
         </div>
       </div>
@@ -61,13 +60,13 @@
         <div class="hero-window hero-window-primary glow-card" data-parallax="14">
           <div class="window-topbar"><span></span><span></span><span></span></div>
           <div class="window-copy" style="padding-top: 12px;">
-            <div class="eyebrow">Starting points</div>
-            <h2>Straightforward pricing you can plan around.</h2>
+            <div class="eyebrow">What shapes your quote</div>
+            <h2>Scope, features, timing, and polish all move the range.</h2>
             <div class="workflow-list" style="margin-top: 8px;">
-              <div class="workflow-row"><span>Landing Page Sprint</span><strong>From $500</strong></div>
-              <div class="workflow-row"><span>Business Website Build</span><strong>From $1,000</strong></div>
-              <div class="workflow-row"><span>Website Refresh</span><strong>From $500</strong></div>
-              <div class="workflow-row workflow-row-active"><span>Website Care Plan</span><strong>From $100/mo</strong></div>
+              <div class="workflow-row"><span>Project type</span><strong>Landing page, full site, refresh, or care</strong></div>
+              <div class="workflow-row"><span>Scope</span><strong>3 pages included before the range climbs</strong></div>
+              <div class="workflow-row"><span>Features</span><strong>CRM, local SEO pages, and payments add depth</strong></div>
+              <div class="workflow-row workflow-row-active"><span>Timeline</span><strong>Rush work changes the quote</strong></div>
             </div>
           </div>
         </div>
@@ -79,52 +78,20 @@
     <section class="section pricing-section" id="quote">
       <div class="container">
         <div class="section-heading" data-reveal>
-          <div class="eyebrow">Packages and quote builder</div>
-          <h2>Compare packages, then build a planning range for your project.</h2>
-          <p class="section-copy">Standard builds include mobile-friendly layouts, booking or contact flows, testimonials, analytics, copy polish, and SEO basics. CRM integrations, local SEO page packs, and ecommerce are usually add-ons.</p>
+          <div class="eyebrow">Build your quote</div>
+          <h2>Tell us what you need, then reveal three ways to move forward.</h2>
+          <p class="section-copy">The quote builder uses your scope, goals, features, and timing to create a tighter planning band, then turns that into three clear options: Launch, Growth, and Authority.</p>
         </div>
-
-        <div class="tab-switcher" role="tablist" aria-label="Pricing tabs" data-reveal>
-          <button class="tab-button active" type="button" data-tab-target="guide" role="tab" aria-selected="true">Package guide</button>
-          <button class="tab-button" type="button" data-tab-target="quote" role="tab" aria-selected="false">Build your quote</button>
-        </div>
-
-        <div class="tab-panel active" id="tab-guide" role="tabpanel">
-          <div class="package-grid">
-            <article class="package-card glow-card" data-reveal>
-              <div class="package-top"><div><div class="package-pill">Focused conversion</div><h3>Landing Page Sprint</h3></div><div class="package-price">Starting at $500</div></div>
-              <p>For one service, one offer, or one campaign that needs a focused page built to turn visitors into calls or quote requests.</p>
-              <ul><li>One conversion-focused page with strong messaging and mobile optimization.</li><li>Ideal for ads, promotions, launches, and high-priority services.</li></ul>
-            </article>
-            <article class="package-card glow-card package-card-featured" data-reveal>
-              <div class="package-top"><div><div class="package-pill package-pill-strong">Most common fit</div><h3>Business Website Build</h3></div><div class="package-price">Starting at $1,000</div></div>
-              <p>For businesses that need a professional homepage, service pages, proof, and a site that makes it easier for the right customers to get in touch.</p>
-              <ul><li>Multi-page structure with clearer positioning and stronger trust signals.</li><li>Often the best fit for local businesses and service brands ready to grow.</li></ul>
-            </article>
-            <article class="package-card glow-card" data-reveal>
-              <div class="package-top"><div><div class="package-pill">Strategic redesign</div><h3>Website Refresh</h3></div><div class="package-price">Starting at $500</div></div>
-              <p>For businesses with a site already live, but the message, design, or mobile experience is holding it back.</p>
-              <ul><li>Improve the homepage, messaging, calls to action, and trust elements without starting from zero.</li><li>Best when the business has a base to work from but needs a stronger result.</li></ul>
-            </article>
-            <article class="package-card glow-card" data-reveal>
-              <div class="package-top"><div><div class="package-pill">Recurring support</div><h3>Website Care Plan</h3></div><div class="package-price">Starting at $100/mo</div></div>
-              <p>For ongoing edits, maintenance, SEO improvements, and monthly support after the site is live.</p>
-              <ul><li>Keep the site current, improve pages over time, and handle updates without starting over each month.</li><li>Best for businesses that want the site to keep working after launch.</li></ul>
-            </article>
-          </div>
-        </div>
-
-        <div class="tab-panel" id="tab-quote" role="tabpanel">
-          <div class="estimator-layout">
+        <div class="estimator-layout">
             <form class="estimator-form glow-card" id="estimate-form" novalidate>
               <div class="form-intro">
                 <div class="eyebrow">Quote builder</div>
-                <h3>Tell us what you need, then reveal your starting range.</h3>
-                <p>The builder updates as you choose your project type, page count, goals, features, and timing. Enter your email, then press Complete estimate to reveal the finished range.</p>
+                <h3>Tell us what you need, then reveal your three quote options.</h3>
+                <p>The builder updates as you choose your project type, page count, goals, features, and timing. Enter your email, then press Complete estimate to reveal your three quote paths.</p>
               </div>
 
               <div class="form-grid">
-                <div class="field-group field-group-full"><label for="email">Email</label><input id="email" name="email" type="email" inputmode="email" placeholder="you@company.com" required><small class="field-help">Required to receive the finished estimate. No spam. No pressure.</small></div>
+                <div class="field-group field-group-full"><label for="email">Email</label><input id="email" name="email" type="email" inputmode="email" placeholder="you@company.com" required><small class="field-help">Required to unlock the full quote. No spam. No pressure.</small></div>
                 <div class="field-group"><label for="firstName">First name</label><input id="firstName" name="firstName" placeholder="Ricky"></div>
                 <div class="field-group"><label for="company">Company</label><input id="company" name="company" placeholder="Turnkey Web"></div>
                 <div class="field-group"><label for="phone">Phone or text</label><input id="phone" name="phone" inputmode="tel" placeholder="Optional"></div>
@@ -138,18 +105,30 @@
                 <div class="field-group field-group-full"><label for="notes">Project notes</label><textarea id="notes" name="notes" rows="4" placeholder="What needs to change, what is urgent, and anything already decided?"></textarea></div>
               </div>
 
-              <div class="form-actions"><button class="btn" type="submit" id="estimate-submit">Complete estimate</button><p class="form-status" id="estimate-form-status">Enter a valid email, then press Complete estimate to reveal your finished estimate.</p></div>
+              <div class="form-actions"><button class="btn" type="submit" id="estimate-submit">Complete estimate</button><p class="form-status" id="estimate-form-status">Enter a valid email, then press Complete estimate to reveal your three quote options.</p></div>
               <small class="form-promise">Use the short version if you want a fast planning range. We can sort the extra details out after the estimate.</small>
             </form>
 
             <aside class="estimate-card glow-card locked" id="estimate-result">
-              <div class="estimate-lock" id="estimate-lock"><div class="eyebrow">Email required</div><h3>Enter your email and press Complete estimate to reveal your finished price range.</h3><p>The quote builder stays interactive while you compare options, but the finished range appears only after you submit.</p></div>
+              <div class="estimate-lock" id="estimate-lock"><div class="eyebrow">Email required</div><h3>Enter your email and press Complete estimate to reveal your three quote options.</h3><p>The quote builder stays interactive while you compare options, but the finished range appears only after you submit.</p></div>
               <div class="estimate-main"><div class="eyebrow">Live estimate</div><h3 id="preview-package">Business Website Build</h3><div class="estimate-range-value" id="preview-range">$1,000 - $1,400</div><div class="estimate-badges"><span class="mini-pill">Confidence <strong id="preview-confidence">HIGH</strong></span><span class="mini-pill" id="preview-monthly">One-time project range</span></div></div>
               <div class="estimate-metrics"><article class="metric-mini"><span>Timeline</span><strong id="preview-timeline">Next 30-60 days</strong></article><article class="metric-mini"><span>Scope</span><strong id="preview-pages">2-3 pages</strong></article><article class="metric-mini"><span>Goals</span><strong id="preview-goals-count">2</strong></article><article class="metric-mini"><span>Features</span><strong id="preview-features-count">3</strong></article></div>
               <div class="estimate-panel"><div class="eyebrow">Possible add-ons</div><p id="preview-addons">SEO foundations included.</p><small id="preview-rationale">Business Website Build starting point - up to 3 pages included - standard features included</small></div>
-              <div class="estimate-success hidden" id="estimate-success-panel"><div class="eyebrow">Estimate ready</div><h3 id="result-package">Business Website Build</h3><div class="estimate-range-value" id="result-range">$1,000 - $1,400</div><div class="estimate-badges"><span class="mini-pill">Confidence <strong id="result-confidence">HIGH</strong></span><span class="mini-pill">Project ref <strong id="result-lead-id">EMAIL CONFIRMED</strong></span></div><p id="result-rationale"></p><p><strong>Add-ons:</strong> <span id="result-addons"></span></p><div class="result-actions"><a class="btn" id="result-onboarding-link" href="./onboarding.html">Share project details</a><a class="btn btn-secondary" href="./process.html">See the process</a></div></div>
+              <div class="estimate-success hidden" id="estimate-success-panel">
+                <div class="eyebrow">Three ways to move forward</div>
+                <h3 id="result-package">Business Website Build</h3>
+                <div class="estimate-range-value" id="result-range">$1,000 - $1,400</div>
+                <p id="result-rationale">These three options show how the same project can scale from lean to more polished.</p>
+                <div class="offer-tier-grid" id="offer-tier-grid"></div>
+                <div class="quote-lockin">
+                  <p id="result-addons">No extra add-ons suggested yet.</p>
+                  <div class="result-actions">
+                    <a class="btn" id="result-onboarding-link" href="mailto:ricky@turnkeycfo.com">Email to lock in your quote</a>
+                    <small id="result-lead-id">Ready when you are.</small>
+                  </div>
+                </div>
+              </div>
             </aside>
-          </div>
         </div>
       </div>
     </section>
@@ -166,16 +145,35 @@
           <article class="faq-card glow-card" data-reveal><h3>Can I start small and expand later?</h3><p>Yes. Many businesses begin with a landing page or refresh, then expand into more pages, SEO work, or ongoing support.</p></article>
         </div>
 
-        <div class="closing-cta glow-card" data-reveal>
-            <div>
-              <div class="eyebrow">Need more confidence first?</div>
-              <h2>Want to see examples before deciding?</h2>
-              <p>Review the work, then come back here when you are ready to build your quote.</p>
-            </div>
-            <a class="btn" href="./work.html">See the work</a>
-          </div>
+        <div class="faq-accordion" data-reveal>
+          <details class="faq-item">
+            <summary>What is usually included in the middle option?</summary>
+            <p>The middle quote is usually the strongest balance of clear messaging, enough proof to look established, and the conversion polish most small businesses actually need.</p>
+          </details>
+          <details class="faq-item">
+            <summary>What makes the price move up the fastest?</summary>
+            <p>More pages, ecommerce or payments, local SEO page sets, CRM integrations, and rush timelines are usually the biggest range movers.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Can you work with my current website instead of starting from zero?</summary>
+            <p>Yes. If the current site has a workable foundation, a refresh can often be the smarter move than a full rebuild.</p>
+          </details>
+          <details class="faq-item">
+            <summary>What happens after I email to lock in the quote?</summary>
+            <p>We confirm the scope, tighten anything important, and move into the project details needed to start the build cleanly.</p>
+          </details>
         </div>
-      </section>
+
+        <div class="closing-cta glow-card" data-reveal>
+          <div>
+            <div class="eyebrow">Need more confidence first?</div>
+            <h2>Want to review case studies first?</h2>
+            <p>Review the work, then come back here when you are ready to build your quote.</p>
+          </div>
+          <a class="btn" href="./work.html">See case studies</a>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="footer">
@@ -186,8 +184,8 @@
       </div>
       <div class="footer-links">
         <a href="./index.html">Home</a>
-        <a href="./work.html">Work</a>
-        <a href="./process.html">Process</a>
+        <a href="./work.html">Case Studies</a>
+        <a href="./index.html#process">How It Works</a>
         <a href="./pricing.html">Pricing</a>
         <a href="./privacy.html">Privacy</a>
         <a href="./terms.html">Terms</a>

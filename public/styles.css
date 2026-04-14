@@ -198,16 +198,6 @@ section {
   color: transparent;
 }
 
-.top-nav .brand-name span {
-  animation: shimmerText 8.4s ease-in-out infinite;
-  animation-delay: -1.6s;
-}
-
-.footer .brand-name span {
-  animation: shimmerText 11.1s ease-in-out infinite;
-  animation-delay: -4.2s;
-}
-
 .nav-links,
 .nav-actions,
 .hero-actions,
@@ -383,6 +373,7 @@ section {
 .showcase-section,
 .insights-section,
 .process-section,
+.process-home-section,
 .pricing-section,
 .faq-section,
 .fit-section {
@@ -392,6 +383,7 @@ section {
 .showcase-section .container,
 .insights-section .container,
 .process-section .container,
+.process-home-section .container,
 .pricing-section .container,
 .faq-section .container,
 .fit-section .container {
@@ -402,6 +394,7 @@ section {
 .showcase-section .container::before,
 .insights-section .container::before,
 .process-section .container::before,
+.process-home-section .container::before,
 .pricing-section .container::before,
 .faq-section .container::before,
 .fit-section .container::before {
@@ -447,6 +440,7 @@ h3 {
   margin: 0;
   color: var(--tk-navy);
   letter-spacing: -0.04em;
+  text-wrap: balance;
 }
 
 h1 {
@@ -473,13 +467,10 @@ small {
   line-height: 1.72;
 }
 
-.hero-copy h1,
-.section-heading h2,
-.window-copy h2,
-.closing-cta h2,
+.page-home .hero-copy h1,
+.page-pricing .hero-copy h1,
 .estimate-range-value,
-.package-price,
-.preview-highlight h3 {
+.tier-price {
   background-image: var(--tk-gradient-text);
   background-size: 240% auto;
   -webkit-background-clip: text;
@@ -487,54 +478,20 @@ small {
   color: transparent;
 }
 
-.hero-copy h1 {
-  animation: shimmerText 7.8s ease-in-out infinite;
-  animation-delay: -1.2s;
-}
-
-.section-heading h2 {
-  animation: shimmerText 10.6s ease-in-out infinite;
-  animation-delay: -2.3s;
-}
-
-.window-copy h2 {
-  animation: shimmerText 9.4s ease-in-out infinite;
-  animation-delay: -3.1s;
-}
-
-.closing-cta h2 {
-  animation: shimmerText 11.8s ease-in-out infinite;
-  animation-delay: -4.2s;
+.page-home .hero-copy h1,
+.page-pricing .hero-copy h1 {
+  animation: shimmerText 10.8s ease-in-out infinite;
+  animation-delay: -1s;
 }
 
 .estimate-range-value {
-  animation: shimmerText 8.8s ease-in-out infinite;
+  animation: shimmerText 9.6s ease-in-out infinite;
   animation-delay: -0.9s;
 }
 
-.preview-highlight h3 {
-  animation: shimmerText 9.9s ease-in-out infinite;
-  animation-delay: -2.8s;
-}
-
-.package-card:nth-child(1) .package-price {
-  animation: shimmerText 10.2s ease-in-out infinite;
-  animation-delay: -0.8s;
-}
-
-.package-card:nth-child(2) .package-price {
-  animation: shimmerText 11.6s ease-in-out infinite;
-  animation-delay: -3.5s;
-}
-
-.package-card:nth-child(3) .package-price {
-  animation: shimmerText 9.7s ease-in-out infinite;
-  animation-delay: -2.1s;
-}
-
-.package-card:nth-child(4) .package-price {
-  animation: shimmerText 12.4s ease-in-out infinite;
-  animation-delay: -5.1s;
+.tier-price {
+  animation: shimmerText 8.9s ease-in-out infinite;
+  animation-delay: -2.4s;
 }
 .hero {
   padding: 72px 0 64px;
@@ -572,6 +529,17 @@ small {
   transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), border-color 0.3s var(--ease);
 }
 
+.trust-pill-stars {
+  gap: 12px;
+}
+
+.trust-pill-stars span {
+  color: #f2ae45;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+}
+
 .trust-pill:hover {
   transform: translateY(-2px);
   border-color: rgba(45, 108, 223, 0.26);
@@ -582,6 +550,17 @@ small {
 .section-copy {
   max-width: 62ch;
   font-size: 17px;
+}
+
+.star-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 0.22em;
+  font-size: 13px;
+  font-weight: 800;
+  color: #f2ae45;
+  white-space: nowrap;
 }
 
 .hero-metrics {
@@ -685,7 +664,11 @@ small {
 
 .hero-stage {
   position: relative;
-  min-height: 640px;
+  min-height: 560px;
+}
+
+.page-home .hero-stage {
+  min-height: auto;
 }
 
 .hero-window {
@@ -744,19 +727,40 @@ small {
 .hero-float {
   position: absolute;
   border-radius: 22px;
-  padding: 18px 20px;
+  padding: 16px 18px;
 }
 
 .hero-float-a {
-  right: -12px;
-  top: 62px;
-  max-width: 250px;
+  right: 18px;
+  top: 86px;
+  max-width: 220px;
 }
 
 .hero-float-b {
   left: -12px;
   bottom: 40px;
   max-width: 240px;
+}
+
+.hero-proof-strip,
+.case-proof-band {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: min(100%, 420px);
+  margin-left: auto;
+  padding: 16px 18px;
+  border-radius: 22px;
+}
+
+.page-home .hero-proof-strip {
+  width: min(100%, 390px);
+  margin-top: 20px;
+}
+
+.hero-proof-strip p,
+.case-proof-band p {
+  margin: 0;
 }
 
 .float-value {
@@ -993,6 +997,11 @@ small {
   margin-top: 24px;
 }
 
+.case-proof-band {
+  width: 100%;
+  margin-top: 28px;
+}
+
 .insight-grid {
   align-items: stretch;
 }
@@ -1155,6 +1164,29 @@ small {
   left: 32px;
 }
 
+.process-home-track {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+}
+
+.process-home-step {
+  display: grid;
+  gap: 12px;
+  padding: 28px 24px;
+  min-height: 100%;
+}
+
+.process-home-step + .process-home-step {
+  border-left: 1px solid rgba(45, 108, 223, 0.12);
+}
+
+.process-home-step p {
+  margin: 0;
+}
+
 .workflow-list,
 .process-points {
   display: grid;
@@ -1211,23 +1243,16 @@ small {
 }
 
 .faq-card {
-  display: grid;
   gap: 14px;
-  padding: 0 18px 0 0;
-  border: 0;
-  border-right: 1px solid rgba(45, 108, 223, 0.14);
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-  backdrop-filter: none;
+  padding: 28px;
+  border-radius: 24px;
+  border: 1px solid rgba(45, 108, 223, 0.12);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 18px 42px rgba(21, 74, 149, 0.08);
 }
 
 .faq-card::before {
   display: none;
-}
-
-.faq-grid .faq-card:last-child {
-  border-right: 0;
 }
 
 .package-top {
@@ -1433,6 +1458,154 @@ small {
   pointer-events: none;
 }
 
+.estimate-success {
+  display: grid;
+  gap: 18px;
+  margin-top: 22px;
+}
+
+.offer-tier-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.offer-tier {
+  display: grid;
+  gap: 16px;
+  padding: 24px;
+  border-radius: 24px;
+  border: 1px solid rgba(45, 108, 223, 0.12);
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow: 0 18px 42px rgba(21, 74, 149, 0.08);
+}
+
+.offer-tier-featured {
+  border-color: rgba(45, 108, 223, 0.24);
+  background: linear-gradient(180deg, rgba(45, 108, 223, 0.12), rgba(255, 255, 255, 0.94));
+  transform: translateY(-4px);
+}
+
+.tier-head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.offer-tier h4,
+.faq-card h3 {
+  margin: 10px 0 0;
+  line-height: 1.12;
+}
+
+.offer-tier p,
+.faq-card p {
+  margin: 0;
+  max-width: 36ch;
+}
+
+.tier-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(45, 108, 223, 0.1);
+  border: 1px solid rgba(45, 108, 223, 0.14);
+  color: var(--tk-navy-mid);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.offer-tier-featured .tier-badge {
+  background: var(--tk-gradient-primary);
+  border-color: transparent;
+  color: var(--tk-white);
+}
+
+.tier-price {
+  font-size: clamp(26px, 2.5vw, 36px);
+  font-weight: 900;
+  line-height: 0.95;
+  text-align: right;
+}
+
+.offer-tier ul {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.offer-tier li {
+  margin: 0;
+  line-height: 1.68;
+}
+
+.quote-lockin {
+  display: grid;
+  gap: 16px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(45, 108, 223, 0.12);
+}
+
+.quote-lockin p,
+.quote-lockin small {
+  margin: 0;
+}
+
+.faq-accordion {
+  display: grid;
+  gap: 12px;
+  margin: 26px 0 22px;
+}
+
+.faq-item {
+  border-radius: 22px;
+  border: 1px solid rgba(45, 108, 223, 0.12);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 18px 42px rgba(21, 74, 149, 0.06);
+  overflow: hidden;
+}
+
+.faq-item summary {
+  position: relative;
+  list-style: none;
+  cursor: pointer;
+  padding: 22px 56px 22px 22px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--tk-navy);
+  line-height: 1.25;
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item summary::after {
+  content: "+";
+  position: absolute;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 26px;
+  color: var(--tk-navy-mid);
+}
+
+.faq-item[open] summary::after {
+  content: "\2212";
+}
+
+.faq-item p {
+  margin: 0;
+  max-width: 60ch;
+  padding: 0 22px 22px;
+}
+
 .fit-grid {
   align-items: center;
 }
@@ -1458,6 +1631,17 @@ small {
   gap: 20px;
   border-radius: var(--radius-xl);
   padding: 26px;
+}
+
+.closing-cta > div {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.closing-cta h2 {
+  max-width: 17ch;
+  font-size: clamp(28px, 3.2vw, 44px);
+  line-height: 1.04;
 }
 
 .footer {
@@ -1557,6 +1741,7 @@ button[disabled] {
   .showcase-section .container::before,
   .insights-section .container::before,
   .process-section .container::before,
+  .process-home-section .container::before,
   .pricing-section .container::before,
   .faq-section .container::before,
   .fit-section .container::before {
@@ -1610,7 +1795,9 @@ button[disabled] {
   .insight-grid,
   .package-grid,
   .faq-grid,
-  .form-grid {
+  .form-grid,
+  .offer-tier-grid,
+  .process-home-track {
     grid-template-columns: 1fr;
   }
 
@@ -1665,6 +1852,14 @@ button[disabled] {
     max-width: none;
   }
 
+  .hero-proof-strip,
+  .case-proof-band {
+    width: 100%;
+    margin-left: 0;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .nav-shell {
     align-items: center;
   }
@@ -1689,9 +1884,15 @@ button[disabled] {
   .form-actions,
   .closing-cta,
   .footer-shell,
-  .package-top {
+  .package-top,
+  .tier-head {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .process-home-step + .process-home-step {
+    border-left: 0;
+    border-top: 1px solid rgba(45, 108, 223, 0.12);
   }
 
   .btn,
