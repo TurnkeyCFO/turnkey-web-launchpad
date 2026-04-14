@@ -146,6 +146,13 @@
       padding: 18px;
       margin-bottom: 16px;
     }
+    .note-card {
+      background: rgba(0, 38, 58, 0.03);
+      border: 1px solid var(--tk-border);
+      border-radius: 16px;
+      padding: 18px;
+      color: var(--tk-text-soft);
+    }
     .panel {
       padding: 18px;
       position: sticky;
@@ -271,6 +278,9 @@
         <a href="./index.html">Home</a>
         <a href="./process.html">Process</a>
         <a href="./pricing.html">Pricing</a>
+        <a href="#cadence">Timing</a>
+        <a href="#calendar">Calendar</a>
+        <a href="#actions">To-do</a>
         <a href="./operations.html" aria-current="page">Operating plan</a>
       </div>
     </header>
@@ -486,6 +496,152 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+        </section>
+
+        <section class="section" id="cadence">
+          <h2>Timing and cadence</h2>
+          <p class="section-copy">This is the working rhythm for the business. It defines when planning happens, when action happens, and when review happens.</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Cadence</th>
+                  <th>When</th>
+                  <th>Purpose</th>
+                  <th>Output</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-label="Cadence">Daily planning</td>
+                  <td data-label="When">Start of day</td>
+                  <td data-label="Purpose">Review priorities, open tasks, calendar, and blocked items.</td>
+                  <td data-label="Output">A short action list for the day.</td>
+                </tr>
+                <tr>
+                  <td data-label="Cadence">Midday check</td>
+                  <td data-label="When">Midday</td>
+                  <td data-label="Purpose">Confirm work is moving and anything blocked is re-queued.</td>
+                  <td data-label="Output">Updated status and next action notes.</td>
+                </tr>
+                <tr>
+                  <td data-label="Cadence">Weekly review</td>
+                  <td data-label="When">End of week</td>
+                  <td data-label="Purpose">Review delivery, pipeline, upcoming deadlines, and system failures.</td>
+                  <td data-label="Output">A prioritized list for the next week.</td>
+                </tr>
+                <tr>
+                  <td data-label="Cadence">Monthly planning</td>
+                  <td data-label="When">Month start</td>
+                  <td data-label="Purpose">Reset milestones, assess fit, and adjust focus across CFO and Web.</td>
+                  <td data-label="Output">Updated roadmap and target dates.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="calendar">
+          <h2>Calendar structure</h2>
+          <p class="section-copy">Use the calendar as the execution layer for time. These blocks are meant to keep work organized and prevent the week from becoming ad hoc.</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Block</th>
+                  <th>Time</th>
+                  <th>Use</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-label="Block">Planning block</td>
+                  <td data-label="Time">First 30 to 45 minutes</td>
+                  <td data-label="Use">Set priorities, review calendar, confirm deadlines, and assign the day.</td>
+                </tr>
+                <tr>
+                  <td data-label="Block">Deep work block</td>
+                  <td data-label="Time">Protected work period</td>
+                  <td data-label="Use">Build systems, write workflows, troubleshoot, and document process.</td>
+                </tr>
+                <tr>
+                  <td data-label="Block">Execution block</td>
+                  <td data-label="Time">Midday</td>
+                  <td data-label="Use">Send, approve, follow up, and move action items forward.</td>
+                </tr>
+                <tr>
+                  <td data-label="Block">Review block</td>
+                  <td data-label="Time">End of day</td>
+                  <td data-label="Use">Close loops, update statuses, and prepare the next day’s starting point.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="actions">
+          <h2>To-do and action register</h2>
+          <p class="section-copy">This is the working list of what needs to happen next. Keep it short, current, and actionable.</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Priority</th>
+                  <th>Action</th>
+                  <th>Owner</th>
+                  <th>Due</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-label="Priority">High</td>
+                  <td data-label="Action">Finalize shared architecture across CFO and Web.</td>
+                  <td data-label="Owner">You</td>
+                  <td data-label="Due">This week</td>
+                  <td data-label="Status">Open</td>
+                </tr>
+                <tr>
+                  <td data-label="Priority">High</td>
+                  <td data-label="Action">Confirm qualification rules for premium-fit clients.</td>
+                  <td data-label="Owner">You</td>
+                  <td data-label="Due">This week</td>
+                  <td data-label="Status">Open</td>
+                </tr>
+                <tr>
+                  <td data-label="Priority">Medium</td>
+                  <td data-label="Action">Build the calendar management workflow and reminder cadence.</td>
+                  <td data-label="Owner">Ops agent</td>
+                  <td data-label="Due">Next week</td>
+                  <td data-label="Status">Planned</td>
+                </tr>
+                <tr>
+                  <td data-label="Priority">Medium</td>
+                  <td data-label="Action">Document failure states and retry rules for each workflow.</td>
+                  <td data-label="Owner">Ops agent</td>
+                  <td data-label="Due">Next week</td>
+                  <td data-label="Status">Planned</td>
+                </tr>
+                <tr>
+                  <td data-label="Priority">Low</td>
+                  <td data-label="Action">Expand automation only after the core system is stable.</td>
+                  <td data-label="Owner">You</td>
+                  <td data-label="Due">Ongoing</td>
+                  <td data-label="Status">Watch</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="commentary">
+          <h2>Commentary</h2>
+          <p class="section-copy">This section captures management notes so the plan stays grounded in how the business is actually being run.</p>
+          <div class="note-card">
+            <p><strong>What matters most:</strong> the system should stay simple enough that it can be operated without rethinking the structure every time a new idea appears.</p>
+            <p><strong>What to avoid:</strong> adding more automations before the calendar, to-do flow, and review rhythm are stable.</p>
+            <p><strong>How to use this page:</strong> review the timing, check the calendar, update the action register, then read the commentary before making changes.</p>
           </div>
         </section>
 
