@@ -48,6 +48,7 @@ const estimateCard = document.getElementById("estimate-result");
 const successPanel = document.getElementById("estimate-success-panel");
 const emailInput = document.getElementById("email");
 const isStaticMode = window.location.hostname.includes("github.io");
+let estimateUnlocked = false;
 
 function formatCurrency(value) {
   return new Intl.NumberFormat("en-US", {
@@ -213,12 +214,17 @@ function updateChoicePills() {
 }
 
 function updateLockState() {
-  const unlocked = validEmail(emailInput?.value);
+  const hasValidEmail = validEmail(emailInput?.value);
+  const unlocked = estimateUnlocked && hasValidEmail;
   estimateCard?.classList.toggle("locked", !unlocked);
   if (statusNode) {
-    statusNode.textContent = unlocked
-      ? "Your estimate is unlocked. Complete the form to reveal the finished range."
-      : "Enter a valid email to unlock the finished estimate.";
+    if (!hasValidEmail) {
+      statusNode.textContent = "Enter a valid email, then press Complete estimate to reveal your finished estimate.";
+    } else if (!estimateUnlocked) {
+      statusNode.textContent = "Press Complete estimate to reveal your finished estimate.";
+    } else {
+      statusNode.textContent = "Your estimate is ready below.";
+    }
   }
   return unlocked;
 }
@@ -408,6 +414,7 @@ async function submitEstimate(event) {
     return;
   }
 
+  estimateUnlocked = true;
   const unlocked = updateLockState();
   if (!unlocked) {
     emailInput?.focus();
@@ -461,6 +468,10 @@ quoteForm?.addEventListener("input", () => {
   const payload = getPayload();
   if (payload) {
     renderPreview(payload);
+  }
+  if (!validEmail(emailInput?.value)) {
+    estimateUnlocked = false;
+    successPanel?.classList.add("hidden");
   }
   updateLockState();
 });
