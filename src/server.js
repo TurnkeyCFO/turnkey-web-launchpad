@@ -234,6 +234,8 @@ app.get("*", (request, response, next) => {
       ? "onboarding.html"
       : request.path === "/admin"
         ? "admin.html"
+        : request.path === "/operations"
+          ? "operations.html"
         : request.path === "/social-agent"
           ? "social-agent.html"
           : request.path === "/work"

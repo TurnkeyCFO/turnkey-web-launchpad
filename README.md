@@ -8,6 +8,7 @@ Turnkey Web is an async-first website sales funnel and automation pipeline built
 - notify internal reviewers through Telegram and Slack
 - create and later send personalized Gmail drafts
 - track every lead in a lightweight CRM backed by Google Sheets and Drive
+- support an agentic GTM system centered on premium-fit clients, clear success points, and repeatable automation
 
 ## What is in this repo
 
@@ -19,6 +20,8 @@ Turnkey Web is an async-first website sales funnel and automation pipeline built
 - `src/lib/` CRM adapters, pricing logic, Google/Slack/Telegram/GitHub/OpenRouter clients, and workflow orchestration
 - `templates/client-site/` deterministic starter site used for generated client previews
 - `render.yaml` Render blueprint for a web app, worker, and cron job
+- `public/operations.html` operating system page inside the app
+- `docs/operations.html` GitHub Pages version of the shared operating blueprint
 
 ## Local setup
 
