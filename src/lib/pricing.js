@@ -1,101 +1,184 @@
 import { formatCurrency, textList } from "./utils.js";
 
 const packageMatrix = {
-  "landing-page-sprint": { low: 1200, high: 2400, monthlyLow: 0, monthlyHigh: 0 },
-  "business-website-build": { low: 3500, high: 8500, monthlyLow: 0, monthlyHigh: 0 },
-  "website-refresh": { low: 1800, high: 4500, monthlyLow: 0, monthlyHigh: 0 },
-  "website-care-plan": { low: 250, high: 900, monthlyLow: 250, monthlyHigh: 900 }
+  "landing-page-sprint": { base: 500, band: 300, monthlyLow: 0, monthlyHigh: 0 },
+  "business-website-build": { base: 1000, band: 400, monthlyLow: 0, monthlyHigh: 0 },
+  "website-refresh": { base: 500, band: 300, monthlyLow: 0, monthlyHigh: 0 },
+  "website-care-plan": { base: 100, band: 150, monthlyLow: 100, monthlyHigh: 250 }
 };
 
 const pageCountAdjustments = {
-  "1 page": { low: 0, high: 0 },
-  "2-5 pages": { low: 500, high: 1400 },
-  "6-10 pages": { low: 1400, high: 3200 },
-  "11+ pages": { low: 2600, high: 5200 }
+  "1 page": 0,
+  "2-3 pages": 0,
+  "4-5 pages": 300,
+  "6-8 pages": 850,
+  "9+ pages": 1400
 };
 
 const featureAdjustments = {
-  "Contact forms": { low: 0, high: 150 },
-  "Calendar booking": { low: 150, high: 400 },
-  "Blog/resources": { low: 300, high: 900 },
-  "Portfolio/case studies": { low: 250, high: 700 },
-  "Testimonials": { low: 0, high: 150 },
-  "Quote request flow": { low: 250, high: 800 },
-  "CRM/email integration": { low: 250, high: 900 },
-  "Analytics and tracking": { low: 150, high: 450 },
-  "Local SEO pages": { low: 400, high: 1200 },
-  "E-commerce / payments": { low: 900, high: 3200 }
+  "Contact forms": 0,
+  "Calendar booking": 0,
+  "Blog/resources": 0,
+  "Portfolio/case studies": 0,
+  "Testimonials": 0,
+  "Quote request flow": 0,
+  "CRM/email integration": 200,
+  "Analytics and tracking": 0,
+  "Local SEO pages": 300,
+  "E-commerce / payments": 700
+};
+
+const goalAdjustments = {
+  "Generate leads": 0,
+  "Look more credible": 0,
+  "Book appointments": 0,
+  "Launch paid ads": 100,
+  "Improve SEO/local discovery": 0,
+  "Refresh branding": 100
 };
 
 const timelineAdjustments = {
-  "ASAP (under 2 weeks)": { low: 350, high: 1000 },
-  "This month": { low: 150, high: 450 },
-  "Next 30-60 days": { low: 0, high: 0 },
-  "Flexible / planning ahead": { low: -150, high: 0 }
+  "ASAP (under 2 weeks)": 200,
+  "This month": 100,
+  "Next 30-60 days": 0,
+  "Flexible / planning ahead": 0
 };
+
+function roundTo50(value) {
+  return Math.max(0, Math.round(Number(value || 0) / 50) * 50);
+}
+
+function buildRange(startPrice, band) {
+  const low = roundTo50(startPrice);
+  const high = roundTo50(startPrice + band);
+  return { low, high };
+}
+
+function applyPublicCeiling(range, projectType, pageCountBand) {
+  if (projectType === "website-care-plan") {
+    return range;
+  }
+
+  if (!["1 page", "2-3 pages", "4-5 pages"].includes(pageCountBand) || range.high <= 3500) {
+    return range;
+  }
+
+  const overflow = range.high - 3500;
+  return {
+    low: roundTo50(Math.max(0, range.low - overflow)),
+    high: 3500
+  };
+}
+
+function getBand(projectType, pageCountBand, selectedFeatures, selectedGoals) {
+  const baseBand = packageMatrix[projectType]?.band || 400;
+  const selectedAddOns = selectedFeatures.filter((feature) => featureAdjustments[feature] > 0);
+  const complexitySignals = [
+    selectedAddOns.length > 0,
+    selectedGoals.includes("Launch paid ads"),
+    selectedGoals.includes("Refresh branding"),
+    pageCountBand === "6-8 pages",
+    pageCountBand === "9+ pages"
+  ].filter(Boolean).length;
+
+  if (projectType === "website-care-plan") {
+    return 150;
+  }
+
+  if (selectedFeatures.includes("E-commerce / payments") || pageCountBand === "9+ pages") {
+    return 500;
+  }
+
+  if (complexitySignals >= 2) {
+    return 450;
+  }
+
+  return baseBand;
+}
+
+function buildAddOns(projectType, selectedFeatures, selectedGoals, timeline) {
+  const addOns = [];
+
+  if (selectedGoals.includes("Improve SEO/local discovery")) {
+    addOns.push("SEO foundations included");
+    if (!selectedFeatures.includes("Local SEO pages") && projectType !== "website-care-plan") {
+      addOns.push("Local SEO page set recommended");
+    }
+  }
+
+  if (selectedFeatures.includes("CRM/email integration")) {
+    addOns.push("CRM integration");
+  }
+
+  if (selectedFeatures.includes("Local SEO pages")) {
+    addOns.push("Local SEO page set");
+  }
+
+  if (selectedFeatures.includes("E-commerce / payments")) {
+    addOns.push("Payments setup");
+  }
+
+  if (selectedGoals.includes("Launch paid ads")) {
+    addOns.push("Campaign landing page support");
+  }
+
+  if (selectedGoals.includes("Refresh branding")) {
+    addOns.push("Brand polish");
+  }
+
+  if (timeline === "ASAP (under 2 weeks)") {
+    addOns.push("Rush delivery");
+  }
+
+  if (projectType === "website-care-plan" && selectedGoals.includes("Improve SEO/local discovery")) {
+    addOns.push("Monthly SEO tune-ups");
+  }
+
+  return addOns;
+}
 
 export function computeEstimate(input) {
   const projectType = input.projectType || "business-website-build";
-  const pageCountBand = input.pageCountBand || "2-5 pages";
+  const pageCountBand = input.pageCountBand || "2-3 pages";
   const selectedFeatures = textList(input.features);
   const selectedGoals = textList(input.goals);
   const timeline = input.timeline || "Next 30-60 days";
 
   const base = packageMatrix[projectType] || packageMatrix["business-website-build"];
-  const pageDelta = pageCountAdjustments[pageCountBand] || { low: 0, high: 0 };
-  const timelineDelta = timelineAdjustments[timeline] || { low: 0, high: 0 };
+  const pageAdjustment = pageCountAdjustments[pageCountBand] || 0;
+  const timelineAdjustment = timelineAdjustments[timeline] || 0;
 
-  let low = base.low + pageDelta.low + timelineDelta.low;
-  let high = base.high + pageDelta.high + timelineDelta.high;
+  let price = base.base + pageAdjustment + timelineAdjustment;
 
   for (const feature of selectedFeatures) {
-    const adjustment = featureAdjustments[feature];
-    if (adjustment) {
-      low += adjustment.low;
-      high += adjustment.high;
-    }
+    price += featureAdjustments[feature] || 0;
   }
 
-  const addOns = [];
-  if (selectedGoals.includes("Improve SEO/local discovery")) {
-    addOns.push("SEO Foundations");
-    low += 450;
-    high += 1400;
+  for (const goal of selectedGoals) {
+    price += goalAdjustments[goal] || 0;
   }
 
-  if (selectedGoals.includes("Launch paid ads")) {
-    addOns.push("Ads Landing Page Pack");
-    low += 350;
-    high += 950;
-  }
+  const band = getBand(projectType, pageCountBand, selectedFeatures, selectedGoals);
+  const range = applyPublicCeiling(buildRange(price, band), projectType, pageCountBand);
+  const addOns = buildAddOns(projectType, selectedFeatures, selectedGoals, timeline);
 
-  if (selectedGoals.includes("Refresh branding")) {
-    addOns.push("Brand polish");
-    low += 250;
-    high += 1200;
-  }
-
-  const confidence = projectType === "website-care-plan" ? "high" : selectedFeatures.length > 5 ? "medium" : "high";
   const rationale = [
-    `${input.projectTypeLabel || humanizeProjectType(projectType)} base range`,
-    `${pageCountBand} scope band`,
-    selectedFeatures.length ? `${selectedFeatures.length} feature selections` : "lean feature set"
+    `${input.projectTypeLabel || humanizeProjectType(projectType)} starting point`,
+    pageCountBand === "2-3 pages" ? "up to 3 pages included" : pageCountBand,
+    selectedFeatures.filter((feature) => featureAdjustments[feature] > 0).length
+      ? `${selectedFeatures.filter((feature) => featureAdjustments[feature] > 0).length} priced add-on${selectedFeatures.filter((feature) => featureAdjustments[feature] > 0).length === 1 ? "" : "s"}`
+      : "standard features included"
   ];
 
   return {
     projectType,
     recommendedPackage: humanizeProjectType(projectType),
-    range: {
-      low: Math.max(0, Math.round(low / 50) * 50),
-      high: Math.max(0, Math.round(high / 50) * 50)
-    },
+    range,
     monthlyRange: base.monthlyLow || base.monthlyHigh ? { low: base.monthlyLow, high: base.monthlyHigh } : null,
-    confidence,
+    confidence: projectType === "website-care-plan" || band <= 450 ? "high" : "medium",
     rationale,
     addOns,
-    formattedRange: `${formatCurrency(Math.max(0, Math.round(low / 50) * 50))} - ${formatCurrency(
-      Math.max(0, Math.round(high / 50) * 50)
-    )}`
+    formattedRange: `${formatCurrency(range.low)} - ${formatCurrency(range.high)}`
   };
 }
 

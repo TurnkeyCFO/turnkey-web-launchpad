@@ -60,9 +60,10 @@ export const budgetBands = [
 
 export const pageCountBands = [
   "1 page",
-  "2-5 pages",
-  "6-10 pages",
-  "11+ pages"
+  "2-3 pages",
+  "4-5 pages",
+  "6-8 pages",
+  "9+ pages"
 ];
 
 export const goals = [

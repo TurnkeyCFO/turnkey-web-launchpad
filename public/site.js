@@ -1,35 +1,45 @@
-﻿const packageMatrix = {
-  "landing-page-sprint": { low: 1500, high: 2500, monthlyLow: 0, monthlyHigh: 0 },
-  "business-website-build": { low: 3500, high: 6500, monthlyLow: 0, monthlyHigh: 0 },
-  "website-refresh": { low: 2000, high: 4500, monthlyLow: 0, monthlyHigh: 0 },
-  "website-care-plan": { low: 250, high: 900, monthlyLow: 250, monthlyHigh: 900 }
+const packageMatrix = {
+  "landing-page-sprint": { base: 500, band: 300, monthlyLow: 0, monthlyHigh: 0 },
+  "business-website-build": { base: 1000, band: 400, monthlyLow: 0, monthlyHigh: 0 },
+  "website-refresh": { base: 500, band: 300, monthlyLow: 0, monthlyHigh: 0 },
+  "website-care-plan": { base: 100, band: 150, monthlyLow: 100, monthlyHigh: 250 }
 };
 
 const pageCountAdjustments = {
-  "1 page": { low: 0, high: 0 },
-  "2-5 pages": { low: 500, high: 1200 },
-  "6-10 pages": { low: 1400, high: 2800 },
-  "11+ pages": { low: 2600, high: 5000 }
+  "1 page": 0,
+  "2-3 pages": 0,
+  "4-5 pages": 300,
+  "6-8 pages": 850,
+  "9+ pages": 1400
 };
 
 const featureAdjustments = {
-  "Contact forms": { low: 0, high: 150 },
-  "Calendar booking": { low: 150, high: 500 },
-  "Blog/resources": { low: 350, high: 900 },
-  "Portfolio/case studies": { low: 300, high: 850 },
-  "Testimonials": { low: 0, high: 150 },
-  "Quote request flow": { low: 300, high: 900 },
-  "CRM/email integration": { low: 250, high: 950 },
-  "Analytics and tracking": { low: 150, high: 400 },
-  "Local SEO pages": { low: 450, high: 1300 },
-  "E-commerce / payments": { low: 1000, high: 3400 }
+  "Contact forms": 0,
+  "Calendar booking": 0,
+  "Blog/resources": 0,
+  "Portfolio/case studies": 0,
+  "Testimonials": 0,
+  "Quote request flow": 0,
+  "CRM/email integration": 200,
+  "Analytics and tracking": 0,
+  "Local SEO pages": 300,
+  "E-commerce / payments": 700
+};
+
+const goalAdjustments = {
+  "Generate leads": 0,
+  "Look more credible": 0,
+  "Book appointments": 0,
+  "Launch paid ads": 100,
+  "Improve SEO/local discovery": 0,
+  "Refresh branding": 100
 };
 
 const timelineAdjustments = {
-  "ASAP (under 2 weeks)": { low: 400, high: 1200 },
-  "This month": { low: 200, high: 550 },
-  "Next 30-60 days": { low: 0, high: 0 },
-  "Flexible / planning ahead": { low: -150, high: 0 }
+  "ASAP (under 2 weeks)": 200,
+  "This month": 100,
+  "Next 30-60 days": 0,
+  "Flexible / planning ahead": 0
 };
 
 const quoteForm = document.getElementById("estimate-form");
@@ -46,6 +56,26 @@ function formatCurrency(value) {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0
   }).format(Number(value || 0));
+}
+
+function roundTo50(value) {
+  return Math.max(0, Math.round(Number(value || 0) / 50) * 50);
+}
+
+function applyPublicCeiling(range, projectType, pageCountBand) {
+  if (projectType === "website-care-plan") {
+    return range;
+  }
+
+  if (!["1 page", "2-3 pages", "4-5 pages"].includes(pageCountBand) || range.high <= 3500) {
+    return range;
+  }
+
+  const overflow = range.high - 3500;
+  return {
+    low: roundTo50(Math.max(0, range.low - overflow)),
+    high: 3500
+  };
 }
 
 function setText(id, value) {
@@ -84,56 +114,92 @@ function getPayload() {
 
 function computeEstimate(payload) {
   const projectType = payload.projectType || "business-website-build";
-  const pageCountBand = payload.pageCountBand || "2-5 pages";
+  const pageCountBand = payload.pageCountBand || "2-3 pages";
   const selectedFeatures = payload.features || [];
   const selectedGoals = payload.goals || [];
   const timeline = payload.timeline || "Next 30-60 days";
 
   const base = packageMatrix[projectType] || packageMatrix["business-website-build"];
-  const pageDelta = pageCountAdjustments[pageCountBand] || { low: 0, high: 0 };
-  const timelineDelta = timelineAdjustments[timeline] || { low: 0, high: 0 };
+  const pageAdjustment = pageCountAdjustments[pageCountBand] || 0;
+  const timelineAdjustment = timelineAdjustments[timeline] || 0;
 
-  let low = base.low + pageDelta.low + timelineDelta.low;
-  let high = base.high + pageDelta.high + timelineDelta.high;
+  let price = base.base + pageAdjustment + timelineAdjustment;
 
   selectedFeatures.forEach((feature) => {
-    const adjustment = featureAdjustments[feature];
-    if (adjustment) {
-      low += adjustment.low;
-      high += adjustment.high;
-    }
+    price += featureAdjustments[feature] || 0;
   });
 
+  selectedGoals.forEach((goal) => {
+    price += goalAdjustments[goal] || 0;
+  });
+
+  const pricedAddOns = selectedFeatures.filter((feature) => featureAdjustments[feature] > 0);
+  const complexitySignals = [
+    pricedAddOns.length > 0,
+    selectedGoals.includes("Launch paid ads"),
+    selectedGoals.includes("Refresh branding"),
+    pageCountBand === "6-8 pages",
+    pageCountBand === "9+ pages"
+  ].filter(Boolean).length;
+
+  let band = base.band || 400;
+  if (projectType === "website-care-plan") {
+    band = 150;
+  } else if (selectedFeatures.includes("E-commerce / payments") || pageCountBand === "9+ pages") {
+    band = 500;
+  } else if (complexitySignals >= 2) {
+    band = 400;
+  }
+
+  const range = applyPublicCeiling(
+    {
+      low: roundTo50(price),
+      high: roundTo50(price + band)
+    },
+    projectType,
+    pageCountBand
+  );
   const addOns = [];
+
   if (selectedGoals.includes("Improve SEO/local discovery")) {
-    addOns.push("SEO foundations");
-    low += 450;
-    high += 1350;
+    addOns.push("SEO foundations included");
+    if (!selectedFeatures.includes("Local SEO pages") && projectType !== "website-care-plan") {
+      addOns.push("Local SEO page set recommended");
+    }
+  }
+  if (selectedFeatures.includes("CRM/email integration")) {
+    addOns.push("CRM integration");
+  }
+  if (selectedFeatures.includes("Local SEO pages")) {
+    addOns.push("Local SEO page set");
+  }
+  if (selectedFeatures.includes("E-commerce / payments")) {
+    addOns.push("Payments setup");
   }
   if (selectedGoals.includes("Launch paid ads")) {
     addOns.push("Campaign landing page support");
-    low += 400;
-    high += 950;
   }
   if (selectedGoals.includes("Refresh branding")) {
     addOns.push("Brand polish");
-    low += 300;
-    high += 1200;
+  }
+  if (timeline === "ASAP (under 2 weeks)") {
+    addOns.push("Rush delivery");
+  }
+  if (projectType === "website-care-plan" && selectedGoals.includes("Improve SEO/local discovery")) {
+    addOns.push("Monthly SEO tune-ups");
   }
 
-  const roundedLow = Math.max(0, Math.round(low / 50) * 50);
-  const roundedHigh = Math.max(0, Math.round(high / 50) * 50);
-  const confidence = projectType === "website-care-plan" ? "high" : selectedFeatures.length > 5 ? "medium" : "high";
+  const confidence = projectType === "website-care-plan" || band <= 450 ? "high" : "medium";
 
   return {
     recommendedPackage: humanizeProjectType(projectType),
-    formattedRange: `${formatCurrency(roundedLow)} - ${formatCurrency(roundedHigh)}`,
+    formattedRange: `${formatCurrency(range.low)} - ${formatCurrency(range.high)}`,
     confidence,
     addOns,
     rationale: [
-      `${humanizeProjectType(projectType)} base range`,
-      `${pageCountBand} scope band`,
-      selectedFeatures.length ? `${selectedFeatures.length} feature selections` : "lean feature set"
+      `${humanizeProjectType(projectType)} starting point`,
+      pageCountBand === "2-3 pages" ? "up to 3 pages included" : pageCountBand,
+      pricedAddOns.length ? `${pricedAddOns.length} priced add-on${pricedAddOns.length === 1 ? "" : "s"}` : "standard features included"
     ],
     monthlyRange: base.monthlyLow || base.monthlyHigh ? { low: base.monthlyLow, high: base.monthlyHigh } : null
   };
@@ -162,7 +228,7 @@ function renderPreview(payload) {
   setText("preview-package", estimate.recommendedPackage);
   setText("preview-range", estimate.formattedRange);
   setText("preview-confidence", estimate.confidence.toUpperCase());
-  setText("preview-pages", payload.pageCountBand || "2-5 pages");
+  setText("preview-pages", payload.pageCountBand || "2-3 pages");
   setText("preview-timeline", payload.timeline || "Next 30-60 days");
   setText("preview-goals-count", String(payload.goals.length));
   setText("preview-features-count", String(payload.features.length));
@@ -176,6 +242,7 @@ function renderPreview(payload) {
   );
   return estimate;
 }
+
 async function postJson(url, payload) {
   const response = await fetch(url, {
     method: "POST",
@@ -418,5 +485,3 @@ window.addEventListener("hashchange", activateTabFromLocation);
 revealOnScroll();
 bindGlowCards();
 bindParallax();
-
-
