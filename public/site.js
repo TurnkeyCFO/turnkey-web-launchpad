@@ -239,6 +239,7 @@ function buildTierOptions(estimate, payload) {
         badge: "Lean monthly support",
         name: "Essential Care",
         priceLabel: `${formatCurrency(low)}/mo`,
+        fit: "Best for businesses that mainly need updates, upkeep, and light SEO support.",
         summary: "Reliable monthly upkeep for businesses that want the site looked after without a big retainer.",
         points: [
           "Core updates, routine maintenance, and light monthly improvements",
@@ -250,6 +251,7 @@ function buildTierOptions(estimate, payload) {
         badge: "Most balanced",
         name: "Growth Care",
         priceLabel: `${formatCurrency(mid)}/mo`,
+        fit: "Best for businesses that want steady improvements without a heavy retainer.",
         summary: "The strongest balance of monthly support, iterative improvements, and growth-focused website upkeep.",
         points: [
           "Faster turnaround on edits and more room for ongoing improvements",
@@ -261,6 +263,7 @@ function buildTierOptions(estimate, payload) {
         badge: "Most complete",
         name: "Priority Care",
         priceLabel: `${formatCurrency(high)}/mo`,
+        fit: "Best for businesses that want a more proactive website partner each month.",
         summary: "The most hands-on option for businesses that want priority support and a more proactive monthly website partner.",
         points: [
           "Highest level of support, refinements, and strategic monthly attention",
@@ -280,6 +283,7 @@ function buildTierOptions(estimate, payload) {
       badge: "Leanest path",
       name: "Launch",
       priceLabel: formatCurrency(low),
+      fit: "Best for getting live quickly with the essentials handled well.",
       summary: "A clean, credible launch with the essentials in place and a tighter scope.",
       points: [
         pageSummary,
@@ -291,6 +295,7 @@ function buildTierOptions(estimate, payload) {
       badge: "Most balanced",
       name: "Growth",
       priceLabel: formatCurrency(mid),
+      fit: "Best for most small businesses that need stronger trust and conversion support.",
       summary: "The strongest balance of polish, proof, and conversion support for most small businesses.",
       points: [
         pageSummary,
@@ -302,6 +307,7 @@ function buildTierOptions(estimate, payload) {
       badge: "Most complete",
       name: "Authority",
       priceLabel: formatCurrency(high),
+      fit: "Best for businesses where trust, depth, or complexity matter more.",
       summary: "The most developed version of the same project, with more refinement, depth, and strategic polish.",
       points: [
         pageSummary,
@@ -320,13 +326,18 @@ function renderTierOptions(tiers) {
 
   container.innerHTML = tiers.map((tier, index) => `
     <article class="offer-tier${index === 1 ? " offer-tier-featured" : ""}">
+      ${index === 1 ? '<div class="tier-highlight">Most popular</div>' : ""}
       <div class="tier-head">
         <div>
           <div class="tier-badge">${escapeHtml(tier.badge)}</div>
           <h4>${escapeHtml(tier.name)}</h4>
         </div>
-        <div class="tier-price">${escapeHtml(tier.priceLabel)}</div>
+        <div class="tier-price-block">
+          <span class="tier-price-prefix">Starting at</span>
+          <div class="tier-price">${escapeHtml(tier.priceLabel)}</div>
+        </div>
       </div>
+      <div class="tier-fit">${escapeHtml(tier.fit || "")}</div>
       <p>${escapeHtml(tier.summary)}</p>
       <ul>
         ${tier.points.map((point) => `<li>${escapeHtml(point)}</li>`).join("")}
@@ -515,7 +526,7 @@ function renderSuccess(estimate, payload, result = null) {
   const tiers = buildTierOptions(estimate, payload);
   successPanel?.classList.remove("hidden");
   renderTierOptions(tiers);
-  setText("result-package", `${estimate.recommendedPackage} options`);
+  setText("result-package", "Choose the level that fits best.");
   setText(
     "result-range",
     payload.projectType === "website-care-plan" && estimate.monthlyRange
@@ -530,7 +541,7 @@ function renderSuccess(estimate, payload, result = null) {
   );
   setText(
     "result-rationale",
-    "These three options keep the same core direction, then add more proof, polish, and strategic depth as the investment climbs."
+    `All three options point to the same ${estimate.recommendedPackage} direction, then add more proof, polish, and strategic depth as the investment climbs.`
   );
   setText("result-lead-id", result?.leadId ? `Reference ${result.leadId}` : "Ready when you are.");
 
@@ -583,7 +594,7 @@ async function submitEstimate(event) {
     } else {
       renderSuccess(estimate, payload);
       if (statusNode) {
-        statusNode.textContent = "Your three quote options are ready below. Use the email button when you are ready to lock one in.";
+        statusNode.textContent = "Your three quote options are ready below. Use the button under the options when you are ready to lock one in.";
       }
     }
 
