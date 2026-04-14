@@ -19,16 +19,16 @@ function formatCurrency(value) {
 
 async function loadLead() {
   if (!leadId) {
-    setText("lead-company", "Lead not found");
-    setText("lead-summary", "Open this page from a valid estimate result so the lead record is attached.");
+    setText("lead-company", "Project not found");
+    setText("lead-summary", "Open this page from a valid estimate result so the project details can be attached.");
     return;
   }
 
   const response = await fetch(`/api/leads/${leadId}`);
   const result = await response.json();
   if (!result.ok) {
-    setText("lead-company", "Lead not found");
-    setText("lead-summary", result.error || "We could not load the lead details.");
+    setText("lead-company", "Project not found");
+    setText("lead-summary", result.error || "We could not load the project details.");
     return;
   }
 
@@ -39,7 +39,7 @@ async function loadLead() {
   setText("lead-company", leadName);
   setText(
     "lead-summary",
-    `${result.bundle.estimate.recommendedPackage || result.bundle.lead.projectType}. Estimated planning range ${estimateRange}. Complete the intake below so we can move from estimate into draft generation.`
+    `${result.bundle.estimate.recommendedPackage || result.bundle.lead.projectType}. Estimated planning range ${estimateRange}. Complete the details below so we can start shaping the site around your business.`
   );
   setText("lead-package-pill", result.bundle.estimate.recommendedPackage || result.bundle.lead.projectType);
   setText("lead-range-pill", estimateRange);
@@ -51,7 +51,7 @@ form?.addEventListener("submit", async (event) => {
 
   const submitButton = form.querySelector('button[type="submit"]');
   submitButton.disabled = true;
-  submitButton.textContent = "Submitting onboarding...";
+  submitButton.textContent = "Sending project details...";
 
   try {
     const payload = new FormData(form);
@@ -66,17 +66,17 @@ form?.addEventListener("submit", async (event) => {
 
     const success = document.getElementById("onboarding-success");
     success.classList.remove("hidden");
-    success.textContent = `Onboarding submitted. ${result.uploads.length} asset${result.uploads.length === 1 ? "" : "s"} attached and the lead is ready for draft generation.`;
+    success.textContent = `Project details received. ${result.uploads.length} asset${result.uploads.length === 1 ? "" : "s"} uploaded and the project is ready for the first build.`;
     success.scrollIntoView({ behavior: "smooth", block: "start" });
   } catch (error) {
-    window.alert(error.message || "Something went wrong while submitting onboarding.");
+    window.alert(error.message || "Something went wrong while sending your project details.");
   } finally {
     submitButton.disabled = false;
-    submitButton.textContent = "Submit onboarding";
+    submitButton.textContent = "Send project details";
   }
 });
 
 loadLead().catch((error) => {
-  setText("lead-company", "Lead load failed");
-  setText("lead-summary", error.message || "We could not load the lead details.");
+  setText("lead-company", "Project load failed");
+  setText("lead-summary", error.message || "We could not load the project details.");
 });

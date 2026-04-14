@@ -151,8 +151,8 @@ function updateLockState() {
   estimateCard?.classList.toggle("locked", !unlocked);
   if (statusNode) {
     statusNode.textContent = unlocked
-      ? "Final range unlocked. Complete estimate to continue."
-      : "The final range unlocks after a valid email is entered.";
+      ? "Your estimate is unlocked. Complete the form to reveal the finished range."
+      : "Enter a valid email to unlock the finished estimate.";
   }
   return unlocked;
 }
@@ -299,7 +299,7 @@ Recommended add-ons: ${estimate.addOns.join(", ") || "None"}
 Estimate range: ${estimate.formattedRange}
 Notes: ${payload.notes || ""}
 
-Please send the next step for onboarding.
+Please send me the next step to get started.
 `
   );
   return `mailto:ricky@turnkeycfo.com?subject=${subject}&body=${body}`;
@@ -312,7 +312,7 @@ function renderSuccess(estimate, payload, result = null) {
   setText("result-confidence", estimate.confidence.toUpperCase());
   setText("result-addons", estimate.addOns.length ? estimate.addOns.join(", ") : "No extra add-ons suggested yet.");
   setText("result-rationale", estimate.rationale.join(" - "));
-  setText("result-lead-id", result?.leadId || "EMAIL REQUEST");
+  setText("result-lead-id", result?.leadId || "EMAIL CONFIRMED");
 
   const link = document.getElementById("result-onboarding-link");
   if (!link) {
@@ -321,7 +321,7 @@ function renderSuccess(estimate, payload, result = null) {
 
   if (result?.onboardingUrl) {
     link.href = result.onboardingUrl;
-    link.textContent = "Continue to onboarding";
+    link.textContent = "Share project details";
   } else {
     link.href = buildMailto(payload, estimate);
     link.textContent = "Email this estimate";
@@ -362,13 +362,13 @@ async function submitEstimate(event) {
       }
       renderSuccess(estimate, payload, result);
       if (statusNode) {
-        statusNode.textContent = "Estimate ready. Continue into onboarding when you are ready.";
+        statusNode.textContent = "Your estimate is ready. Share your project details whenever you are ready to move forward.";
       }
     } else {
       const mailto = buildMailto(payload, estimate);
       renderSuccess(estimate, payload);
       if (statusNode) {
-        statusNode.textContent = "Your email app should open with the estimate details prefilled.";
+        statusNode.textContent = "Your email app should open with the estimate details ready to send.";
       }
       window.location.href = mailto;
     }
