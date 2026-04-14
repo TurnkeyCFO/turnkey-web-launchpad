@@ -46,8 +46,11 @@ const quoteForm = document.getElementById("estimate-form");
 const statusNode = document.getElementById("estimate-form-status");
 const estimateCard = document.getElementById("estimate-result");
 const successPanel = document.getElementById("estimate-success-panel");
+const offerDialog = successPanel?.querySelector(".offer-letter-shell");
+const offerCloseButton = document.getElementById("offer-close");
 const emailInput = document.getElementById("email");
 const isStaticMode = window.location.hostname.includes("github.io");
+const OFFER_STORAGE_KEY = "turnkey-web-offer-data";
 let estimateUnlocked = false;
 
 function formatCurrency(value) {
@@ -326,11 +329,15 @@ function renderTierOptions(tiers) {
 
   container.innerHTML = tiers.map((tier, index) => `
     <article class="offer-tier${index === 1 ? " offer-tier-featured" : ""}">
-      ${index === 1 ? '<div class="tier-highlight">Most popular</div>' : ""}
+      ${index === 1 ? '<div class="tier-highlight">Recommended</div>' : ""}
+      <div class="tier-topline">
+        <span class="tier-step">Option ${String(index + 1).padStart(2, "0")}</span>
+        <div class="tier-badge">${escapeHtml(tier.badge)}</div>
+      </div>
       <div class="tier-head">
-        <div>
-          <div class="tier-badge">${escapeHtml(tier.badge)}</div>
+        <div class="tier-title-block">
           <h4>${escapeHtml(tier.name)}</h4>
+          <p class="tier-summary">${escapeHtml(tier.summary)}</p>
         </div>
         <div class="tier-price-block">
           <span class="tier-price-prefix">Starting at</span>
@@ -338,12 +345,66 @@ function renderTierOptions(tiers) {
         </div>
       </div>
       <div class="tier-fit">${escapeHtml(tier.fit || "")}</div>
-      <p>${escapeHtml(tier.summary)}</p>
       <ul>
         ${tier.points.map((point) => `<li>${escapeHtml(point)}</li>`).join("")}
       </ul>
     </article>
   `).join("");
+}
+
+function persistOfferData(data) {
+  try {
+    window.localStorage.setItem(OFFER_STORAGE_KEY, JSON.stringify(data));
+  } catch (error) {
+    console.warn("Unable to persist offer data", error);
+  }
+}
+
+function readOfferData() {
+  try {
+    const raw = window.localStorage.getItem(OFFER_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch (error) {
+    console.warn("Unable to read offer data", error);
+    return null;
+  }
+}
+
+function launchOfferPage(data) {
+  persistOfferData(data);
+  const nextUrl = new URL("./offer.html", window.location.href);
+  window.location.href = nextUrl.toString();
+}
+
+function openOfferExperience() {
+  if (!successPanel) {
+    return;
+  }
+
+  successPanel.classList.remove("hidden");
+  successPanel.setAttribute("aria-hidden", "false");
+  document.body.classList.add("offer-open");
+
+  window.requestAnimationFrame(() => {
+    successPanel.classList.add("is-visible");
+    offerDialog?.focus();
+  });
+}
+
+function closeOfferExperience() {
+  if (!successPanel) {
+    return;
+  }
+
+  successPanel.classList.remove("is-visible");
+  successPanel.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("offer-open");
+
+  window.setTimeout(() => {
+    if (!successPanel.classList.contains("is-visible")) {
+      successPanel.classList.add("hidden");
+    }
+  }, 420);
 }
 
 function updateChoicePills() {
@@ -361,9 +422,9 @@ function updateLockState() {
     if (!hasValidEmail) {
       statusNode.textContent = "Enter a valid email, then press Complete estimate to reveal your three quote options.";
     } else if (!estimateUnlocked) {
-      statusNode.textContent = "Press Complete estimate to reveal your three quote options.";
+      statusNode.textContent = "Press Complete estimate to open your custom quote page.";
     } else {
-      statusNode.textContent = "Your quote options are ready below.";
+      statusNode.textContent = "Your custom quote page is ready.";
     }
   }
   return unlocked;
@@ -524,7 +585,6 @@ Please send me the next step to get started.
 
 function renderSuccess(estimate, payload, result = null) {
   const tiers = buildTierOptions(estimate, payload);
-  successPanel?.classList.remove("hidden");
   renderTierOptions(tiers);
   setText("result-package", "Choose the level that fits best.");
   setText(
@@ -552,6 +612,67 @@ function renderSuccess(estimate, payload, result = null) {
 
   link.href = buildMailto(payload, estimate, tiers);
   link.textContent = "Email to lock in your quote";
+
+  launchOfferPage({
+    payload,
+    estimate,
+    result,
+    tiers,
+    mailto: link.href,
+    generatedAt: new Date().toISOString()
+  });
+}
+
+function initOfferPage() {
+  if (!document.body.classList.contains("page-offer")) {
+    return;
+  }
+
+  const data = readOfferData();
+  if (!data?.payload || !data?.estimate || !Array.isArray(data?.tiers)) {
+    window.location.replace("./pricing.html#quote");
+    return;
+  }
+
+  const { payload, estimate, tiers, result, mailto } = data;
+  renderTierOptions(tiers);
+
+  setText("offer-heading", "Choose the level that fits best.");
+  setText(
+    "offer-rationale",
+    `We developed these three options around your ${estimate.recommendedPackage} direction so you can choose the right level of polish, proof, and strategic depth.`
+  );
+  setText(
+    "offer-range",
+    payload.projectType === "website-care-plan" && estimate.monthlyRange
+      ? `${formatCurrency(estimate.monthlyRange.low)} - ${formatCurrency(estimate.monthlyRange.high)}/mo`
+      : estimate.formattedRange
+  );
+  setText("offer-project-type", estimate.recommendedPackage);
+  setText("offer-pages", payload.pageCountBand || "2-3 pages");
+  setText("offer-timeline", payload.timeline || "Next 30-60 days");
+  setText("offer-confidence", String(estimate.confidence || "high").toUpperCase());
+  setText(
+    "offer-addons",
+    estimate.addOns.length
+      ? `Suggested additions based on your selections: ${estimate.addOns.join(", ")}.`
+      : "No major add-ons are being pushed into this quote. If you want more SEO, integration depth, or campaign support, we can tighten that into the final version you choose."
+  );
+  setText("offer-reference", result?.leadId ? `Reference ${result.leadId}` : "Reply when you are ready and we will lock the right version in cleanly.");
+
+  const mailtoLink = mailto || buildMailto(payload, estimate, tiers);
+  const cta = document.getElementById("result-onboarding-link");
+  const topCta = document.getElementById("offer-email-top");
+  if (cta) {
+    cta.href = mailtoLink;
+  }
+  if (topCta) {
+    topCta.href = mailtoLink;
+  }
+
+  window.requestAnimationFrame(() => {
+    document.body.classList.add("offer-page-ready");
+  });
 }
 
 async function submitEstimate(event) {
@@ -589,20 +710,19 @@ async function submitEstimate(event) {
       }
       renderSuccess(estimate, payload, result);
       if (statusNode) {
-        statusNode.textContent = "Your three quote options are ready below. Use the button under the options when you are ready to lock one in.";
+        statusNode.textContent = "Opening your custom quote page now.";
       }
     } else {
       renderSuccess(estimate, payload);
       if (statusNode) {
-        statusNode.textContent = "Your three quote options are ready below. Use the button under the options when you are ready to lock one in.";
+        statusNode.textContent = "Opening your custom quote page now.";
       }
     }
 
-    successPanel?.scrollIntoView({ behavior: "smooth", block: "start" });
   } catch (error) {
     renderSuccess(estimate, payload);
     if (statusNode) {
-      statusNode.textContent = `${error.message || "Submission failed"}. Your three quote options are still ready below.`;
+      statusNode.textContent = `${error.message || "Submission failed"}. Opening your custom quote page anyway.`;
     }
   } finally {
     if (submitButton) {
@@ -620,12 +740,26 @@ quoteForm?.addEventListener("input", () => {
   }
   if (!validEmail(emailInput?.value)) {
     estimateUnlocked = false;
-    successPanel?.classList.add("hidden");
+    closeOfferExperience();
   }
   updateLockState();
 });
 quoteForm?.addEventListener("change", updateChoicePills);
 quoteForm?.addEventListener("submit", submitEstimate);
+
+offerCloseButton?.addEventListener("click", closeOfferExperience);
+successPanel?.addEventListener("click", (event) => {
+  const target = event.target;
+  if (target instanceof HTMLElement && target.hasAttribute("data-offer-close")) {
+    closeOfferExperience();
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && successPanel?.classList.contains("is-visible")) {
+    closeOfferExperience();
+  }
+});
 
 document.querySelectorAll(".tab-button").forEach((button) => {
   button.addEventListener("click", () => activateTab(button.dataset.tabTarget, { syncHash: true }));
@@ -640,6 +774,7 @@ updateLockState();
 if (quoteForm) {
   renderPreview(getPayload());
 }
+initOfferPage();
 activateTabFromLocation();
 window.addEventListener("hashchange", activateTabFromLocation);
 revealOnScroll();

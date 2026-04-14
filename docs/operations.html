@@ -7,28 +7,31 @@
   <meta name="description" content="A stripped-back PM calendar for Turnkey CFO and Turnkey Web with daily roadmap, milestones, owners, and actions.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --tk-navy: #00263A;
-      --tk-navy-mid: #003A56;
-      --tk-green: #00C85A;
-      --tk-bg-light: #F2F5F8;
+      --tk-navy: #0F172A;
+      --tk-navy-mid: #2563FF;
+      --tk-green: #00E5A8;
+      --tk-bg-light: #F4F7FF;
       --tk-white: #FFFFFF;
-      --tk-text: #0D1F2D;
-      --tk-text-soft: #36576A;
-      --tk-text-muted: #7A909F;
-      --tk-border: rgba(0, 38, 58, 0.12);
-      --tk-border-strong: rgba(0, 38, 58, 0.20);
+      --tk-text: #111B34;
+      --tk-text-soft: #4F5B78;
+      --tk-text-muted: #6C7897;
+      --tk-border: rgba(37, 99, 255, 0.12);
+      --tk-border-strong: rgba(124, 58, 237, 0.20);
     }
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      font-family: "Plus Jakarta Sans", sans-serif;
+      font-family: "Exo 2", sans-serif;
       color: var(--tk-text);
-      background: linear-gradient(180deg, var(--tk-bg-light) 0%, #fff 100%);
+      background:
+        radial-gradient(circle at top right, rgba(124, 58, 237, 0.12), transparent 24%),
+        radial-gradient(circle at bottom left, rgba(0, 212, 255, 0.12), transparent 20%),
+        linear-gradient(180deg, var(--tk-bg-light) 0%, #fff 100%);
       line-height: 1.55;
     }
     a { color: var(--tk-navy-mid); text-decoration: none; }

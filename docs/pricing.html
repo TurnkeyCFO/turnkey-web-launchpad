@@ -7,7 +7,7 @@
   <meta name="description" content="Compare website, landing page, refresh, and care plan pricing for small businesses and build a quote for your project.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body class="page-pricing">
@@ -114,22 +114,44 @@
               <div class="estimate-main"><div class="eyebrow">Live estimate</div><h3 id="preview-package">Business Website Build</h3><div class="estimate-range-value" id="preview-range">$1,000 - $1,400</div><div class="estimate-badges"><span class="mini-pill">Confidence <strong id="preview-confidence">HIGH</strong></span><span class="mini-pill" id="preview-monthly">One-time project range</span></div></div>
               <div class="estimate-metrics"><article class="metric-mini"><span>Timeline</span><strong id="preview-timeline">Next 30-60 days</strong></article><article class="metric-mini"><span>Scope</span><strong id="preview-pages">2-3 pages</strong></article><article class="metric-mini"><span>Goals</span><strong id="preview-goals-count">2</strong></article><article class="metric-mini"><span>Features</span><strong id="preview-features-count">3</strong></article></div>
               <div class="estimate-panel"><div class="eyebrow">Possible add-ons</div><p id="preview-addons">SEO foundations included.</p><small id="preview-rationale">Business Website Build starting point - up to 3 pages included - standard features included</small></div>
-              <div class="estimate-success hidden" id="estimate-success-panel">
-                <div class="eyebrow">Three ways to move forward</div>
-                <h3 id="result-package">Business Website Build</h3>
-                <div class="estimate-range-value" id="result-range">$1,000 - $1,400</div>
-                <p id="result-rationale">These three options show how the same project can scale from lean to more polished.</p>
-                <div class="offer-tier-grid" id="offer-tier-grid"></div>
-                <div class="quote-lockin">
-                  <p id="result-addons">No extra add-ons suggested yet.</p>
-                  <div class="result-actions">
-                    <a class="btn" id="result-onboarding-link" href="mailto:ricky@turnkeycfo.com">Email to lock in your quote</a>
-                    <small id="result-lead-id">Ready when you are.</small>
-                  </div>
-                </div>
-              </div>
             </aside>
         </div>
+        <article class="estimate-success quote-offer-sheet hidden" id="estimate-success-panel" aria-hidden="true">
+          <div class="quote-offer-backdrop" data-offer-close></div>
+          <div class="offer-letter-shell" role="dialog" aria-modal="true" aria-labelledby="result-package" tabindex="-1">
+            <button class="offer-letter-close" type="button" id="offer-close" aria-label="Close offer letter">Close</button>
+            <div class="offer-letter-intro">
+              <div class="offer-letter-copy">
+                <div class="eyebrow">Your offer letter</div>
+                <h3 id="result-package">Business Website Build</h3>
+                <p id="result-rationale">These three options show how the same project can scale from lean to more polished.</p>
+              </div>
+              <div class="offer-letter-range">
+                <span class="offer-letter-label">Planning range</span>
+                <div class="estimate-range-value" id="result-range">$1,000 - $1,400</div>
+                <span class="offer-letter-caption">Choose the level of polish and strategic depth that fits how you want to show up.</span>
+              </div>
+            </div>
+
+            <div class="offer-letter-meta">
+              <span class="offer-letter-pill">Three clear ways to move forward</span>
+              <span class="offer-letter-pill">Same direction, different depth</span>
+            </div>
+
+            <div class="offer-tier-grid" id="offer-tier-grid"></div>
+
+            <div class="quote-lockin">
+              <div class="quote-lockin-copy">
+                <div class="eyebrow">Scope notes</div>
+                <p id="result-addons">No extra add-ons suggested yet.</p>
+              </div>
+              <div class="result-actions">
+                <a class="btn" id="result-onboarding-link" href="mailto:ricky@turnkeycfo.com">Email to lock in your quote</a>
+                <small id="result-lead-id">Ready when you are.</small>
+              </div>
+            </div>
+          </div>
+        </article>
       </div>
     </section>
 
