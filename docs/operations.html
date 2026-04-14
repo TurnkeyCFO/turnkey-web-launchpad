@@ -7,31 +7,31 @@
   <meta name="description" content="A stripped-back PM calendar for Turnkey CFO and Turnkey Web with daily roadmap, milestones, owners, and actions.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --tk-navy: #0F172A;
+      --tk-navy: #050816;
       --tk-navy-mid: #2563FF;
-      --tk-green: #00E5A8;
-      --tk-bg-light: #F4F7FF;
+      --tk-green: #00D4FF;
+      --tk-bg-light: #F4F8FF;
       --tk-white: #FFFFFF;
-      --tk-text: #111B34;
-      --tk-text-soft: #4F5B78;
-      --tk-text-muted: #6C7897;
+      --tk-text: #0A132B;
+      --tk-text-soft: #536583;
+      --tk-text-muted: #667798;
       --tk-border: rgba(37, 99, 255, 0.12);
-      --tk-border-strong: rgba(124, 58, 237, 0.20);
+      --tk-border-strong: rgba(91, 33, 182, 0.18);
     }
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      font-family: "Exo 2", sans-serif;
+      font-family: "Plus Jakarta Sans", sans-serif;
       color: var(--tk-text);
       background:
-        radial-gradient(circle at top right, rgba(124, 58, 237, 0.12), transparent 24%),
-        radial-gradient(circle at bottom left, rgba(0, 212, 255, 0.12), transparent 20%),
-        linear-gradient(180deg, var(--tk-bg-light) 0%, #fff 100%);
+        radial-gradient(circle at top right, rgba(91, 33, 182, 0.10), transparent 24%),
+        radial-gradient(circle at bottom left, rgba(37, 99, 255, 0.10), transparent 24%),
+        linear-gradient(180deg, var(--tk-bg-light) 0%, #ffffff 100%);
       line-height: 1.55;
     }
     a { color: var(--tk-navy-mid); text-decoration: none; }
@@ -47,8 +47,9 @@
       gap: 16px;
       padding: 16px 18px;
       border: 1px solid var(--tk-border);
-      border-radius: 14px;
-      background: rgba(255,255,255,0.92);
+      border-radius: 22px;
+      background: rgba(255,255,255,0.84);
+      box-shadow: 0 18px 42px rgba(8, 18, 48, 0.06);
     }
     .brand {
       display: grid;
@@ -77,7 +78,7 @@
       padding: 7px 10px;
       border: 1px solid var(--tk-border);
       border-radius: 999px;
-      background: #fff;
+      background: rgba(255,255,255,0.92);
       color: var(--tk-text-soft);
       font-size: 12px;
       font-weight: 700;
@@ -121,9 +122,10 @@
       margin-top: 18px;
     }
     .stat, .panel, .section-card, .table-wrap {
-      background: rgba(255,255,255,0.95);
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(243,247,255,0.92));
       border: 1px solid var(--tk-border);
-      border-radius: 12px;
+      border-radius: 22px;
+      box-shadow: 0 18px 42px rgba(8, 18, 48, 0.06);
     }
     .stat {
       padding: 14px 16px;
@@ -213,8 +215,8 @@
       gap: 12px;
       padding: 14px;
       border: 1px solid var(--tk-border);
-      border-radius: 12px;
-      background: rgba(255,255,255,0.92);
+      border-radius: 20px;
+      background: rgba(255,255,255,0.9);
     }
     .day-card strong {
       display: block;
