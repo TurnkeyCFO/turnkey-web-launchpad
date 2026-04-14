@@ -3,275 +3,576 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Turnkey Web | Operating System</title>
-  <meta name="description" content="Turnkey Web operating system for an agentic, premium-fit GTM workflow centered on Codex and OpenClaw.">
+  <title>Turnkey Operating Plan</title>
+  <meta name="description" content="Internal operating plan for Turnkey CFO and Turnkey Web with clear milestones, systems, and testing standards.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --tk-navy: #00263A;
+      --tk-navy-mid: #003A56;
+      --tk-green: #00C85A;
+      --tk-ice: #DAE1E9;
+      --tk-bg-light: #F2F5F8;
+      --tk-white: #FFFFFF;
+      --tk-text: #0D1F2D;
+      --tk-text-soft: #36576A;
+      --tk-text-muted: #7A909F;
+      --tk-border: rgba(0, 38, 58, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      color: var(--tk-text);
+      background: linear-gradient(180deg, var(--tk-bg-light) 0%, #fff 100%);
+      line-height: 1.55;
+    }
+    a { color: var(--tk-navy-mid); }
+    .page {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 32px 20px 72px;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      padding: 16px 18px;
+      border: 1px solid var(--tk-border);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.88);
+    }
+    .brand {
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .brand small {
+      display: block;
+      color: var(--tk-text-muted);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 14px;
+    }
+    .intro {
+      margin: 36px 0 28px;
+      padding: 24px 0 8px;
+      border-bottom: 1px solid var(--tk-border);
+    }
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--tk-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      margin-bottom: 14px;
+      font-size: clamp(2rem, 4vw, 3.25rem);
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+    }
+    .lede {
+      max-width: 900px;
+      color: var(--tk-text-soft);
+      font-size: 1.05rem;
+      margin-bottom: 18px;
+    }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin: 24px 0 10px;
+    }
+    .stat, .panel, .section-card, .table-wrap {
+      background: rgba(255,255,255,0.92);
+      border: 1px solid var(--tk-border);
+      border-radius: 16px;
+    }
+    .stat {
+      padding: 16px;
+    }
+    .stat span {
+      display: block;
+      color: var(--tk-text-muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    .stat strong {
+      display: block;
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+    }
+    .stat p {
+      margin: 0;
+      color: var(--tk-text-soft);
+      font-size: 0.95rem;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+      gap: 22px;
+      align-items: start;
+      margin-top: 28px;
+    }
+    .section {
+      margin-top: 28px;
+    }
+    .section h2 {
+      font-size: 1.45rem;
+      margin-bottom: 10px;
+      letter-spacing: -0.03em;
+    }
+    .section-copy {
+      color: var(--tk-text-soft);
+      max-width: 900px;
+      margin-bottom: 18px;
+    }
+    .section-card {
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    .panel {
+      padding: 18px;
+      position: sticky;
+      top: 18px;
+    }
+    .panel h3 {
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+    .panel ul, .section-card ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--tk-text-soft);
+    }
+    .panel li + li, .section-card li + li { margin-top: 8px; }
+    .table-wrap {
+      overflow: hidden;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    th, td {
+      text-align: left;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--tk-border);
+      vertical-align: top;
+    }
+    th {
+      background: rgba(0, 38, 58, 0.03);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--tk-text-muted);
+    }
+    .pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(0, 200, 90, 0.12);
+      color: #046c35;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .timeline {
+      display: grid;
+      gap: 14px;
+    }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 100px minmax(0, 1fr);
+      gap: 16px;
+      padding: 16px;
+      border: 1px solid var(--tk-border);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.9);
+    }
+    .timeline-item strong {
+      display: block;
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+    .timeline-item p {
+      margin: 0;
+      color: var(--tk-text-soft);
+    }
+    .timeline-item .stage {
+      font-weight: 800;
+      color: var(--tk-navy-mid);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    .footer-note {
+      margin-top: 28px;
+      padding-top: 18px;
+      border-top: 1px solid var(--tk-border);
+      color: var(--tk-text-muted);
+      font-size: 13px;
+    }
+    .compact-list {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding-left: 18px;
+      color: var(--tk-text-soft);
+    }
+    @media (max-width: 980px) {
+      .summary-grid, .layout {
+        grid-template-columns: 1fr 1fr;
+      }
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      .panel { position: static; }
+    }
+    @media (max-width: 720px) {
+      .page { padding: 18px 14px 42px; }
+      .topbar { flex-direction: column; align-items: flex-start; }
+      .summary-grid { grid-template-columns: 1fr; }
+      .timeline-item { grid-template-columns: 1fr; }
+      table, thead, tbody, th, td, tr { display: block; }
+      thead { display: none; }
+      tr { border-bottom: 1px solid var(--tk-border); }
+      td { border: 0; padding: 10px 16px; }
+      td[data-label]::before {
+        content: attr(data-label) ": ";
+        font-weight: 700;
+        color: var(--tk-text-muted);
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="site-bg" aria-hidden="true">
-    <div class="orb orb-a"></div>
-    <div class="orb orb-b"></div>
-    <div class="orb orb-c"></div>
-    <div class="grid-noise"></div>
-  </div>
-
-  <nav class="top-nav">
-    <div class="nav-shell">
-      <a class="brand-lock" href="./index.html" aria-label="Turnkey Web home">
-        <span class="brand-eyebrow">Agentic GTM operating system</span>
-        <span class="brand-name">Turnkey<span>Web</span></span>
-      </a>
-
-      <div class="nav-links">
+  <div class="page">
+    <header class="topbar">
+      <div class="brand">
+        Turnkey Operating Plan
+        <small>Internal roadmap for Turnkey CFO and Turnkey Web</small>
+      </div>
+      <div class="links">
         <a href="./index.html">Home</a>
-        <a href="./work.html">Work</a>
         <a href="./process.html">Process</a>
         <a href="./pricing.html">Pricing</a>
-        <a class="active" href="./operations.html">Operating system</a>
+        <a href="./operations.html" aria-current="page">Operating plan</a>
       </div>
+    </header>
 
-      <div class="nav-actions">
-        <a class="btn btn-ghost" href="./process.html">See process</a>
-        <a class="btn" href="./pricing.html#quote">Build your quote</a>
-      </div>
-    </div>
-  </nav>
+    <section class="intro">
+      <p class="eyebrow">Operating objective</p>
+      <h1>Build a clear, agentic business system with strict fit, simple navigation, and measurable milestones.</h1>
+      <p class="lede">
+        This page is the working plan. It is meant to read like an operating memo, not a sales page:
+        what we are building, why it matters, what gets priority, what gets deferred, how we test it, and
+        how we know the system is healthy.
+      </p>
 
-  <header class="hero">
-    <div class="container hero-grid">
-      <div class="hero-copy" data-reveal>
-        <div class="eyebrow">Codex + OpenClaw as the cockpit</div>
-        <h1>A premium, automated GTM system built for fewer, better-fit clients.</h1>
-        <p class="hero-text">
-          This operating model is designed to stay straightforward to navigate, easy to audit, and strong enough to support both Turnkey CFO and Turnkey Web without turning into a fragile maze of exceptions.
-        </p>
-        <div class="hero-actions">
-          <a class="btn" href="#gtm">View GTM path</a>
-          <a class="btn btn-secondary" href="#architecture">View architecture</a>
-        </div>
-        <div class="hero-metrics">
-          <article class="metric-card glow-card" data-reveal data-reveal-delay="70"><div class="metric-label">Operating bias</div><div class="metric-value">Fewer, better clients</div><p>Standardized delivery beats high-complexity custom work.</p></article>
-          <article class="metric-card glow-card" data-reveal data-reveal-delay="140"><div class="metric-label">Execution layer</div><div class="metric-value">Codex + OpenClaw</div><p>The cockpit for planning, drafting, review, and troubleshooting.</p></article>
-          <article class="metric-card glow-card" data-reveal data-reveal-delay="210"><div class="metric-label">Success target</div><div class="metric-value">Repeatable GTM</div><p>A clear path from attract to retain with visible success points.</p></article>
-        </div>
-      </div>
-
-      <div class="hero-stage" data-reveal data-reveal-delay="180">
-        <div class="hero-window hero-window-primary glow-card" data-parallax="16">
-          <div class="window-topbar"><span></span><span></span><span></span></div>
-          <div class="window-copy" style="padding-top: 12px;">
-            <div class="eyebrow">Operating rule</div>
-            <h2>Straightforward systems are premium systems.</h2>
-            <p>Less complexity means better fit, cleaner automation, and more reliable delivery.</p>
-            <div class="workflow-list" style="margin-top: 16px;">
-              <div class="workflow-row"><span>Fit filter</span><strong>Strict</strong></div>
-              <div class="workflow-row"><span>Workflow design</span><strong>Agent-first</strong></div>
-              <div class="workflow-row workflow-row-active"><span>Execution</span><strong>Codex + OpenClaw</strong></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <main>
-    <section class="section" id="architecture">
-      <div class="container">
-        <div class="section-heading" data-reveal>
-          <div class="eyebrow">Shared architecture</div>
-          <h2>One core system, two brand adapters.</h2>
-          <p class="section-copy">The same operating backbone should serve Turnkey CFO and Turnkey Web while allowing each brand to keep its own offers, tone, and delivery standards.</p>
-        </div>
-
-        <div class="insight-grid">
-          <article class="insight-card glow-card" data-reveal>
-            <div class="insight-visual before-after">
-              <div class="state-card"><span>Core</span><strong>Shared objects</strong><small>Leads, estimates, onboarding packets, drafts, approvals, and reports.</small></div>
-              <div class="state-card state-card-good"><span>Adapters</span><strong>Brand-specific rules</strong><small>Different offers, channels, and approval logic on the same core.</small></div>
-            </div>
-            <h3>Keep the system reusable.</h3>
-            <p>Build the data model once, then attach brand behavior instead of rebuilding the workflow each time.</p>
-          </article>
-          <article class="insight-card glow-card" data-reveal>
-            <div class="insight-visual signal-bars">
-              <div class="signal-bar"><span>Visibility</span><i style="--bar: 88%"></i></div>
-              <div class="signal-bar"><span>Repeatability</span><i style="--bar: 84%"></i></div>
-              <div class="signal-bar"><span>Automation</span><i style="--bar: 80%"></i></div>
-            </div>
-            <h3>Make every step visible.</h3>
-            <p>If a step cannot be inspected, tested, or explained, it should not be part of the first-pass operating model.</p>
-          </article>
-          <article class="insight-card glow-card" data-reveal>
-            <div class="insight-visual expansion-ladder">
-              <span>Attract</span>
-              <span>Qualify</span>
-              <span>Convert</span>
-              <span class="active">Onboard / Deliver / Retain</span>
-            </div>
-            <h3>The GTM path is one continuous system.</h3>
-            <p>The goal is not more disconnected automations. The goal is a single premium workflow that moves cleanly end to end.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="gtm">
-      <div class="container">
-        <div class="section-heading" data-reveal>
-          <div class="eyebrow">Full GTM path</div>
-          <h2>Attract, qualify, convert, onboard, deliver, retain.</h2>
-        </div>
-
-        <div class="process-layout">
-          <div class="process-board glow-card" data-reveal>
-            <div class="process-line" aria-hidden="true"></div>
-            <article class="process-node active" data-reveal data-reveal-delay="30">
-              <div class="process-step">01</div>
-              <h3>Attract</h3>
-              <p>Social, outbound, referrals, and site traffic all feed a single intake queue.</p>
-              <span>Success point: lead captured</span>
-            </article>
-            <article class="process-node" data-reveal data-reveal-delay="90">
-              <div class="process-step">02</div>
-              <h3>Qualify</h3>
-              <p>Score fit, complexity, budget, timeline, and async compatibility.</p>
-              <span>Success point: qualified lead accepted</span>
-            </article>
-            <article class="process-node" data-reveal data-reveal-delay="150">
-              <div class="process-step">03</div>
-              <h3>Convert</h3>
-              <p>Move through estimate, approval, and next-step confirmation.</p>
-              <span>Success point: estimate issued</span>
-            </article>
-            <article class="process-node" data-reveal data-reveal-delay="210">
-              <div class="process-step">04</div>
-              <h3>Onboard</h3>
-              <p>Gather access, assets, goals, examples, and constraints without meetings overhead.</p>
-              <span>Success point: onboarding complete</span>
-            </article>
-            <article class="process-node" data-reveal data-reveal-delay="270">
-              <div class="process-step">05</div>
-              <h3>Deliver</h3>
-              <p>Route research, drafts, reviews, approvals, and launch/send through structured states.</p>
-              <span>Success point: first deliverable accepted</span>
-            </article>
-            <article class="process-node" data-reveal data-reveal-delay="330">
-              <div class="process-step">06</div>
-              <h3>Retain</h3>
-              <p>Report, follow up, and surface maintenance or expansion offers automatically.</p>
-              <span>Success point: recurring work retained</span>
-            </article>
-          </div>
-
-          <div class="process-side">
-            <article class="process-card glow-card" data-reveal>
-              <div class="eyebrow">Premium fit filter</div>
-              <h3>Decline complexity that breaks the system.</h3>
-              <ul class="process-points">
-                <li>Prefer clients who can work async and keep ownership clear.</li>
-                <li>Reject low-margin, high-chaos, highly custom requests early.</li>
-                <li>Keep offers standardized so the system stays efficient and premium.</li>
-              </ul>
-            </article>
-
-            <article class="process-card glow-card" data-reveal>
-              <div class="eyebrow">Success points</div>
-              <ul class="process-points">
-                <li>qualified lead accepted</li>
-                <li>estimate issued</li>
-                <li>proposal approved</li>
-                <li>onboarding complete</li>
-                <li>first deliverable accepted</li>
-                <li>launch completed</li>
-                <li>recurring work retained</li>
-                <li>referral or upsell triggered</li>
-              </ul>
-            </article>
-          </div>
-        </div>
+      <div class="summary-grid">
+        <article class="stat">
+          <span>Strategic bias</span>
+          <strong>Fewer clients, better fit</strong>
+          <p>Higher margin, lower complexity, more repeatable delivery.</p>
+        </article>
+        <article class="stat">
+          <span>Execution layer</span>
+          <strong>Codex + OpenClaw</strong>
+          <p>The cockpit for planning, drafting, review, and troubleshooting.</p>
+        </article>
+        <article class="stat">
+          <span>Operating model</span>
+          <strong>Agent-first workflows</strong>
+          <p>Standard states, clear approvals, simple handoffs, visible failures.</p>
+        </article>
+        <article class="stat">
+          <span>Primary goal</span>
+          <strong>Repeatable GTM path</strong>
+          <p>Attract, qualify, convert, onboard, deliver, retain.</p>
+        </article>
       </div>
     </section>
 
     <section class="section">
-      <div class="container">
-        <div class="section-heading" data-reveal>
-          <div class="eyebrow">Weekly milestones</div>
-          <h2>A four-week implementation path.</h2>
-        </div>
-
-        <div class="package-grid">
-          <article class="package-card glow-card" data-reveal>
-            <div class="package-top"><div><div class="package-pill">Week 1</div><h3>Architecture lock</h3></div><div class="package-price">Foundation</div></div>
-            <p>Lock the shared core, inventory current systems, define canonical states, and finalize the premium-fit filter.</p>
-          </article>
-          <article class="package-card glow-card package-card-featured" data-reveal>
-            <div class="package-top"><div><div class="package-pill package-pill-strong">Week 2</div><h3>Workflow formalization</h3></div><div class="package-price">GTM path</div></div>
-            <p>Formalize lead-to-estimate, estimate-to-onboarding, and the shared language of statuses, approvals, and queues.</p>
-          </article>
-          <article class="package-card glow-card" data-reveal>
-            <div class="package-top"><div><div class="package-pill">Week 3</div><h3>Testing and troubleshooting</h3></div><div class="package-price">Reliability</div></div>
-            <p>Add happy-path, failure, and retry tests, then document recovery playbooks for each connector and workflow.</p>
-          </article>
-          <article class="package-card glow-card" data-reveal>
-            <div class="package-top"><div><div class="package-pill">Week 4</div><h3>Launch hardening</h3></div><div class="package-price">Execution</div></div>
-            <p>Harden the Turnkey Web launch path and put the CFO operating loop into repeatable use.</p>
-          </article>
-        </div>
+      <h2>Operating principles</h2>
+      <p class="section-copy">These are the rules that should shape every process decision.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Principle</th>
+              <th>Meaning</th>
+              <th>Practical rule</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="Principle">Automation is the product advantage</td>
+              <td data-label="Meaning">The system should create leverage, not just save time.</td>
+              <td data-label="Practical rule">If a workflow cannot be standardized, it should be simplified or declined.</td>
+            </tr>
+            <tr>
+              <td data-label="Principle">Clarity beats cleverness</td>
+              <td data-label="Meaning">The process must be easy to understand at a glance.</td>
+              <td data-label="Practical rule">Use simple states, short labels, and consistent handoffs.</td>
+            </tr>
+            <tr>
+              <td data-label="Principle">Premium means fit</td>
+              <td data-label="Meaning">A smaller number of aligned clients is preferable.</td>
+              <td data-label="Practical rule">Filter out high-chaos, low-margin, heavily custom work.</td>
+            </tr>
+            <tr>
+              <td data-label="Principle">One core, two brands</td>
+              <td data-label="Meaning">Turnkey CFO and Turnkey Web should share the same backbone.</td>
+              <td data-label="Practical rule">Keep brand differences in content and rules, not in the whole system design.</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
-    <section class="section">
-      <div class="container">
-        <div class="section-heading" data-reveal>
-          <div class="eyebrow">Testing and troubleshooting</div>
-          <h2>Every workflow needs a happy path and a recovery path.</h2>
-        </div>
-
-        <div class="faq-grid">
-          <article class="faq-card glow-card" data-reveal>
-            <h3>What should always be tested?</h3>
-            <p>Happy path, missing data, approval rejection, connector failure, and retry or replay.</p>
-          </article>
-          <article class="faq-card glow-card" data-reveal>
-            <h3>What does troubleshooting need?</h3>
-            <p>Clear symptom, likely cause, check list, recovery step, and log entry for the failure.</p>
-          </article>
-          <article class="faq-card glow-card" data-reveal>
-            <h3>What does good logging look like?</h3>
-            <p>Owner, brand, stage, failure state, retry count, and next action should be visible without digging.</p>
-          </article>
-        </div>
-
-        <div class="closing-cta glow-card" data-reveal>
-          <div>
-            <div class="eyebrow">Operating target</div>
-            <h2>Build a system that is premium because it is clear.</h2>
-            <p>Turnkey should feel easy to navigate for humans and agents alike.</p>
-          </div>
-          <a class="btn" href="./pricing.html#quote">Return to pricing</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="container footer-shell">
+    <div class="layout">
       <div>
-        <div class="brand-name">Turnkey<span>Web</span></div>
-        <p>Websites, landing pages, and SEO-ready growth pages for small businesses that want a cleaner buying path and a more automated delivery model.</p>
-      </div>
-      <div class="footer-links">
-        <a href="./index.html">Home</a>
-        <a href="./work.html">Work</a>
-        <a href="./process.html">Process</a>
-        <a href="./pricing.html">Pricing</a>
-      </div>
-    </div>
-  </footer>
+        <section class="section" id="architecture">
+          <h2>Shared architecture</h2>
+          <p class="section-copy">Build one reusable operating stack that can support both businesses without branching into two unrelated systems.</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Layer</th>
+                  <th>Purpose</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-label="Layer">Intake</td>
+                  <td data-label="Purpose">Capture leads, requests, tasks, and follow-ups.</td>
+                  <td data-label="Notes">Sources: forms, email, Slack, social, outbound, manual entry.</td>
+                </tr>
+                <tr>
+                  <td data-label="Layer">Qualification</td>
+                  <td data-label="Purpose">Score fit, budget, complexity, and urgency.</td>
+                  <td data-label="Notes">This is where low-fit work should be filtered out early.</td>
+                </tr>
+                <tr>
+                  <td data-label="Layer">Workflow engine</td>
+                  <td data-label="Purpose">Move work through estimate, onboarding, delivery, and retention.</td>
+                  <td data-label="Notes">Each stage should have a clear owner and next action.</td>
+                </tr>
+                <tr>
+                  <td data-label="Layer">Integration layer</td>
+                  <td data-label="Purpose">Connect systems and keep state in sync.</td>
+                  <td data-label="Notes">Sheets, Drive, Gmail, Slack, Telegram, GitHub, OpenRouter, n8n.</td>
+                </tr>
+                <tr>
+                  <td data-label="Layer">Visibility layer</td>
+                  <td data-label="Purpose">Show status, failures, approvals, and queue depth.</td>
+                  <td data-label="Notes">This is what keeps the system manageable without guesswork.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
 
-  <script src="./site.js"></script>
+        <section class="section" id="gtm">
+          <h2>Full GTM path</h2>
+          <p class="section-copy">This is the standard path from lead to retained client. Every stage should be trackable and measurable.</p>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="stage">01 Attract</div>
+              <div>
+                <strong>Goal: capture interest in one intake stream.</strong>
+                <p>Social, outbound, referrals, and site activity should all feed the same lead intake layer.</p>
+                <p><span class="pill">Success point</span> Lead captured.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="stage">02 Qualify</div>
+              <div>
+                <strong>Goal: decide whether the lead fits the operating model.</strong>
+                <p>Score for fit, complexity, budget, timeline, and how well the client can work asynchronously.</p>
+                <p><span class="pill">Success point</span> Qualified lead accepted.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="stage">03 Convert</div>
+              <div>
+                <strong>Goal: move the opportunity into an approved engagement.</strong>
+                <p>Estimates, proposals, and approvals should flow through a clear agent-driven sequence.</p>
+                <p><span class="pill">Success point</span> Estimate issued, proposal approved.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="stage">04 Onboard</div>
+              <div>
+                <strong>Goal: collect assets and expectations without chaos.</strong>
+                <p>Requests for access, examples, goals, and constraints should be handled as a structured checklist.</p>
+                <p><span class="pill">Success point</span> Onboarding complete.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="stage">05 Deliver</div>
+              <div>
+                <strong>Goal: produce work through visible draft and approval states.</strong>
+                <p>Research, outreach, tasks, drafts, reviews, approvals, and launches should all be auditable.</p>
+                <p><span class="pill">Success point</span> First deliverable accepted, launch completed.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="stage">06 Retain</div>
+              <div>
+                <strong>Goal: turn delivery into recurring value.</strong>
+                <p>Reporting, follow-up, maintenance, and upsell or referral opportunities should be surfaced automatically.</p>
+                <p><span class="pill">Success point</span> Recurring work retained, referral or upsell triggered.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="roadmap">
+          <h2>Implementation roadmap</h2>
+          <p class="section-copy">A four-week plan with a practical focus on architecture, workflow definition, testing, and launch hardening.</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Week</th>
+                  <th>Focus</th>
+                  <th>Deliverables</th>
+                  <th>Exit criteria</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-label="Week">Week 1</td>
+                  <td data-label="Focus">Architecture lock</td>
+                  <td data-label="Deliverables">Shared core, canonical states, fit filter, current-system inventory.</td>
+                  <td data-label="Exit criteria">One agreed operating model that covers both brands.</td>
+                </tr>
+                <tr>
+                  <td data-label="Week">Week 2</td>
+                  <td data-label="Focus">Workflow formalization</td>
+                  <td data-label="Deliverables">Lead-to-estimate path, estimate-to-onboarding path, shared status language.</td>
+                  <td data-label="Exit criteria">The first fully documented workflow loop exists end to end.</td>
+                </tr>
+                <tr>
+                  <td data-label="Week">Week 3</td>
+                  <td data-label="Focus">Testing and troubleshooting</td>
+                  <td data-label="Deliverables">Happy-path tests, failure tests, retry paths, recovery playbooks.</td>
+                  <td data-label="Exit criteria">Known failure modes can be diagnosed and recovered cleanly.</td>
+                </tr>
+                <tr>
+                  <td data-label="Week">Week 4</td>
+                  <td data-label="Focus">Launch hardening</td>
+                  <td data-label="Deliverables">Turnkey Web launch path, repeatable CFO operating loop, weekly review cadence.</td>
+                  <td data-label="Exit criteria">The system can run with fewer, better-fit clients at higher quality.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="section" id="testing">
+          <h2>Testing and troubleshooting</h2>
+          <p class="section-copy">Every workflow should be tested the same way so the system is predictable and easy to support.</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Test area</th>
+                  <th>What to verify</th>
+                  <th>Expected result</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-label="Test area">Workflow path</td>
+                  <td data-label="What to verify">Happy path, missing data, approval rejection, connector failure, retry.</td>
+                  <td data-label="Expected result">The system continues without losing ownership or state.</td>
+                </tr>
+                <tr>
+                  <td data-label="Test area">Logging</td>
+                  <td data-label="What to verify">Owner, brand, stage, failure state, retry count, next action.</td>
+                  <td data-label="Expected result">The status of any work item can be understood quickly.</td>
+                </tr>
+                <tr>
+                  <td data-label="Test area">Recovery</td>
+                  <td data-label="What to verify">Connector outage, rejected draft, timeout, replay.</td>
+                  <td data-label="Expected result">A documented next step exists for each failure type.</td>
+                </tr>
+                <tr>
+                  <td data-label="Test area">End-to-end</td>
+                  <td data-label="What to verify">Lead capture through retention for CFO and Web.</td>
+                  <td data-label="Expected result">The full GTM path is usable without manual rescue.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <aside class="panel">
+        <h3>Decision rules</h3>
+        <ul>
+          <li>Prefer standard packages over custom one-off work.</li>
+          <li>Decline clients that require constant manual coordination.</li>
+          <li>Use agents for repeatable actions, not for everything.</li>
+          <li>Keep states, approvals, and ownership visible at all times.</li>
+        </ul>
+
+        <h3 style="margin-top: 18px;">Business focus</h3>
+        <ul>
+          <li><strong>Turnkey CFO:</strong> stabilize outreach, revenue ops, admin, and visibility.</li>
+          <li><strong>Turnkey Web:</strong> productize the delivery engine and launch path.</li>
+          <li><strong>Shared core:</strong> one operating system across both brands.</li>
+        </ul>
+
+        <h3 style="margin-top: 18px;">Current success measures</h3>
+        <ul class="compact-list">
+          <li>Lead intake is consistent.</li>
+          <li>Qualification is strict.</li>
+          <li>Approvals are explicit.</li>
+          <li>Failures are diagnosable.</li>
+          <li>Milestones are visible.</li>
+        </ul>
+      </aside>
+    </div>
+
+    <section class="section" id="launch">
+      <h2>Launch criteria</h2>
+      <p class="section-copy">The system is ready when the following are true.</p>
+      <div class="section-card">
+        <ul>
+          <li>There is one shared architecture for both businesses.</li>
+          <li>The fit filter is defined and used consistently.</li>
+          <li>The GTM path is documented stage by stage.</li>
+          <li>The roadmap has clear weekly exit criteria.</li>
+          <li>The test plan covers happy path, failure, and recovery.</li>
+          <li>The system stays navigable without adding unnecessary complexity.</li>
+        </ul>
+      </div>
+    </section>
+
+    <p class="footer-note">
+      Internal planning document for Turnkey. This page is intended to support execution, not promotion.
+    </p>
+  </div>
 </body>
 </html>
