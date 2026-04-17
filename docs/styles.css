@@ -137,10 +137,9 @@ p{line-height:1.72;}
   transform:translateY(-3px);
 }
 
-/* ── REVEAL ANIMATIONS ── */
-[data-reveal]{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease;}
+/* ── REVEAL ANIMATIONS (disabled — all content visible by default) ── */
+[data-reveal]{opacity:1;transform:none;}
 [data-reveal].in-view{opacity:1;transform:none;}
-[data-reveal][data-reveal-delay]{transition-delay:var(--reveal-delay,0ms);}
 
 /* ════════════════════════════════
    ENERGY BACKGROUND
@@ -920,4 +919,6 @@ p{line-height:1.72;}
   .reviews-grid{grid-template-columns:1fr 1fr;}
 }
 
-/* ═════════════════
+/* ════════════════════════════════
+   RESPONSIVE — 768px
+══════�
