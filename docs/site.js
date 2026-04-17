@@ -674,4 +674,89 @@ function revealOnScroll(){
   const nodes = document.querySelectorAll("[data-reveal]");
   nodes.forEach(n=>{
     const delay = Number(n.dataset.revealDelay||0);
-    n.style.se
+    n.style.setProperty("--reveal-delay", delay + "ms");
+  });
+
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add("in-view");
+        obs.unobserve(entry.target);
+      }
+    });
+  },{threshold:0.05, rootMargin:"0px 0px -20px 0px"});
+
+  nodes.forEach(n=>obs.observe(n));
+
+  // Fallback: force-reveal anything still in viewport after 400ms
+  setTimeout(()=>{
+    nodes.forEach(n=>{
+      const r = n.getBoundingClientRect();
+      if(r.top < window.innerHeight && r.bottom > 0){
+        n.classList.add("in-view");
+      }
+    });
+  }, 400);
+}
+
+/* ── GLOW CARDS ── */
+function bindGlowCards(){
+  document.querySelectorAll(".glow-card").forEach(card=>{
+    card.addEventListener("pointermove", e=>{
+      const r = card.getBoundingClientRect();
+      card.style.setProperty("--glow-x",`${((e.clientX-r.left)/r.width)*100}%`);
+      card.style.setProperty("--glow-y",`${((e.clientY-r.top)/r.height)*100}%`);
+    });
+  });
+}
+
+/* ── PARALLAX ── */
+function bindParallax(){
+  const nodes = Array.from(document.querySelectorAll("[data-parallax]"));
+  if(!nodes.length || window.innerWidth<900) return;
+  const apply = ()=>{
+    const vh = window.innerHeight||1;
+    nodes.forEach(n=>{
+      const r = n.getBoundingClientRect();
+      const s = Number(n.dataset.parallax||10);
+      const t = Math.max(Math.min((r.top+r.height/2-vh/2)/vh,1),-1)*s;
+      n.style.transform=`translate3d(0,${t}px,0)`;
+    });
+  };
+  apply();
+  let tick=false;
+  window.addEventListener("scroll",()=>{
+    if(tick) return; tick=true;
+    requestAnimationFrame(()=>{ apply(); tick=false; });
+  },{passive:true});
+}
+
+/* ── NAV SCROLL STATE ── */
+function bindNav(){
+  const nav = document.querySelector(".top-nav");
+  if(!nav) return;
+  const check = ()=> nav.classList.toggle("scrolled", window.scrollY>20);
+  window.addEventListener("scroll", check, {passive:true});
+  check();
+
+  const hb = document.querySelector(".nav-hamburger");
+  const mn = document.querySelector(".mobile-nav");
+  if(hb && mn){
+    hb.addEventListener("click",()=>{
+      hb.classList.toggle("open");
+      mn.classList.toggle("open");
+    });
+    mn.querySelectorAll("a").forEach(a=>{
+      a.addEventListener("click",()=>{ hb.classList.remove("open"); mn.classList.remove("open"); });
+    });
+  }
+}
+
+/* ── INIT ── */
+updateChoicePills();
+updateLockState();
+if(quoteForm){ renderPreview(getPayload()); }
+revealOnScroll();
+bindGlowCards();
+bindParallax();
+bindNav();
