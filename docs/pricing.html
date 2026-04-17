@@ -7,7 +7,7 @@
 <meta name="description" content="Get an instant website quote for your small business. Choose from Launch ($1,000), Growth ($1,500), or Authority ($2,000). Transparent pricing, fast delivery.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./styles.css">
 <style>
 /* ── Pricing-page extras ── */
@@ -182,7 +182,7 @@
       <p style="margin-top:12px;">It works 24/7. It never calls in sick. And unlike a paid ad, it keeps building trust and generating leads long after you launch.</p>
     </div>
     <div class="value-grid">
-      <div class="value-item">
+      <div class="value-item" data-reveal data-reveal-delay="0">
         <div class="value-icon">📞</div>
         <div class="value-stat">3x</div>
         <h3>More inbound calls</h3>
@@ -210,7 +210,7 @@
     <div class="section-heading" data-reveal>
       <span class="eyebrow">Quote builder</span>
       <h2>Tell us what you need. We'll build your range.</h2>
-      <p class="section-copy">Fill out your project details, enter your email at the end, and press Complete estimate to reveal your three personalized quote options.</p>
+      <p class="section-copy">Fill out your project details, enter your email at the end, and press Get my quote to reveal your three personalized quote options.</p>
     </div>
 
     <div class="estimator-layout">
@@ -317,7 +317,7 @@
         </div>
 
         <div class="form-actions">
-          <button class="btn" type="submit" id="estimate-submit" style="font-size:15px;padding:14px 36px;">Complete estimate →</button>
+          <button class="btn" type="submit" id="estimate-submit" style="font-size:15px;padding:14px 36px;">Get my quote →</button>
           <p class="form-status" id="estimate-form-status">Fill in your details above, then enter your email to unlock your personalized quote.</p>
         </div>
         <small class="form-promise">Quick version is fine — we can collect the rest after you see the estimate.</small>
@@ -364,12 +364,12 @@
           <div class="offer-letter-copy">
             <div class="eyebrow">Your personalized quote</div>
             <h3 id="result-package">Here's your custom quote.</h3>
-            <p id="result-rationale">Three options built around your goals and scope. Select the tier that fits, then email to lock it in.</p>
+            <p id="result-rationale">Three options built around your goals and scope. Select the tier that fits, then hit Submit — we'll take it from there.</p>
           </div>
           <div class="offer-letter-range">
             <span class="offer-letter-label">Your planning range</span>
             <div class="estimate-range-value" id="result-range">$1,000 – $2,000</div>
-            <span class="offer-letter-caption">Select a tier below and click the email button to get started.</span>
+            <span class="offer-letter-caption">Select a tier below, then press Submit to send your quote.</span>
           </div>
         </div>
 
@@ -390,10 +390,10 @@
             <p id="result-rationale-sub" style="font-size:12px;color:var(--gray-lt);margin-top:6px;"></p>
           </div>
           <div class="result-actions">
-            <a class="btn" id="result-onboarding-link" href="mailto:ricky@turnkeycfo.com" style="font-size:15px;padding:14px 32px;">
-              📧 Email to lock in your quote
-            </a>
-            <small id="result-lead-id">Select a tier above, then email to confirm.</small>
+            <button class="btn" id="result-submit-btn" type="button" disabled style="font-size:15px;padding:14px 36px;">
+              Submit
+            </button>
+            <small class="tier-required-note" id="result-lead-id">Select a tier above to submit your quote.</small>
           </div>
         </div>
 
@@ -425,7 +425,7 @@
     </div>
     <div class="faq-accordion" data-reveal>
       <details class="faq-item">
-        <summary>What happens after I email to lock in my quote?</summary>
+        <summary>What happens after I submit my quote?</summary>
         <p>You'll receive a short brand questionnaire within one business day. Once returned with your assets, we start building — first draft in 7 days.</p>
       </details>
       <details class="faq-item">
@@ -475,3 +475,4 @@
 <script src="./site.js"></script>
 </body>
 </html>
+            

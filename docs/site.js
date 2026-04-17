@@ -2,8 +2,11 @@
    TURNKEY WEB — site.js
    Pricing: $1k / $1.5k / $2k spread
    Tiers: Launch / Growth / Authority (fully differentiated)
-   Tier selection tracked + included in mailto
+   Tier selection required before Submit
+   Submit → Google Apps Script webhook (true one-click)
    ═══════════════════════════════════════════════════ */
+
+const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycby3WTNHSphNeqvrSBYyFilCvP2hYRV8YCCpSgLOCThC6PheZ2hflDtLUTUmgOxBCoPT/exec";
 
 /* ── PRICING MATRIX ── */
 const packageMatrix = {
@@ -190,6 +193,8 @@ const offerCloseBtn   = document.getElementById("offer-close");
 const emailInput      = document.getElementById("email");
 const isStaticMode    = window.location.hostname.includes("github.io");
 const OFFER_STORAGE   = "turnkey-web-offer-data";
+const resultSubmitBtn = document.getElementById("result-submit-btn");
+const tierRequiredNote= document.getElementById("result-lead-id");
 
 /* ── UTILITIES ── */
 function formatCurrency(v){
@@ -398,23 +403,23 @@ function renderTierOptions(tiers){
 
 /* ── TIER SELECTION ── */
 window.selectTier = function(btn){
-  document.querySelectorAll(".tier-select-btn").forEach(b => b.classList.remove("selected"));
+  document.querySelectorAll(".tier-select-btn").forEach(b => {
+    b.classList.remove("selected");
+    b.textContent = `Select ${b.dataset.tierName}`;
+  });
   btn.classList.add("selected");
   selectedTierName  = btn.dataset.tierName;
   selectedTierPrice = btn.dataset.tierPrice;
   btn.textContent = `✓ ${selectedTierName} Selected`;
 
-  /* Update the mailto link with the selected tier */
-  const link = document.getElementById("result-onboarding-link");
-  if(link && link.href){
-    const raw = decodeURIComponent(link.href.split("body=")[1] || "");
-    if(raw){
-      const updated = raw.replace(
-        /Selected tier:.*?\n/,
-        `Selected tier: ${selectedTierName} (${selectedTierPrice})\n`
-      );
-      link.href = link.href.split("body=")[0] + "body=" + encodeURIComponent(updated);
-    }
+  /* Enable the submit button now that a tier is chosen */
+  if(resultSubmitBtn){
+    resultSubmitBtn.disabled = false;
+    resultSubmitBtn.style.opacity = "1";
+    resultSubmitBtn.style.cursor  = "pointer";
+  }
+  if(tierRequiredNote){
+    tierRequiredNote.textContent = `${selectedTierName} selected — press Submit to send your quote.`;
   }
 };
 
@@ -437,6 +442,16 @@ function openOfferExperience(){
   requestAnimationFrame(()=>{
     successPanel.classList.add("is-visible");
     offerDialog?.focus();
+    /* Animate the shell in */
+    setTimeout(()=>{
+      offerDialog?.classList.add("shell-visible");
+    }, 60);
+    /* Stagger tier cards in */
+    setTimeout(()=>{
+      document.querySelectorAll(".offer-tier").forEach(card=>{
+        card.classList.add("tier-visible");
+      });
+    }, 200);
   });
 }
 function closeOfferExperience(){
@@ -444,52 +459,54 @@ function closeOfferExperience(){
   successPanel.classList.remove("is-visible");
   successPanel.setAttribute("aria-hidden","true");
   document.body.style.overflow="";
+  offerDialog?.classList.remove("shell-visible");
   setTimeout(()=>{
-    if(!successPanel.classList.contains("is-visible")) successPanel.classList.add("hidden");
+    if(!successPanel.classList.contains("is-visible")){
+      successPanel.classList.add("hidden");
+      /* Reset tier card animations for next open */
+      document.querySelectorAll(".offer-tier").forEach(c=>c.classList.remove("tier-visible"));
+    }
   }, 420);
 }
 
-/* ── BUILD MAILTO (includes selected tier) ── */
-function buildMailto(payload, estimate, tiers=[]){
+/* ── BUILD SUBMISSION PAYLOAD ── */
+function buildSubmissionPayload(payload, estimate, tiers=[], selectedTier=null){
   const name = [payload.firstName, payload.lastName].filter(Boolean).join(" ") || payload.company || "Project lead";
   const tierSummary = tiers.length
     ? tiers.map(t=>`${t.name}: ${t.priceLabel}`).join(" | ")
     : "Not generated";
-  const subject = encodeURIComponent(`Turnkey Web estimate — ${estimate.recommendedPackage} — ${estimate.formattedRange}`);
-  const body = encodeURIComponent(
-`Hi Ricky,
+  return {
+    source:        "Turnkey Web Quote Builder",
+    submittedAt:   new Date().toISOString(),
+    name,
+    company:       payload.company    || "",
+    email:         payload.email      || "",
+    phone:         payload.phone      || "",
+    industry:      payload.industry   || "",
+    projectType:   estimate.recommendedPackage,
+    timeline:      payload.timeline   || "",
+    budgetBand:    payload.budgetBand || "",
+    pageCount:     payload.pageCountBand || "",
+    goals:         (payload.goals    ||[]).join(", "),
+    features:      (payload.features ||[]).join(", "),
+    notes:         payload.notes      || "",
+    estimateRange: estimate.formattedRange,
+    tierOptions:   tierSummary,
+    selectedTier:  selectedTier ? `${selectedTier.name} (${selectedTier.price})` : "Not selected",
+    addOns:        estimate.addOns.join(", ") || "None"
+  };
+}
 
-I completed the Turnkey Web quote builder and would like to move forward.
-
-CONTACT DETAILS
----------------
-Name:         ${name}
-Company:      ${payload.company || ""}
-Email:        ${payload.email   || ""}
-Phone:        ${payload.phone   || ""}
-Industry:     ${payload.industry|| ""}
-
-PROJECT DETAILS
----------------
-Project type: ${estimate.recommendedPackage}
-Timeline:     ${payload.timeline    || ""}
-Budget band:  ${payload.budgetBand  || ""}
-Page count:   ${payload.pageCountBand|| ""}
-Goals:        ${(payload.goals    ||[]).join(", ") || "None listed"}
-Features:     ${(payload.features ||[]).join(", ") || "None listed"}
-Notes:        ${payload.notes || ""}
-
-QUOTE
------
-Estimate range: ${estimate.formattedRange}
-Tier options:   ${tierSummary}
-Selected tier:  [not yet selected — please reply with your preferred option]
-Add-ons noted:  ${estimate.addOns.join(", ") || "None"}
-
-Please send me the next steps to get started.
-`
-  );
-  return `mailto:ricky@turnkeycfo.com?subject=${subject}&body=${body}`;
+/* ── SUBMIT TO WEBHOOK ── */
+async function submitToWebhook(data){
+  const res = await fetch(WEBHOOK_URL, {
+    method: "POST",
+    mode:   "no-cors",   /* GAS webhook requires no-cors */
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+  /* no-cors responses are opaque — treat any non-throw as success */
+  return true;
 }
 
 /* ── RENDER PREVIEW CARD ── */
@@ -518,9 +535,9 @@ function updateLockState(){
   const unlocked = estimateUnlocked && hasEmail;
   estimateCard?.classList.toggle("locked",!unlocked);
   if(statusNode){
-    if(!hasEmail) statusNode.textContent = "Enter your email last and press Complete estimate to reveal your three quote options.";
-    else if(!estimateUnlocked) statusNode.textContent = "Press Complete estimate to open your custom quote page.";
-    else statusNode.textContent = "Your custom quote page is ready — choose your tier above.";
+    if(!hasEmail) statusNode.textContent = "Enter your email last and press Get my quote to reveal your three options.";
+    else if(!estimateUnlocked) statusNode.textContent = "Press Get my quote to open your custom quote.";
+    else statusNode.textContent = "Your Quote Builder results are ready — choose your tier and press Submit.";
   }
   return unlocked;
 }
@@ -533,6 +550,18 @@ function updateChoicePills(){
 /* ── RENDER SUCCESS / OFFER PAGE ── */
 function renderSuccess(estimate, payload){
   const tiers = buildTierOptions(estimate, payload);
+
+  /* Reset tier selection state */
+  selectedTierName  = null;
+  selectedTierPrice = null;
+  if(resultSubmitBtn){
+    resultSubmitBtn.disabled = true;
+    resultSubmitBtn.style.opacity = "0.4";
+    resultSubmitBtn.style.cursor  = "not-allowed";
+    resultSubmitBtn.textContent   = "Submit";
+  }
+  if(tierRequiredNote) tierRequiredNote.textContent = "Select a tier above to submit your quote.";
+
   renderTierOptions(tiers);
 
   setText("result-package", `Here's your custom quote, ${payload.firstName || "friend"}.`);
@@ -547,17 +576,38 @@ function renderSuccess(estimate, payload){
       : "No major add-ons are being pushed. If you want more SEO depth, integrations, or campaign support, we can scope that into the version you choose."
   );
   setText("result-rationale",
-    `Based on your ${estimate.recommendedPackage} scope — pick the level of polish and depth that fits your goals and timeline. Select a tier below, then email to lock it in.`
+    `Based on your ${estimate.recommendedPackage} scope — pick the level of polish and depth that fits your goals and timeline. Select a tier below, then press Submit.`
   );
-  setText("result-lead-id","Ready when you are — select a tier above and send the email.");
 
-  const link = document.getElementById("result-onboarding-link");
-  if(link){
-    link.href = buildMailto(payload, estimate, tiers);
-    link.textContent = "Email to lock in your quote";
+  /* Wire submit button */
+  if(resultSubmitBtn){
+    resultSubmitBtn.onclick = async () => {
+      if(!selectedTierName){ return; }
+      const btn = resultSubmitBtn;
+      btn.disabled = true;
+      btn.textContent = "Sending…";
+
+      const submissionData = buildSubmissionPayload(payload, estimate, tiers, {
+        name:  selectedTierName,
+        price: selectedTierPrice
+      });
+
+      try{
+        await submitToWebhook(submissionData);
+        btn.textContent = "✓ Quote sent!";
+        btn.style.background = "linear-gradient(135deg,#16a34a,#15803d)";
+        if(tierRequiredNote) tierRequiredNote.textContent = "Your quote has been submitted — the Turnkey team will be in touch shortly.";
+      } catch(err){
+        console.error("Webhook error:", err);
+        btn.textContent = "Submit";
+        btn.disabled = false;
+        btn.style.opacity = "1";
+        if(tierRequiredNote) tierRequiredNote.textContent = "Something went wrong — please try again.";
+      }
+    };
   }
 
-  persistOfferData({ payload, estimate, tiers, mailto: link?.href, generatedAt: new Date().toISOString() });
+  persistOfferData({ payload, estimate, tiers, generatedAt: new Date().toISOString() });
   openOfferExperience();
 }
 
@@ -573,7 +623,7 @@ async function submitEstimate(e){
 
   const estimate = renderPreview(payload);
   const btn = document.getElementById("estimate-submit");
-  if(btn){ btn.disabled=true; btn.textContent="Preparing quote..."; }
+  if(btn){ btn.disabled=true; btn.textContent="Building your quote…"; }
 
   try{
     renderSuccess(estimate, payload);
@@ -581,7 +631,7 @@ async function submitEstimate(e){
   } catch(err){
     renderSuccess(estimate, payload);
   } finally{
-    if(btn){ btn.disabled=false; btn.textContent="Complete estimate"; }
+    if(btn){ btn.disabled=false; btn.textContent="Get my quote →"; }
   }
 }
 
@@ -629,69 +679,4 @@ function revealOnScroll(){
       const r = n.getBoundingClientRect();
       if(r.top < window.innerHeight && r.bottom > 0){
         n.classList.add("in-view");
-      }
-    });
-  }, 400);
-}
-
-/* ── GLOW CARDS ── */
-function bindGlowCards(){
-  document.querySelectorAll(".glow-card").forEach(card=>{
-    card.addEventListener("pointermove", e=>{
-      const r = card.getBoundingClientRect();
-      card.style.setProperty("--glow-x",`${((e.clientX-r.left)/r.width)*100}%`);
-      card.style.setProperty("--glow-y",`${((e.clientY-r.top)/r.height)*100}%`);
-    });
-  });
-}
-
-/* ── PARALLAX ── */
-function bindParallax(){
-  const nodes = Array.from(document.querySelectorAll("[data-parallax]"));
-  if(!nodes.length || window.innerWidth<900) return;
-  const apply = ()=>{
-    const vh = window.innerHeight||1;
-    nodes.forEach(n=>{
-      const r = n.getBoundingClientRect();
-      const s = Number(n.dataset.parallax||10);
-      const t = Math.max(Math.min((r.top+r.height/2-vh/2)/vh,1),-1)*s;
-      n.style.transform=`translate3d(0,${t}px,0)`;
-    });
-  };
-  apply();
-  let tick=false;
-  window.addEventListener("scroll",()=>{
-    if(tick) return; tick=true;
-    requestAnimationFrame(()=>{ apply(); tick=false; });
-  },{passive:true});
-}
-
-/* ── NAV SCROLL STATE ── */
-function bindNav(){
-  const nav = document.querySelector(".top-nav");
-  if(!nav) return;
-  const check = ()=> nav.classList.toggle("scrolled", window.scrollY>20);
-  window.addEventListener("scroll", check, {passive:true});
-  check();
-
-  const hb = document.querySelector(".nav-hamburger");
-  const mn = document.querySelector(".mobile-nav");
-  if(hb && mn){
-    hb.addEventListener("click",()=>{
-      hb.classList.toggle("open");
-      mn.classList.toggle("open");
-    });
-    mn.querySelectorAll("a").forEach(a=>{
-      a.addEventListener("click",()=>{ hb.classList.remove("open"); mn.classList.remove("open"); });
-    });
-  }
-}
-
-/* ── INIT ── */
-updateChoicePills();
-updateLockState();
-if(quoteForm){ renderPreview(getPayload()); }
-revealOnScroll();
-bindGlowCards();
-bindParallax();
-bindNav();
+      
