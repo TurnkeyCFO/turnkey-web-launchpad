@@ -842,7 +842,7 @@ p{line-height:1.72;}
   align-items:flex-start;gap:48px;flex-wrap:wrap;
 }
 .footer-brand p{font-size:14px;color:rgba(255,255,255,.45);line-height:1.7;margin-top:12px;max-width:280px;}
-.footer-logo{height:36px;width:auto;filter:brightness(0) invert(1);opacity:.85;}
+.footer-logo{height:36px;width:auto;opacity:.9;}
 .footer-links{display:flex;gap:6px;flex-wrap:wrap;}
 .footer-links a{
   font-size:14px;font-weight:600;color:rgba(255,255,255,.45);
