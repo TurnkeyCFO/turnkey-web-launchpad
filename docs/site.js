@@ -388,24 +388,23 @@ function renderTierOptions(tiers){
 
 /* ── TIER SELECTION ── */
 window.selectTier = function(btn){
-  document.querySelectorAll(".tier-select-btn").forEach(b => b.classList.remove("selected"));
+  document.querySelectorAll(".tier-select-btn").forEach(b => {
+    b.classList.remove("selected");
+    b.textContent = b.textContent.replace(/^✓ /, "").replace(" Selected","");
+    b.textContent = "Select " + b.dataset.tierName;
+  });
   btn.classList.add("selected");
   selectedTierName  = btn.dataset.tierName;
   selectedTierPrice = btn.dataset.tierPrice;
   btn.textContent = `✓ ${selectedTierName} Selected`;
 
-  /* Update the mailto link with the selected tier */
-  const link = document.getElementById("result-onboarding-link");
-  if(link && link.href){
-    const raw = decodeURIComponent(link.href.split("body=")[1] || "");
-    if(raw){
-      const updated = raw.replace(
-        /Selected tier:.*?\n/,
-        `Selected tier: ${selectedTierName} (${selectedTierPrice})\n`
-      );
-      link.href = link.href.split("body=")[0] + "body=" + encodeURIComponent(updated);
-    }
-  }
+  /* Enable submit button */
+  const submitBtn = document.getElementById("result-submit-btn");
+  if(submitBtn){ submitBtn.disabled = false; }
+
+  /* Hide the helper note */
+  const note = document.getElementById("result-lead-id");
+  if(note){ note.style.display = "none"; }
 };
 
 /* ── PERSIST / READ OFFER DATA ── */
@@ -417,6 +416,84 @@ function readOfferData(){
   try{ const r=window.localStorage.getItem(OFFER_STORAGE); return r?JSON.parse(r):null; }
   catch(e){ return null; }
 }
+
+/* ── SUBMIT QUOTE — sheets + slack ── */
+const SHEETS_WEBHOOK = "https://script.google.com/macros/s/AKfycby3WTNHSphNeqvrSBYyFilCvP2hYRV8YCCpSgLOCThC6PheZ2hflDtLUTUmgOxBCoPT/exec";
+const SLACK_CHANNEL  = "C0AQVEW4KK8"; /* notified via GAS */
+
+async function submitQuoteLead(){
+  const btn = document.getElementById("result-submit-btn");
+  if(!btn || !selectedTierName) return;
+
+  /* Gather stored offer data */
+  const stored = readOfferData() || {};
+  const payload = stored.payload || {};
+  const estimate = stored.estimate || {};
+
+  /* Update button state */
+  btn.disabled = true;
+  btn.textContent = "Sending…";
+
+  const submittedAt = new Date().toLocaleString("en-US", { timeZone:"America/Chicago" });
+
+  /* ── 1. Google Sheets ── */
+  const sheetsRow = {
+    sheetName:      "Turnkey Web",
+    timestamp:      submittedAt,
+    firstName:      payload.firstName || "",
+    company:        payload.company   || "",
+    email:          payload.email     || "",
+    phone:          payload.phone     || "",
+    industry:       payload.industry === "Other" ? (payload.otherIndustry || "Other") : (payload.industry || ""),
+    existingWebsite:payload.existingWebsite || "",
+    projectType:    payload.projectType || "",
+    pageCount:      payload.pageCountBand || "",
+    timeline:       payload.timeline || "",
+    budget:         payload.budgetBand || "",
+    goals:          (payload.goals    || []).join(", "),
+    features:       (payload.features || []).join(", "),
+    notes:          payload.notes     || "",
+    estimateRange:  estimate.formattedRange || "",
+    selectedTier:   selectedTierName,
+    selectedPrice:  selectedTierPrice
+  };
+
+  try{
+    fetch(SHEETS_WEBHOOK, {
+      method:"POST",
+      mode:"no-cors",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify(sheetsRow)
+    });
+  } catch(e){ console.warn("Sheets webhook error", e); }
+
+  /* ── 2. Slack notification — routed via GAS webhook ── */
+  try{
+    fetch(SHEETS_WEBHOOK, {
+      method:"POST",
+      mode:"no-cors",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({ ...sheetsRow, _slackNotify: true,
+        slackText: `:zap: *New Turnkey Web Quote*\n*${payload.firstName || "Lead"} · ${payload.company || ""}*  |  ${payload.email || "—"}  |  ${payload.phone || "—"}\n*Project:* ${payload.projectType || "—"} · ${payload.pageCountBand || ""}  |  *Timeline:* ${payload.timeline || "—"}\n*Estimate:* ${estimate.formattedRange || "—"}  |  *Selected:* ${selectedTierName} (${selectedTierPrice})${payload.notes ? "\n*Notes:* " + payload.notes : ""}\n_${submittedAt} CT_`
+      })
+    });
+  } catch(e){ console.warn("Slack relay error", e); }
+
+  /* ── 3. Success state ── */
+  btn.textContent = "✓ Quote Submitted!";
+  btn.style.background = "linear-gradient(135deg,#10B981,#059669)";
+
+  const addonsEl = document.getElementById("result-addons");
+  if(addonsEl){
+    addonsEl.textContent = "We've got your quote — Ricky will be in touch within one business day to confirm your scope and next steps.";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", ()=>{
+  const submitBtn = document.getElementById("result-submit-btn");
+  if(submitBtn) submitBtn.addEventListener("click", submitQuoteLead);
+});
+
 
 /* ── OPEN / CLOSE OFFER SHEET ── */
 function openOfferExperience(){
@@ -538,12 +615,12 @@ function renderSuccess(estimate, payload){
   setText("result-addons",
     estimate.addOns.length
       ? `Suggested extras based on your inputs: ${estimate.addOns.join(", ")}.`
-      : "No major add-ons are being pushed. If you want more SEO depth, integrations, or campaign support, we can scope that into the version you choose."
+      : "No major add-ons flagged for your scope — the tier you select covers everything you need to get started."
   );
   setText("result-rationale",
     `Based on your ${estimate.recommendedPackage} scope — pick the level of polish and depth that fits your goals and timeline. Select a tier below, then email to lock it in.`
   );
-  setText("result-lead-id","Ready when you are — select a tier above and send the email.");
+  const noteEl = document.getElementById("result-lead-id"); if(noteEl) noteEl.style.display="none";
 
   const link = document.getElementById("result-onboarding-link");
   if(link){
