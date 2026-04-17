@@ -668,12 +668,12 @@ p{line-height:1.72;}
 }
 .quote-offer-sheet.hidden{display:none;}
 .quote-offer-backdrop{
-  position:fixed;inset:0;
+  position:absolute;inset:0;
   background:rgba(15,23,42,.6);backdrop-filter:blur(6px);
   z-index:0;
 }
 .offer-letter-shell{
-  position:relative;z-index:1;
+  position:relative;z-index:10;
   max-width:1000px;width:100%;
   background:var(--white);border-radius:28px;
   overflow:hidden;

@@ -424,10 +424,14 @@ function openOfferExperience(){
   successPanel.classList.remove("hidden");
   successPanel.setAttribute("aria-hidden","false");
   document.body.style.overflow="hidden";
-  requestAnimationFrame(()=>{
+  setTimeout(()=>{
     successPanel.classList.add("is-visible");
     offerDialog?.focus();
-  });
+    setTimeout(()=>{ offerDialog?.classList.add("shell-visible"); }, 60);
+    setTimeout(()=>{
+      document.querySelectorAll(".offer-tier").forEach(c=>{ c.classList.add("tier-visible"); });
+    }, 200);
+  }, 0);
 }
 function closeOfferExperience(){
   if(!successPanel) return;
