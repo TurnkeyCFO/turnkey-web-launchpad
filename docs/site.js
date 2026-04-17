@@ -58,7 +58,7 @@ const tierFeatures = {
       "Mobile-responsive design across all devices",
       "Contact form with spam protection",
       "Clear headline, subhead, and CTA on every page",
-      "Google Analytics 4 installation",
+      
       "First draft delivered within 7 days",
       "Unlimited revisions until you love it"
     ],
@@ -87,7 +87,7 @@ const tierFeatures = {
       "Mobile-responsive & cross-browser tested",
       "Headline, subhead, and CTA copy structure",
       "Lead capture or contact form",
-      "Google Analytics 4 setup",
+      
       "First draft within 5 days",
       "Unlimited revisions until you love it"
     ],
@@ -554,7 +554,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
   if(submitBtn) submitBtn.addEventListener("click", submitQuoteLead);
 });
 
-
 /* ── OPEN / CLOSE OFFER SHEET ── */
 function openOfferExperience(){
   if(!successPanel) return;
@@ -666,7 +665,7 @@ function renderSuccess(estimate, payload){
   const tiers = buildTierOptions(estimate, payload);
   renderTierOptions(tiers);
 
-  setText("result-package", `Here's your custom quote, ${payload.firstName || "friend"}.`);
+  setText("result-package", `Here's your custom quote${payload.firstName ? ", " + payload.firstName : ""}.`);
   setText("result-range",
     payload.projectType === "website-care-plan" && estimate.monthlyRange
       ? `${formatCurrency(estimate.monthlyRange.low)} – ${formatCurrency(estimate.monthlyRange.high)}/mo`
