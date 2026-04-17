@@ -55,33 +55,30 @@ const tierFeatures = {
   "business-website-build": {
     launch: [
       "Up to 3 pages (Home, About, Contact)",
-      "Mobile-responsive design & layout",
-      "Contact form setup + spam protection",
+      "Mobile-responsive design across all devices",
+      "Contact form with spam protection",
+      "Clear headline, subhead, and CTA on every page",
       "Google Analytics 4 installation",
-      "On-page SEO: meta titles, descriptions & image alt tags",
       "First draft delivered within 7 days",
-      "2 rounds of revisions included"
+      "Unlimited revisions until you love it"
     ],
     growth: [
       "Everything in Launch, plus:",
-      "Up to 5 pages (adds Services + Testimonials page)",
-      "Testimonials & social proof section with rich layout",
+      "Up to 5 pages (adds Services & Testimonials)",
+      "Testimonials section with rich social proof layout",
       "Calendly or booking widget integration",
-      "Blog template (ready for your first post)",
-      "Enhanced lead capture form with thank-you redirect",
-      "Google Business Profile optimization guidance",
-      "5 rounds of revisions included"
+      "Blog section — ready to publish on day one",
+      "Enhanced lead capture with thank-you redirect",
+      "Priority turnaround & faster revision cycles"
     ],
     authority: [
       "Everything in Growth, plus:",
-      "Up to 8 pages (adds Location/Service SEO pages)",
-      "3 local SEO service-area pages built & optimized",
-      "CRM or email list integration (Mailchimp, HubSpot, etc.)",
-      "Core Web Vitals performance optimization",
-      "Custom case study or portfolio section",
-      "One free 30-min strategy call post-launch",
-      "Unlimited revisions for 30 days after launch",
-      "Priority support queue & faster turnaround"
+      "Up to 8 pages — full multi-section site",
+      "Custom portfolio or case study section",
+      "Email list or CRM integration (Mailchimp, HubSpot, etc.)",
+      "Performance optimization for fast load times",
+      "Live chat or inquiry widget setup",
+      "30-min post-launch strategy call included"
     ]
   },
   "landing-page-sprint": {
@@ -89,10 +86,10 @@ const tierFeatures = {
       "1 focused, high-converting landing page",
       "Mobile-responsive & cross-browser tested",
       "Headline, subhead, and CTA copy structure",
-      "Contact or lead capture form",
+      "Lead capture or contact form",
       "Google Analytics 4 setup",
       "First draft within 5 days",
-      "2 revision rounds"
+      "Unlimited revisions until you love it"
     ],
     growth: [
       "Everything in Launch, plus:",
@@ -100,29 +97,26 @@ const tierFeatures = {
       "Trust section: logos, reviews, or proof badges",
       "Calendly or booking embed integration",
       "Thank-you page with follow-up CTA",
-      "Facebook Pixel or Google Ads tag setup",
-      "4 revision rounds"
+      "Priority turnaround & faster revision cycles"
     ],
     authority: [
       "Everything in Growth, plus:",
       "Full-scroll multi-section storytelling layout",
-      "Video embed or walkthrough section",
+      "Video embed or product walkthrough section",
       "Live chat or chatbot integration",
-      "Heatmap tool setup (Hotjar or similar)",
+      "Heatmap setup (Hotjar or similar)",
       "CRM or email automation connection",
-      "Unlimited revisions for 21 days",
-      "30-min post-launch debrief call"
+      "30-min post-launch debrief call included"
     ]
   },
   "website-refresh": {
     launch: [
       "Design refresh of up to 3 existing pages",
       "Updated typography, colors & spacing",
-      "Mobile responsiveness fixes",
+      "Mobile responsiveness fixes throughout",
       "Speed & image optimization pass",
-      "Updated meta titles & descriptions",
       "First draft within 7 days",
-      "2 revision rounds"
+      "Unlimited revisions until you love it"
     ],
     growth: [
       "Everything in Launch, plus:",
@@ -131,35 +125,32 @@ const tierFeatures = {
       "Improved CTA placement & conversion flow",
       "Contact form rebuild or repair",
       "Calendly booking integration",
-      "4 revision rounds"
+      "Priority turnaround & faster revision cycles"
     ],
     authority: [
       "Everything in Growth, plus:",
       "Full brand alignment across all pages",
       "Up to 7 pages refreshed",
-      "Core Web Vitals performance fixes",
-      "Google Analytics 4 migration or audit",
-      "New local SEO page added",
-      "Unlimited revisions for 21 days",
-      "Priority support"
+      "Core Web Vitals performance optimization",
+      "New portfolio or case study section built",
+      "Live chat or inquiry widget setup",
+      "30-min post-launch strategy call included"
     ]
   },
   "website-care-plan": {
     launch: [
-      "Core updates and routine site maintenance",
-      "Monthly uptime & security monitoring",
-      "Up to 2 hours of edits per month",
-      "Plugin & platform updates",
-      "Light SEO tune-ups (meta tags, content tweaks)",
+      "Monthly site maintenance & routine updates",
+      "Uptime & security monitoring",
+      "Up to 2 hours of content edits per month",
+      "Plugin & platform updates handled for you",
       "Email support with 48-hour response"
     ],
     growth: [
-      "Everything in Essential, plus:",
+      "Everything in Launch, plus:",
       "Up to 5 hours of edits per month",
-      "Monthly conversion review & improvement suggestion",
-      "Google Analytics monthly report",
+      "Monthly conversion review & improvement suggestions",
+      "Google Analytics monthly performance report",
       "One new section or page element per month",
-      "SEO content update (1 page/month)",
       "Priority email support with 24-hour response"
     ],
     authority: [
@@ -167,9 +158,8 @@ const tierFeatures = {
       "Up to 10 hours of edits per month",
       "Monthly 30-min strategy call",
       "Proactive UX improvement recommendations",
-      "2 SEO content updates per month",
-      "New blog post drafting assistance",
-      "Highest priority support (same-day response)",
+      "New blog post drafting assistance (1 per month)",
+      "Same-day priority support response",
       "Quarterly full site audit"
     ]
   }

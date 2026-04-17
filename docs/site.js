@@ -2,11 +2,8 @@
    TURNKEY WEB — site.js
    Pricing: $1k / $1.5k / $2k spread
    Tiers: Launch / Growth / Authority (fully differentiated)
-   Tier selection required before Submit
-   Submit → Google Apps Script webhook (true one-click)
+   Tier selection tracked + included in mailto
    ═══════════════════════════════════════════════════ */
-
-const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycby3WTNHSphNeqvrSBYyFilCvP2hYRV8YCCpSgLOCThC6PheZ2hflDtLUTUmgOxBCoPT/exec";
 
 /* ── PRICING MATRIX ── */
 const packageMatrix = {
@@ -58,33 +55,30 @@ const tierFeatures = {
   "business-website-build": {
     launch: [
       "Up to 3 pages (Home, About, Contact)",
-      "Mobile-responsive design & layout",
-      "Contact form setup + spam protection",
+      "Mobile-responsive design across all devices",
+      "Contact form with spam protection",
+      "Clear headline, subhead, and CTA on every page",
       "Google Analytics 4 installation",
-      "On-page SEO: meta titles, descriptions & image alt tags",
       "First draft delivered within 7 days",
-      "2 rounds of revisions included"
+      "Unlimited revisions until you love it"
     ],
     growth: [
       "Everything in Launch, plus:",
-      "Up to 5 pages (adds Services + Testimonials page)",
-      "Testimonials & social proof section with rich layout",
+      "Up to 5 pages (adds Services & Testimonials)",
+      "Testimonials section with rich social proof layout",
       "Calendly or booking widget integration",
-      "Blog template (ready for your first post)",
-      "Enhanced lead capture form with thank-you redirect",
-      "Google Business Profile optimization guidance",
-      "5 rounds of revisions included"
+      "Blog section — ready to publish on day one",
+      "Enhanced lead capture with thank-you redirect",
+      "Priority turnaround & faster revision cycles"
     ],
     authority: [
       "Everything in Growth, plus:",
-      "Up to 8 pages (adds Location/Service SEO pages)",
-      "3 local SEO service-area pages built & optimized",
-      "CRM or email list integration (Mailchimp, HubSpot, etc.)",
-      "Core Web Vitals performance optimization",
-      "Custom case study or portfolio section",
-      "One free 30-min strategy call post-launch",
-      "Unlimited revisions for 30 days after launch",
-      "Priority support queue & faster turnaround"
+      "Up to 8 pages — full multi-section site",
+      "Custom portfolio or case study section",
+      "Email list or CRM integration (Mailchimp, HubSpot, etc.)",
+      "Performance optimization for fast load times",
+      "Live chat or inquiry widget setup",
+      "30-min post-launch strategy call included"
     ]
   },
   "landing-page-sprint": {
@@ -92,10 +86,10 @@ const tierFeatures = {
       "1 focused, high-converting landing page",
       "Mobile-responsive & cross-browser tested",
       "Headline, subhead, and CTA copy structure",
-      "Contact or lead capture form",
+      "Lead capture or contact form",
       "Google Analytics 4 setup",
       "First draft within 5 days",
-      "2 revision rounds"
+      "Unlimited revisions until you love it"
     ],
     growth: [
       "Everything in Launch, plus:",
@@ -103,29 +97,26 @@ const tierFeatures = {
       "Trust section: logos, reviews, or proof badges",
       "Calendly or booking embed integration",
       "Thank-you page with follow-up CTA",
-      "Facebook Pixel or Google Ads tag setup",
-      "4 revision rounds"
+      "Priority turnaround & faster revision cycles"
     ],
     authority: [
       "Everything in Growth, plus:",
       "Full-scroll multi-section storytelling layout",
-      "Video embed or walkthrough section",
+      "Video embed or product walkthrough section",
       "Live chat or chatbot integration",
-      "Heatmap tool setup (Hotjar or similar)",
+      "Heatmap setup (Hotjar or similar)",
       "CRM or email automation connection",
-      "Unlimited revisions for 21 days",
-      "30-min post-launch debrief call"
+      "30-min post-launch debrief call included"
     ]
   },
   "website-refresh": {
     launch: [
       "Design refresh of up to 3 existing pages",
       "Updated typography, colors & spacing",
-      "Mobile responsiveness fixes",
+      "Mobile responsiveness fixes throughout",
       "Speed & image optimization pass",
-      "Updated meta titles & descriptions",
       "First draft within 7 days",
-      "2 revision rounds"
+      "Unlimited revisions until you love it"
     ],
     growth: [
       "Everything in Launch, plus:",
@@ -134,35 +125,32 @@ const tierFeatures = {
       "Improved CTA placement & conversion flow",
       "Contact form rebuild or repair",
       "Calendly booking integration",
-      "4 revision rounds"
+      "Priority turnaround & faster revision cycles"
     ],
     authority: [
       "Everything in Growth, plus:",
       "Full brand alignment across all pages",
       "Up to 7 pages refreshed",
-      "Core Web Vitals performance fixes",
-      "Google Analytics 4 migration or audit",
-      "New local SEO page added",
-      "Unlimited revisions for 21 days",
-      "Priority support"
+      "Core Web Vitals performance optimization",
+      "New portfolio or case study section built",
+      "Live chat or inquiry widget setup",
+      "30-min post-launch strategy call included"
     ]
   },
   "website-care-plan": {
     launch: [
-      "Core updates and routine site maintenance",
-      "Monthly uptime & security monitoring",
-      "Up to 2 hours of edits per month",
-      "Plugin & platform updates",
-      "Light SEO tune-ups (meta tags, content tweaks)",
+      "Monthly site maintenance & routine updates",
+      "Uptime & security monitoring",
+      "Up to 2 hours of content edits per month",
+      "Plugin & platform updates handled for you",
       "Email support with 48-hour response"
     ],
     growth: [
-      "Everything in Essential, plus:",
+      "Everything in Launch, plus:",
       "Up to 5 hours of edits per month",
-      "Monthly conversion review & improvement suggestion",
-      "Google Analytics monthly report",
+      "Monthly conversion review & improvement suggestions",
+      "Google Analytics monthly performance report",
       "One new section or page element per month",
-      "SEO content update (1 page/month)",
       "Priority email support with 24-hour response"
     ],
     authority: [
@@ -170,9 +158,8 @@ const tierFeatures = {
       "Up to 10 hours of edits per month",
       "Monthly 30-min strategy call",
       "Proactive UX improvement recommendations",
-      "2 SEO content updates per month",
-      "New blog post drafting assistance",
-      "Highest priority support (same-day response)",
+      "New blog post drafting assistance (1 per month)",
+      "Same-day priority support response",
       "Quarterly full site audit"
     ]
   }
@@ -193,8 +180,6 @@ const offerCloseBtn   = document.getElementById("offer-close");
 const emailInput      = document.getElementById("email");
 const isStaticMode    = window.location.hostname.includes("github.io");
 const OFFER_STORAGE   = "turnkey-web-offer-data";
-const resultSubmitBtn = document.getElementById("result-submit-btn");
-const tierRequiredNote= document.getElementById("result-lead-id");
 
 /* ── UTILITIES ── */
 function formatCurrency(v){
@@ -401,39 +386,25 @@ function renderTierOptions(tiers){
   `).join("");
 }
 
-/* ── INDUSTRY DROPDOWN ── */
-window.handleIndustryChange = function(select){
-  const otherGroup = document.getElementById("other-industry-group");
-  if(!otherGroup) return;
-  if(select.value === "Other"){
-    otherGroup.style.display = "";
-    document.getElementById("otherIndustry")?.focus();
-  } else {
-    otherGroup.style.display = "none";
-    const otherInput = document.getElementById("otherIndustry");
-    if(otherInput) otherInput.value = "";
-  }
-};
-
 /* ── TIER SELECTION ── */
 window.selectTier = function(btn){
-  document.querySelectorAll(".tier-select-btn").forEach(b => {
-    b.classList.remove("selected");
-    b.textContent = `Select ${b.dataset.tierName}`;
-  });
+  document.querySelectorAll(".tier-select-btn").forEach(b => b.classList.remove("selected"));
   btn.classList.add("selected");
   selectedTierName  = btn.dataset.tierName;
   selectedTierPrice = btn.dataset.tierPrice;
   btn.textContent = `✓ ${selectedTierName} Selected`;
 
-  /* Enable the submit button now that a tier is chosen */
-  if(resultSubmitBtn){
-    resultSubmitBtn.disabled = false;
-    resultSubmitBtn.style.opacity = "1";
-    resultSubmitBtn.style.cursor  = "pointer";
-  }
-  if(tierRequiredNote){
-    tierRequiredNote.textContent = `${selectedTierName} selected — press Submit to send your quote.`;
+  /* Update the mailto link with the selected tier */
+  const link = document.getElementById("result-onboarding-link");
+  if(link && link.href){
+    const raw = decodeURIComponent(link.href.split("body=")[1] || "");
+    if(raw){
+      const updated = raw.replace(
+        /Selected tier:.*?\n/,
+        `Selected tier: ${selectedTierName} (${selectedTierPrice})\n`
+      );
+      link.href = link.href.split("body=")[0] + "body=" + encodeURIComponent(updated);
+    }
   }
 };
 
@@ -453,75 +424,62 @@ function openOfferExperience(){
   successPanel.classList.remove("hidden");
   successPanel.setAttribute("aria-hidden","false");
   document.body.style.overflow="hidden";
-  setTimeout(()=>{
+  requestAnimationFrame(()=>{
     successPanel.classList.add("is-visible");
     offerDialog?.focus();
-    /* Animate the shell in */
-    setTimeout(()=>{
-      offerDialog?.classList.add("shell-visible");
-    }, 60);
-    /* Stagger tier cards in */
-    setTimeout(()=>{
-      document.querySelectorAll(".offer-tier").forEach(card=>{
-        card.classList.add("tier-visible");
-      });
-    }, 200);
-  }, 0);
+  });
 }
 function closeOfferExperience(){
   if(!successPanel) return;
   successPanel.classList.remove("is-visible");
   successPanel.setAttribute("aria-hidden","true");
   document.body.style.overflow="";
-  offerDialog?.classList.remove("shell-visible");
   setTimeout(()=>{
-    if(!successPanel.classList.contains("is-visible")){
-      successPanel.classList.add("hidden");
-      /* Reset tier card animations for next open */
-      document.querySelectorAll(".offer-tier").forEach(c=>c.classList.remove("tier-visible"));
-    }
+    if(!successPanel.classList.contains("is-visible")) successPanel.classList.add("hidden");
   }, 420);
 }
 
-/* ── BUILD SUBMISSION PAYLOAD ── */
-function buildSubmissionPayload(payload, estimate, tiers=[], selectedTier=null){
+/* ── BUILD MAILTO (includes selected tier) ── */
+function buildMailto(payload, estimate, tiers=[]){
   const name = [payload.firstName, payload.lastName].filter(Boolean).join(" ") || payload.company || "Project lead";
   const tierSummary = tiers.length
     ? tiers.map(t=>`${t.name}: ${t.priceLabel}`).join(" | ")
     : "Not generated";
-  return {
-    source:        "Turnkey Web Quote Builder",
-    submittedAt:   new Date().toISOString(),
-    name,
-    company:       payload.company    || "",
-    email:         payload.email      || "",
-    phone:         payload.phone      || "",
-    industry:      (payload.industry === "Other" ? (payload.otherIndustry || "").trim() || "Other" : payload.industry) || "",
-    existingWebsite: payload.existingWebsite || "",
-    projectType:   estimate.recommendedPackage,
-    timeline:      payload.timeline   || "",
-    budgetBand:    payload.budgetBand || "",
-    pageCount:     payload.pageCountBand || "",
-    goals:         (payload.goals    ||[]).join(", "),
-    features:      (payload.features ||[]).join(", "),
-    notes:         payload.notes      || "",
-    estimateRange: estimate.formattedRange,
-    tierOptions:   tierSummary,
-    selectedTier:  selectedTier ? `${selectedTier.name} (${selectedTier.price})` : "Not selected",
-    addOns:        estimate.addOns.join(", ") || "None"
-  };
-}
+  const subject = encodeURIComponent(`Turnkey Web estimate — ${estimate.recommendedPackage} — ${estimate.formattedRange}`);
+  const body = encodeURIComponent(
+`Hi Ricky,
 
-/* ── SUBMIT TO WEBHOOK ── */
-async function submitToWebhook(data){
-  const res = await fetch(WEBHOOK_URL, {
-    method: "POST",
-    mode:   "no-cors",   /* GAS webhook requires no-cors */
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
-  });
-  /* no-cors responses are opaque — treat any non-throw as success */
-  return true;
+I completed the Turnkey Web quote builder and would like to move forward.
+
+CONTACT DETAILS
+---------------
+Name:         ${name}
+Company:      ${payload.company || ""}
+Email:        ${payload.email   || ""}
+Phone:        ${payload.phone   || ""}
+Industry:     ${payload.industry|| ""}
+
+PROJECT DETAILS
+---------------
+Project type: ${estimate.recommendedPackage}
+Timeline:     ${payload.timeline    || ""}
+Budget band:  ${payload.budgetBand  || ""}
+Page count:   ${payload.pageCountBand|| ""}
+Goals:        ${(payload.goals    ||[]).join(", ") || "None listed"}
+Features:     ${(payload.features ||[]).join(", ") || "None listed"}
+Notes:        ${payload.notes || ""}
+
+QUOTE
+-----
+Estimate range: ${estimate.formattedRange}
+Tier options:   ${tierSummary}
+Selected tier:  [not yet selected — please reply with your preferred option]
+Add-ons noted:  ${estimate.addOns.join(", ") || "None"}
+
+Please send me the next steps to get started.
+`
+  );
+  return `mailto:ricky@turnkeycfo.com?subject=${subject}&body=${body}`;
 }
 
 /* ── RENDER PREVIEW CARD ── */
@@ -550,9 +508,9 @@ function updateLockState(){
   const unlocked = estimateUnlocked && hasEmail;
   estimateCard?.classList.toggle("locked",!unlocked);
   if(statusNode){
-    if(!hasEmail) statusNode.textContent = "Enter your email last and press Get my quote to reveal your three options.";
-    else if(!estimateUnlocked) statusNode.textContent = "Press Get my quote to open your custom quote.";
-    else statusNode.textContent = "Your Quote Builder results are ready — choose your tier and press Submit.";
+    if(!hasEmail) statusNode.textContent = "Enter your email last and press Complete estimate to reveal your three quote options.";
+    else if(!estimateUnlocked) statusNode.textContent = "Press Complete estimate to open your custom quote page.";
+    else statusNode.textContent = "Your custom quote page is ready — choose your tier above.";
   }
   return unlocked;
 }
@@ -565,18 +523,6 @@ function updateChoicePills(){
 /* ── RENDER SUCCESS / OFFER PAGE ── */
 function renderSuccess(estimate, payload){
   const tiers = buildTierOptions(estimate, payload);
-
-  /* Reset tier selection state */
-  selectedTierName  = null;
-  selectedTierPrice = null;
-  if(resultSubmitBtn){
-    resultSubmitBtn.disabled = true;
-    resultSubmitBtn.style.opacity = "0.4";
-    resultSubmitBtn.style.cursor  = "not-allowed";
-    resultSubmitBtn.textContent   = "Submit";
-  }
-  if(tierRequiredNote) tierRequiredNote.textContent = "Select a tier above to submit your quote.";
-
   renderTierOptions(tiers);
 
   setText("result-package", `Here's your custom quote, ${payload.firstName || "friend"}.`);
@@ -591,38 +537,17 @@ function renderSuccess(estimate, payload){
       : "No major add-ons are being pushed. If you want more SEO depth, integrations, or campaign support, we can scope that into the version you choose."
   );
   setText("result-rationale",
-    `Based on your ${estimate.recommendedPackage} scope — pick the level of polish and depth that fits your goals and timeline. Select a tier below, then press Submit.`
+    `Based on your ${estimate.recommendedPackage} scope — pick the level of polish and depth that fits your goals and timeline. Select a tier below, then email to lock it in.`
   );
+  setText("result-lead-id","Ready when you are — select a tier above and send the email.");
 
-  /* Wire submit button */
-  if(resultSubmitBtn){
-    resultSubmitBtn.onclick = async () => {
-      if(!selectedTierName){ return; }
-      const btn = resultSubmitBtn;
-      btn.disabled = true;
-      btn.textContent = "Sending…";
-
-      const submissionData = buildSubmissionPayload(payload, estimate, tiers, {
-        name:  selectedTierName,
-        price: selectedTierPrice
-      });
-
-      try{
-        await submitToWebhook(submissionData);
-        btn.textContent = "✓ Quote sent!";
-        btn.style.background = "linear-gradient(135deg,#16a34a,#15803d)";
-        if(tierRequiredNote) tierRequiredNote.textContent = "Your quote has been submitted — the Turnkey team will be in touch shortly.";
-      } catch(err){
-        console.error("Webhook error:", err);
-        btn.textContent = "Submit";
-        btn.disabled = false;
-        btn.style.opacity = "1";
-        if(tierRequiredNote) tierRequiredNote.textContent = "Something went wrong — please try again.";
-      }
-    };
+  const link = document.getElementById("result-onboarding-link");
+  if(link){
+    link.href = buildMailto(payload, estimate, tiers);
+    link.textContent = "Email to lock in your quote";
   }
 
-  persistOfferData({ payload, estimate, tiers, generatedAt: new Date().toISOString() });
+  persistOfferData({ payload, estimate, tiers, mailto: link?.href, generatedAt: new Date().toISOString() });
   openOfferExperience();
 }
 
@@ -638,7 +563,7 @@ async function submitEstimate(e){
 
   const estimate = renderPreview(payload);
   const btn = document.getElementById("estimate-submit");
-  if(btn){ btn.disabled=true; btn.textContent="Building your quote…"; }
+  if(btn){ btn.disabled=true; btn.textContent="Preparing quote..."; }
 
   try{
     renderSuccess(estimate, payload);
@@ -646,7 +571,7 @@ async function submitEstimate(e){
   } catch(err){
     renderSuccess(estimate, payload);
   } finally{
-    if(btn){ btn.disabled=false; btn.textContent="Get my quote →"; }
+    if(btn){ btn.disabled=false; btn.textContent="Complete estimate"; }
   }
 }
 
@@ -671,32 +596,15 @@ document.addEventListener("keydown", e=>{
 
 /* ── SCROLL REVEAL ── */
 function revealOnScroll(){
-  const nodes = document.querySelectorAll("[data-reveal]");
-  nodes.forEach(n=>{
-    const delay = Number(n.dataset.revealDelay||0);
-    n.style.setProperty("--reveal-delay", delay + "ms");
+  document.querySelectorAll("[data-reveal-delay]").forEach(n=>{
+    n.style.setProperty("--reveal-delay",`${Number(n.dataset.revealDelay||0)}ms`);
   });
-
   const obs = new IntersectionObserver(entries=>{
     entries.forEach(entry=>{
-      if(entry.isIntersecting){
-        entry.target.classList.add("in-view");
-        obs.unobserve(entry.target);
-      }
+      if(entry.isIntersecting){ entry.target.classList.add("in-view"); obs.unobserve(entry.target); }
     });
-  },{threshold:0.05, rootMargin:"0px 0px -20px 0px"});
-
-  nodes.forEach(n=>obs.observe(n));
-
-  // Fallback: force-reveal anything still in viewport after 400ms
-  setTimeout(()=>{
-    nodes.forEach(n=>{
-      const r = n.getBoundingClientRect();
-      if(r.top < window.innerHeight && r.bottom > 0){
-        n.classList.add("in-view");
-      }
-    });
-  }, 400);
+  },{threshold:0.12});
+  document.querySelectorAll("[data-reveal]").forEach(n=>obs.observe(n));
 }
 
 /* ── GLOW CARDS ── */
