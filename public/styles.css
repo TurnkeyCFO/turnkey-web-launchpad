@@ -219,7 +219,7 @@ p{line-height:1.72;}
 ════════════════════════════════ */
 .top-nav{
   position:fixed;top:0;left:0;right:0;z-index:200;
-  height:100px;
+  height:68px;
   background:rgba(248,250,252,.92);backdrop-filter:blur(20px);
   border-bottom:1px solid rgba(124,58,237,.08);
   transition:box-shadow .3s;
@@ -231,7 +231,7 @@ p{line-height:1.72;}
   height:100%;padding:0 20px;
 }
 .brand-lock{display:flex;align-items:center;gap:0;text-decoration:none;}
-.nav-logo{height:160px;width:auto;}
+.nav-logo{height:44px;width:auto;}
 .nav-links{display:flex;align-items:center;gap:4px;}
 .nav-links a{
   font-size:14px;font-weight:600;color:var(--slate);
@@ -842,7 +842,7 @@ p{line-height:1.72;}
   align-items:flex-start;gap:48px;flex-wrap:wrap;
 }
 .footer-brand p{font-size:14px;color:rgba(255,255,255,.45);line-height:1.7;margin-top:12px;max-width:280px;}
-.footer-logo{height:160px;width:auto;opacity:.95;}
+.footer-logo{height:48px;width:auto;opacity:.95;}
 .footer-links{display:flex;gap:6px;flex-wrap:wrap;}
 .footer-links a{
   font-size:14px;font-weight:600;color:rgba(255,255,255,.45);
