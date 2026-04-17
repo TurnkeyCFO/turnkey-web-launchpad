@@ -606,15 +606,32 @@ document.addEventListener("keydown", e=>{
 
 /* ── SCROLL REVEAL ── */
 function revealOnScroll(){
-  document.querySelectorAll("[data-reveal-delay]").forEach(n=>{
-    n.style.setProperty("--reveal-delay",`${Number(n.dataset.revealDelay||0)}ms`);
+  const nodes = document.querySelectorAll("[data-reveal]");
+  nodes.forEach(n=>{
+    const delay = Number(n.dataset.revealDelay||0);
+    n.style.setProperty("--reveal-delay", delay + "ms");
   });
+
   const obs = new IntersectionObserver(entries=>{
     entries.forEach(entry=>{
-      if(entry.isIntersecting){ entry.target.classList.add("in-view"); obs.unobserve(entry.target); }
+      if(entry.isIntersecting){
+        entry.target.classList.add("in-view");
+        obs.unobserve(entry.target);
+      }
     });
-  },{threshold:0.12});
-  document.querySelectorAll("[data-reveal]").forEach(n=>obs.observe(n));
+  },{threshold:0.05, rootMargin:"0px 0px -20px 0px"});
+
+  nodes.forEach(n=>obs.observe(n));
+
+  // Fallback: force-reveal anything still in viewport after 400ms
+  setTimeout(()=>{
+    nodes.forEach(n=>{
+      const r = n.getBoundingClientRect();
+      if(r.top < window.innerHeight && r.bottom > 0){
+        n.classList.add("in-view");
+      }
+    });
+  }, 400);
 }
 
 /* ── GLOW CARDS ── */
