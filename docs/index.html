@@ -109,6 +109,37 @@
 @media(max-width:480px){
   .roadmap-track{grid-template-columns:1fr 1fr;}
 }
+
+/* ── Reviews Carousel ── */
+.reviews-carousel{
+  overflow:hidden;
+  position:relative;
+  margin:0 -20px;
+  padding:8px 0 16px;
+}
+.reviews-carousel::before,
+.reviews-carousel::after{
+  content:'';position:absolute;top:0;bottom:0;width:80px;z-index:2;pointer-events:none;
+}
+.reviews-carousel::before{left:0;background:linear-gradient(to right,var(--bg),transparent);}
+.reviews-carousel::after{right:0;background:linear-gradient(to left,var(--bg),transparent);}
+.reviews-track{
+  display:flex;gap:20px;
+  width:max-content;
+  animation:carousel-scroll 48s linear infinite;
+}
+.reviews-track:hover{animation-play-state:paused;}
+@keyframes carousel-scroll{
+  0%{transform:translateX(0);}
+  100%{transform:translateX(-50%);}
+}
+.reviews-carousel .review-card{
+  flex:0 0 340px;
+  min-width:0;
+}
+@media(max-width:600px){
+  .reviews-carousel .review-card{flex:0 0 280px;}
+}
 </style>
 </head>
 <body class="page-home">
@@ -183,7 +214,7 @@
           <div class="stat-lbl">First Draft</div>
         </div>
         <div class="stat-item">
-          <div class="stat-num">∞</div>
+          <div class="stat-num" style="font-size:clamp(16px,2.2vw,24px);letter-spacing:-.02em;">Unlimited</div>
           <div class="stat-lbl">Revisions</div>
         </div>
         <div class="stat-item">
@@ -283,8 +314,8 @@
       <h2>Real businesses. Real results.</h2>
       <p class="section-copy">From local contractors to law firms and startups — here's what happens when your website actually works for you.</p>
     </div>
-    <div class="reviews-grid">
-
+    <div class="reviews-carousel">
+      <div class="reviews-track">
       <div class="review-card">
         <div class="rc-stars">★★★★★</div>
         <p class="rc-text">We went from zero online presence to three new client calls in the first week. The site looked so professional that people assumed we'd been doing this for years.</p>
@@ -293,7 +324,6 @@
           <div><div class="rc-name">Sarah K.</div><div class="rc-role">Owner · Local Plumbing Company</div></div>
         </div>
       </div>
-
       <div class="review-card">
         <div class="rc-stars">★★★★★</div>
         <p class="rc-text">Turnkey Web built our law firm site in five days. We're already ranking on the first page of Google for our main practice area. The ROI was almost immediate.</p>
@@ -302,7 +332,6 @@
           <div><div class="rc-name">Michael T.</div><div class="rc-role">Managing Partner · Law Firm</div></div>
         </div>
       </div>
-
       <div class="review-card">
         <div class="rc-stars">★★★★★</div>
         <p class="rc-text">I needed something that looked serious and converted leads. We booked two new advisory clients in the first month — and I'm confident the website is the reason.</p>
@@ -311,7 +340,6 @@
           <div><div class="rc-name">David L.</div><div class="rc-role">Financial Advisor · Austin, TX</div></div>
         </div>
       </div>
-
       <div class="review-card">
         <div class="rc-stars">★★★★★</div>
         <p class="rc-text">Our old site was actively hurting us. The new one makes people trust us before they even call — and our consultation requests have more than doubled since we launched.</p>
@@ -320,7 +348,6 @@
           <div><div class="rc-name">Jessica M.</div><div class="rc-role">Owner · Lumina Med Spa</div></div>
         </div>
       </div>
-
       <div class="review-card">
         <div class="rc-stars">★★★★★</div>
         <p class="rc-text">Clear process, fast delivery, exactly what we needed. Our online booking rate went up and I can point directly to the new website as the reason why.</p>
@@ -329,7 +356,6 @@
           <div><div class="rc-name">Carlos R.</div><div class="rc-role">Owner · Ironclad Construction</div></div>
         </div>
       </div>
-
       <div class="review-card">
         <div class="rc-stars">★★★★★</div>
         <p class="rc-text">The Turnkey team delivered something I'm genuinely proud to send people to. Night and day from what we had before — and it took less than two weeks from start to launch.</p>
@@ -338,7 +364,55 @@
           <div><div class="rc-name">Amanda W.</div><div class="rc-role">Realtor · Crestwood Realty</div></div>
         </div>
       </div>
-
+      <div class="review-card">
+        <div class="rc-stars">★★★★★</div>
+        <p class="rc-text">We went from zero online presence to three new client calls in the first week. The site looked so professional that people assumed we'd been doing this for years.</p>
+        <div class="rc-author">
+          <div class="rc-avatar">SK</div>
+          <div><div class="rc-name">Sarah K.</div><div class="rc-role">Owner · Local Plumbing Company</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="rc-stars">★★★★★</div>
+        <p class="rc-text">Turnkey Web built our law firm site in five days. We're already ranking on the first page of Google for our main practice area. The ROI was almost immediate.</p>
+        <div class="rc-author">
+          <div class="rc-avatar">MT</div>
+          <div><div class="rc-name">Michael T.</div><div class="rc-role">Managing Partner · Law Firm</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="rc-stars">★★★★★</div>
+        <p class="rc-text">I needed something that looked serious and converted leads. We booked two new advisory clients in the first month — and I'm confident the website is the reason.</p>
+        <div class="rc-author">
+          <div class="rc-avatar">DL</div>
+          <div><div class="rc-name">David L.</div><div class="rc-role">Financial Advisor · Austin, TX</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="rc-stars">★★★★★</div>
+        <p class="rc-text">Our old site was actively hurting us. The new one makes people trust us before they even call — and our consultation requests have more than doubled since we launched.</p>
+        <div class="rc-author">
+          <div class="rc-avatar">JM</div>
+          <div><div class="rc-name">Jessica M.</div><div class="rc-role">Owner · Lumina Med Spa</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="rc-stars">★★★★★</div>
+        <p class="rc-text">Clear process, fast delivery, exactly what we needed. Our online booking rate went up and I can point directly to the new website as the reason why.</p>
+        <div class="rc-author">
+          <div class="rc-avatar">CR</div>
+          <div><div class="rc-name">Carlos R.</div><div class="rc-role">Owner · Ironclad Construction</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="rc-stars">★★★★★</div>
+        <p class="rc-text">The Turnkey team delivered something I'm genuinely proud to send people to. Night and day from what we had before — and it took less than two weeks from start to launch.</p>
+        <div class="rc-author">
+          <div class="rc-avatar">AW</div>
+          <div><div class="rc-name">Amanda W.</div><div class="rc-role">Realtor · Crestwood Realty</div></div>
+        </div>
+      </div>
+      </div>
     </div>
   </div>
 </section>
@@ -353,35 +427,35 @@
     </div>
 
     <div class="showcase-stack">
-      <a class="showcase-row glow-card" href="https://turnkeycfo.github.io/web-portfolio/landing-pages/04-local-service.html" target="_blank" rel="noreferrer">
+      <a class="showcase-row glow-card" href="https://turnkeycfo.github.io/web-portfolio/landing-pages/03-apex-revenue.html" target="_blank" rel="noreferrer">
         <div class="showcase-media">
-          <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1600&q=80" alt="ClearLedger landing page" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=80" alt="Apex Revenue Intelligence funnel page" loading="lazy">
           <span class="showcase-count">01</span>
-          <span class="showcase-tag">Landing page</span>
+          <span class="showcase-tag">Funnel page</span>
         </div>
         <div class="showcase-copy">
-          <div class="showcase-kicker">Local service business</div>
-          <h3>ClearLedger bookkeeping page</h3>
-          <p>A focused page built to explain the offer quickly, build trust fast, and make it easy for visitors to reach out.</p>
+          <div class="showcase-kicker">Revenue intelligence · SaaS</div>
+          <h3>The Apex Revenue Intelligence</h3>
+          <p>A high-converting funnel page built to move qualified prospects from interest to demo request — strong positioning, proof depth, and a frictionless CTA path.</p>
           <div class="showcase-points">
-            <span>Clear headline</span><span>Easy contact path</span><span>Trust-building proof</span>
+            <span>Demo-focused CTA</span><span>Proof-rich layout</span><span>Revenue messaging</span>
           </div>
           <span class="inline-link">View live example</span>
         </div>
       </a>
 
-      <a class="showcase-row showcase-row-flip glow-card" href="https://turnkeycfo.github.io/web-portfolio/sites/04-ironclad-construction/index.html" target="_blank" rel="noreferrer">
+      <a class="showcase-row showcase-row-flip glow-card" href="https://turnkeycfo.github.io/web-portfolio/sites/06-crestwood-realty/index.html" target="_blank" rel="noreferrer">
         <div class="showcase-media">
-          <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1600&q=80" alt="Ironclad construction website" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1600&q=80" alt="Crestwood Realty website" loading="lazy">
           <span class="showcase-count">02</span>
           <span class="showcase-tag">Full website</span>
         </div>
         <div class="showcase-copy">
-          <div class="showcase-kicker">Construction company</div>
-          <h3>Ironclad Construction</h3>
-          <p>A full service site with strong project proof, clear service pages, and a clean path for quote requests.</p>
+          <div class="showcase-kicker">Real estate</div>
+          <h3>Crestwood Realty</h3>
+          <p>A full agent site with listing credibility, local market authority positioning, and a strong path to consultations — built to earn trust faster in a competitive market.</p>
           <div class="showcase-points">
-            <span>Service pages</span><span>Project credibility</span><span>Quote request flow</span>
+            <span>Listing support</span><span>Agent credibility</span><span>Market authority</span>
           </div>
           <span class="inline-link">View live example</span>
         </div>
@@ -402,7 +476,7 @@
       <div>
         <span class="eyebrow">Ready to see your price?</span>
         <h2>Know exactly what your project will cost.</h2>
-        <p>Answer 4 questions. Get a real estimate. Choose your tier and lock it in — no sales call required.</p>
+        <p>Get a real estimate. Choose your tier and lock it in — no sales call required.</p>
       </div>
       <a class="btn" href="./pricing.html#quote" style="background:var(--white);color:var(--purple-d);box-shadow:0 8px 32px rgba(0,0,0,.15);">Build your quote →</a>
     </div>
