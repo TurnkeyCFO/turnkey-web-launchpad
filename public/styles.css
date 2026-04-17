@@ -149,9 +149,16 @@ p{line-height:1.72;}
   position:fixed;inset:0;z-index:0;pointer-events:none;
   background:var(--bg);overflow:hidden;
 }
+/* Real brand background image */
+.energy-bg::after{
+  content:'';position:absolute;inset:0;
+  background:url('./assets/energy-bg.png') center center / cover no-repeat;
+  opacity:.22;
+  pointer-events:none;
+}
 .energy-svg{
   position:absolute;top:0;right:0;
-  width:80%;height:100%;opacity:.6;
+  width:80%;height:100%;opacity:.35;
 }
 .energy-path-1{
   fill:none;stroke:var(--purple-d);stroke-width:1.4;stroke-opacity:.22;
@@ -923,8 +930,4 @@ p{line-height:1.72;}
 }
 
 /* ── Reduced motion ── */
-@media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation:none!important;transition:none!important;}
-  [data-reveal]{opacity:1;transform:none;}
-  .shimmer{-webkit-text-fill-color:var(--purple);background:none;}
-}
+@media(prefers-re
