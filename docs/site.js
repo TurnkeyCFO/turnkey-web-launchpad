@@ -417,6 +417,39 @@ function readOfferData(){
   catch(e){ return null; }
 }
 
+
+/* ── BUILD LEAD-CAPTURE PAYLOAD (for "Get My Quote") ── */
+function buildLeadCapturePayload(payload, estimate){
+  return {
+    source:          "TK Web Lead Capture",
+    submittedAt:     new Date().toISOString(),
+    firstName:       payload.firstName   || "",
+    company:         payload.company     || "",
+    phone:           payload.phone       || "",
+    industry:        (payload.industry === "Other" ? (payload.otherIndustry || "").trim() || "Other" : payload.industry) || "",
+    existingWebsite: payload.existingWebsite || "",
+    projectType:     estimate.recommendedPackage,
+    pageCount:       payload.pageCountBand || "",
+    timeline:        payload.timeline    || "",
+    budgetBand:      payload.budgetBand  || "",
+    goals:           (payload.goals    ||[]).join(", "),
+    features:        (payload.features ||[]).join(", "),
+    notes:           payload.notes       || "",
+    email:           payload.email       || "",
+    estimateRange:   estimate.formattedRange
+  };
+}
+
+/* ── SUBMIT TO WEBHOOK HELPER ── */
+function submitToWebhook(data){
+  return fetch(SHEETS_WEBHOOK, {
+    method: "POST",
+    mode: "no-cors",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(data)
+  });
+}
+
 /* ── SUBMIT QUOTE — sheets + slack ── */
 const SHEETS_WEBHOOK = "https://script.google.com/macros/s/AKfycby3WTNHSphNeqvrSBYyFilCvP2hYRV8YCCpSgLOCThC6PheZ2hflDtLUTUmgOxBCoPT/exec";
 const SLACK_CHANNEL  = "C0AQVEW4KK8"; /* notified via GAS */
@@ -466,6 +499,33 @@ async function submitQuoteLead(){
       body: JSON.stringify(sheetsRow)
     });
   } catch(e){ console.warn("Sheets webhook error", e); }
+
+  /* ── 1b. TK Web tier update — updates the lead row with selected tier ── */
+  try{
+    const tierUpdateData = {
+      source:          "TK Web Tier Selection",
+      email:           payload.email || "",
+      estimateRange:   estimate.formattedRange,
+      selectedTier:    `${selectedTierName} (${selectedTierPrice})`,
+      tierOptions:     (stored.tiers || []).map(t => `${t.name}: ${t.priceLabel}`).join(" | "),
+      submittedAt:     new Date().toISOString(),
+      name:            payload.firstName || "",
+      company:         payload.company   || "",
+      phone:           payload.phone     || "",
+      industry:        (payload.industry === "Other" ? (payload.otherIndustry || "").trim() || "Other" : payload.industry) || "",
+      existingWebsite: payload.existingWebsite || "",
+      projectType:     estimate.recommendedPackage || "",
+      pageCount:       payload.pageCountBand || "",
+      timeline:        payload.timeline    || "",
+      budgetBand:      payload.budgetBand  || "",
+      goals:           (payload.goals    ||[]).join(", "),
+      features:        (payload.features ||[]).join(", "),
+      notes:           payload.notes       || ""
+    };
+    submitToWebhook(tierUpdateData).catch(err =>
+      console.warn("Tier update webhook error:", err)
+    );
+  } catch(e){ console.warn("Tier update error", e); }
 
   /* ── 2. Slack notification — routed via GAS webhook ── */
   try{
@@ -647,6 +707,12 @@ async function submitEstimate(e){
   if(btn){ btn.disabled=true; btn.textContent="Preparing quote..."; }
 
   try{
+    /* Fire lead capture to TK Web sheet (non-blocking) */
+    const leadData = buildLeadCapturePayload(payload, estimate);
+    submitToWebhook(leadData).catch(err =>
+      console.warn("Lead capture webhook error:", err)
+    );
+
     renderSuccess(estimate, payload);
     if(statusNode) statusNode.textContent = "Opening your custom quote now.";
   } catch(err){
