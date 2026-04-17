@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./styles.css?v=2">
+<link rel="stylesheet" href="./styles.css?v=3">
 <style>
 /* ── Pricing-page extras ── */
 .pricing-hero-grid{
@@ -227,7 +227,32 @@
           <div class="field-group"><label>First name</label><input id="firstName" name="firstName" placeholder="Alex"></div>
           <div class="field-group"><label>Company</label><input id="company" name="company" placeholder="Your business name"></div>
           <div class="field-group"><label>Phone (optional)</label><input id="phone" name="phone" inputmode="tel" placeholder="512-000-0000"></div>
-          <div class="field-group"><label>Industry</label><input id="industry" name="industry" placeholder="Legal, contractor, advisory…"></div>
+          <div class="field-group">
+            <label>Industry</label>
+            <select id="industry" name="industry" onchange="handleIndustryChange(this)">
+              <option value="">Select your industry…</option>
+              <option value="Legal / Law Firm">Legal / Law Firm</option>
+              <option value="Home Services / Contractor">Home Services / Contractor</option>
+              <option value="Healthcare / Medical">Healthcare / Medical</option>
+              <option value="Real Estate">Real Estate</option>
+              <option value="Restaurant / Food &amp; Beverage">Restaurant / Food &amp; Beverage</option>
+              <option value="Fitness / Wellness">Fitness / Wellness</option>
+              <option value="Professional Services">Professional Services (Accounting, Consulting…)</option>
+              <option value="Retail / E-commerce">Retail / E-commerce</option>
+              <option value="Beauty / Salon / Spa">Beauty / Salon / Spa</option>
+              <option value="Financial Services">Financial Services / Wealth Management</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="field-group" id="other-industry-group" style="display:none;">
+            <label>Your industry</label>
+            <input id="otherIndustry" name="otherIndustry" placeholder="e.g., Architecture, Photography, Landscaping…">
+          </div>
+          <div class="field-group field-group-full">
+            <label>Existing website <span style="font-weight:400;color:var(--gray-lt);">(optional)</span></label>
+            <input id="existingWebsite" name="existingWebsite" type="url" inputmode="url" placeholder="https://yoursite.com">
+            <small class="field-help">We'll review your current site as part of our process.</small>
+          </div>
 
           <!-- PROJECT -->
           <div class="field-group">
@@ -434,45 +459,4 @@
       </details>
       <details class="faq-item">
         <summary>Can I start with Launch and upgrade later?</summary>
-        <p>Absolutely. Many businesses start with Launch to get live quickly, then upgrade to add more pages, SEO work, or integrations. We make it easy to expand.</p>
-      </details>
-      <details class="faq-item">
-        <summary>Can you refresh my current site instead of rebuilding?</summary>
-        <p>Yes — the Website Refresh option is built for exactly that. If your site has a solid foundation, a refresh is often the smarter and faster move.</p>
-      </details>
-    </div>
-    <div class="closing-cta glow-card">
-      <div>
-        <span class="eyebrow">Prefer to see the work first?</span>
-        <h2>Check out the case studies.</h2>
-        <p>See what we've built for businesses like yours before deciding on your scope.</p>
-      </div>
-      <a class="btn" href="./work.html" style="background:var(--white);color:var(--purple-d);">Browse case studies →</a>
-    </div>
-  </div>
-</section>
-
-<!-- ── FOOTER ── -->
-<footer class="footer">
-  <div class="container footer-shell">
-    <div class="footer-brand">
-      <img src="./assets/tkweb-logo.svg" alt="Turnkey Web" class="footer-logo">
-      <p>Modern websites, landing pages, and SEO-ready builds for small businesses that want more calls, better leads, and a stronger first impression.</p>
-    </div>
-    <div class="footer-links">
-      <a href="./index.html">Home</a>
-      <a href="./work.html">Case Studies</a>
-      <a href="./index.html#process">How It Works</a>
-      <a href="./pricing.html">Pricing</a>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>© 2025 Turnkey Web. All rights reserved.</span>
-    <span>Austin, Texas</span>
-  </div>
-</footer>
-
-<script src="./site.js?v=2"></script>
-</body>
-</html>
-            
+        <p>Absolutel

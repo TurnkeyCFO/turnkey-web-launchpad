@@ -401,6 +401,20 @@ function renderTierOptions(tiers){
   `).join("");
 }
 
+/* ── INDUSTRY DROPDOWN ── */
+window.handleIndustryChange = function(select){
+  const otherGroup = document.getElementById("other-industry-group");
+  if(!otherGroup) return;
+  if(select.value === "Other"){
+    otherGroup.style.display = "";
+    document.getElementById("otherIndustry")?.focus();
+  } else {
+    otherGroup.style.display = "none";
+    const otherInput = document.getElementById("otherIndustry");
+    if(otherInput) otherInput.value = "";
+  }
+};
+
 /* ── TIER SELECTION ── */
 window.selectTier = function(btn){
   document.querySelectorAll(".tier-select-btn").forEach(b => {
@@ -482,7 +496,8 @@ function buildSubmissionPayload(payload, estimate, tiers=[], selectedTier=null){
     company:       payload.company    || "",
     email:         payload.email      || "",
     phone:         payload.phone      || "",
-    industry:      payload.industry   || "",
+    industry:      (payload.industry === "Other" ? (payload.otherIndustry || "").trim() || "Other" : payload.industry) || "",
+    existingWebsite: payload.existingWebsite || "",
     projectType:   estimate.recommendedPackage,
     timeline:      payload.timeline   || "",
     budgetBand:    payload.budgetBand || "",
@@ -659,24 +674,4 @@ function revealOnScroll(){
   const nodes = document.querySelectorAll("[data-reveal]");
   nodes.forEach(n=>{
     const delay = Number(n.dataset.revealDelay||0);
-    n.style.setProperty("--reveal-delay", delay + "ms");
-  });
-
-  const obs = new IntersectionObserver(entries=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
-        entry.target.classList.add("in-view");
-        obs.unobserve(entry.target);
-      }
-    });
-  },{threshold:0.05, rootMargin:"0px 0px -20px 0px"});
-
-  nodes.forEach(n=>obs.observe(n));
-
-  // Fallback: force-reveal anything still in viewport after 400ms
-  setTimeout(()=>{
-    nodes.forEach(n=>{
-      const r = n.getBoundingClientRect();
-      if(r.top < window.innerHeight && r.bottom > 0){
-        n.classList.add("in-view");
-      
+    n.style.se
