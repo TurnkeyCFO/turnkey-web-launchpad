@@ -1,281 +1,543 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Turnkey Web | Case Studies</title>
-  <meta name="description" content="See landing pages, business websites, and case studies for small businesses that want a stronger online presence and better lead flow.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Turnkey Web | Case Studies & Portfolio</title>
+<meta name="description" content="See websites, landing pages, and full case studies built by Turnkey Web for small businesses across law, construction, finance, real estate, med spa, and more.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css">
+<style>
+/* ── Work page extras ── */
+.filter-bar{
+  display:flex;gap:8px;flex-wrap:wrap;margin-bottom:36px;
+  padding:16px;background:var(--white);border-radius:14px;border:1px solid var(--border);
+}
+.filter-btn{
+  padding:8px 18px;border-radius:100px;
+  font-family:'Exo 2',sans-serif;font-size:13px;font-weight:700;
+  border:1.5px solid var(--ice);background:var(--bg);color:var(--gray);
+  cursor:pointer;transition:all .2s;
+}
+.filter-btn:hover,.filter-btn.active{
+  border-color:var(--purple);background:rgba(124,58,237,.07);color:var(--purple);
+}
+
+/* Hero metric row */
+.work-metrics{
+  display:flex;gap:24px;flex-wrap:wrap;margin-top:28px;
+  border-top:1px solid var(--border);padding-top:24px;
+}
+.wm-item{display:flex;align-items:center;gap:10px;}
+.wm-num{font-size:28px;font-weight:900;color:var(--purple);line-height:1;}
+.wm-lbl{font-size:12px;color:var(--gray-lt);font-weight:600;text-transform:uppercase;letter-spacing:.08em;line-height:1.3;}
+
+/* Featured showcase - full bleed image top */
+.featured-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:24px;margin-top:48px;margin-bottom:24px;
+}
+.featured-card{
+  border-radius:24px;overflow:hidden;
+  background:var(--white);border:1px solid var(--border);
+  text-decoration:none;color:inherit;
+  transition:all .28s;display:block;
+  position:relative;
+}
+.featured-card:hover{
+  border-color:rgba(124,58,237,.3);
+  box-shadow:0 20px 70px rgba(124,58,237,.14);
+  transform:translateY(-5px);
+}
+.featured-card.featured-large{grid-column:1/-1;}
+.featured-img{
+  position:relative;overflow:hidden;height:260px;background:var(--bg);
+}
+.featured-card.featured-large .featured-img{height:380px;}
+.featured-img img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .5s ease;
+}
+.featured-card:hover .featured-img img{transform:scale(1.05);}
+.featured-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(15,23,42,.7) 0%,transparent 55%);
+}
+.featured-tags{
+  position:absolute;top:16px;left:16px;
+  display:flex;gap:8px;
+}
+.featured-tag{
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--white);
+  background:linear-gradient(135deg,var(--purple-d),var(--purple));
+  padding:5px 12px;border-radius:100px;
+}
+.featured-tag-alt{
+  background:rgba(255,255,255,.15);backdrop-filter:blur(6px);
+  color:rgba(255,255,255,.9);
+}
+.featured-num{
+  position:absolute;top:16px;right:16px;
+  font-size:11px;font-weight:800;letter-spacing:.14em;
+  color:rgba(255,255,255,.6);
+}
+.featured-body{padding:28px;}
+.featured-industry{
+  font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--purple);margin-bottom:8px;
+}
+.featured-body h3{font-size:20px;color:var(--dark);margin-bottom:8px;}
+.featured-body p{font-size:14px;color:var(--gray);line-height:1.65;margin-bottom:16px;}
+.featured-points{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+.featured-points span{
+  font-size:11px;font-weight:600;
+  background:rgba(124,58,237,.07);border:1px solid rgba(124,58,237,.15);
+  color:var(--purple);border-radius:100px;padding:4px 12px;
+}
+.featured-cta{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:13px;font-weight:700;color:var(--purple);
+}
+.featured-cta::after{content:'→';transition:transform .2s;}
+.featured-card:hover .featured-cta::after{transform:translateX(5px);}
+
+/* Portfolio grid */
+.portfolio-section{
+  background:var(--white);padding:88px 0;position:relative;z-index:1;
+}
+
+/* Industry proof band */
+.industry-proof{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:48px;
+}
+.proof-card{
+  padding:20px;border-radius:16px;background:var(--bg);border:1px solid var(--border);
+  text-align:center;transition:all .25s;
+}
+.proof-card:hover{border-color:rgba(124,58,237,.25);background:var(--white);}
+.proof-card-icon{font-size:26px;margin-bottom:10px;}
+.proof-card-industry{font-size:11px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px;}
+.proof-card-name{font-size:14px;font-weight:700;color:var(--dark);margin-bottom:6px;}
+.proof-card-desc{font-size:12px;color:var(--gray);line-height:1.55;}
+
+@media(max-width:900px){
+  .featured-grid{grid-template-columns:1fr;}
+  .featured-card.featured-large{grid-column:1;}
+  .featured-card.featured-large .featured-img{height:260px;}
+  .industry-proof{grid-template-columns:1fr 1fr;}
+  .work-metrics{gap:16px;}
+}
+@media(max-width:600px){
+  .featured-grid{grid-template-columns:1fr;}
+  .portfolio-grid{grid-template-columns:1fr;}
+  .industry-proof{grid-template-columns:1fr 1fr;}
+  .filter-bar{display:none;}
+}
+@media(max-width:480px){
+  .industry-proof{grid-template-columns:1fr;}
+}
+</style>
 </head>
 <body class="page-work">
-  <div class="site-bg" aria-hidden="true">
-    <div class="orb orb-a"></div>
-    <div class="orb orb-b"></div>
-    <div class="orb orb-c"></div>
-    <div class="grid-noise"></div>
+
+<!-- ── ENERGY BACKGROUND ── -->
+<div class="energy-bg" aria-hidden="true">
+  <div class="energy-orb orb-a"></div>
+  <div class="energy-orb orb-b"></div>
+  <div class="energy-orb orb-c"></div>
+  <svg class="energy-svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <path class="energy-path-1" d="M1200,-100 C1000,200 700,420 450,560 C200,700 -100,730 -300,760"/>
+    <path class="energy-path-2" d="M1400,80 C1150,280 850,460 580,590 C310,720 50,750 -200,780"/>
+    <path class="energy-path-3" d="M1440,220 C1200,380 950,520 700,630 C450,740 150,760 -100,790"/>
+    <path class="energy-path-4" d="M1100,-200 C900,100 680,340 440,500 C200,660 -80,710 -320,740"/>
+  </svg>
+</div>
+
+<!-- ── NAV ── -->
+<nav class="top-nav">
+  <div class="nav-shell">
+    <a class="brand-lock" href="./index.html" aria-label="Turnkey Web home">
+      <img src="./assets/tkweb-logo.svg" alt="Turnkey Web" class="nav-logo">
+    </a>
+    <div class="nav-links">
+      <a href="./index.html">Home</a>
+      <a class="active" href="./work.html">Case Studies</a>
+      <a href="./pricing.html">Pricing</a>
+    </div>
+    <div class="nav-actions">
+      <a class="btn-ghost" href="./pricing.html#quote">Get a quote</a>
+      <a class="btn" href="./pricing.html#quote">Build your quote</a>
+    </div>
+    <button class="nav-hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
+</nav>
+<div class="mobile-nav">
+  <a href="./index.html">Home</a>
+  <a href="./work.html">Case Studies</a>
+  <a href="./pricing.html">Pricing</a>
+  <a class="btn" href="./pricing.html#quote">Build your quote →</a>
+</div>
 
-  <nav class="top-nav">
-    <div class="nav-shell">
-      <a class="brand-lock" href="./index.html" aria-label="Turnkey Web home">
-        <span class="brand-eyebrow">Websites for growing small businesses</span>
-        <span class="brand-name">Turnkey<span>Web</span></span>
-      </a>
-
-      <div class="nav-links">
-        <a href="./index.html">Home</a>
-        <a class="active" href="./work.html">Case Studies</a>
-        <a href="./pricing.html">Pricing</a>
+<!-- ── HERO ── -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-copy" data-reveal>
+      <span class="eyebrow">Portfolio & case studies</span>
+      <h1>Websites built to<br><span class="shimmer">win trust and leads.</span></h1>
+      <p class="hero-text" style="max-width:560px;">From single-page lead machines to full service websites — each project is designed around the same core goal: help the right customer understand what you do and reach out.</p>
+      <div class="hero-actions">
+        <a class="btn" href="./pricing.html#quote">Price my project →</a>
+        <a class="btn-ghost" href="./index.html#process">See how it works</a>
       </div>
-
-      <div class="nav-actions">
-        <a class="btn btn-ghost" href="https://turnkeycfo.github.io/web-portfolio/" target="_blank" rel="noreferrer">Portfolio library</a>
-        <a class="btn" href="./pricing.html#quote">Build your quote</a>
+      <div class="trust-bar" style="margin-top:20px;">
+        <span class="trust-pill trust-pill-stars"><span>★★★★★</span>&nbsp;5-star design</span>
+        <span class="trust-pill">Landing pages & full sites</span>
+        <span class="trust-pill">10+ industries</span>
+        <span class="trust-pill">SEO-ready builds</span>
       </div>
-    </div>
-  </nav>
-
-  <header class="hero">
-    <div class="container hero-grid">
-      <div class="hero-copy" data-reveal>
-        <div class="eyebrow">Case studies</div>
-        <h1>See the kind of websites we build for small businesses that want more leads.</h1>
-        <p class="hero-text">From focused landing pages to fuller business websites, these case studies show how better structure, clearer proof, and stronger design help a business look easier to trust online.</p>
-        <div class="hero-actions">
-          <a class="btn" href="./pricing.html#quote">Price my project</a>
-          <a class="btn btn-secondary" href="./index.html#process">See how it works</a>
+      <div class="work-metrics">
+        <div class="wm-item">
+          <div class="wm-num">10+</div>
+          <div class="wm-lbl">Industries<br>served</div>
         </div>
-        <div class="trust-bar" data-reveal data-reveal-delay="110">
-          <span class="trust-pill trust-pill-stars"><span>★★★★★</span> First-impression design</span>
-          <span class="trust-pill">Landing pages and full sites</span>
-          <span class="trust-pill">Built for service businesses</span>
-          <span class="trust-pill">SEO-ready structure</span>
+        <div class="wm-item" style="padding-left:20px;border-left:1px solid var(--border);">
+          <div class="wm-num">2</div>
+          <div class="wm-lbl">Project<br>types</div>
         </div>
-        <div class="hero-metrics">
-          <article class="metric-card glow-card" data-reveal data-reveal-delay="70">
-            <div class="metric-label">What you will see</div>
-            <div class="metric-value">Landing + full sites</div>
-            <p>See the difference between focused campaign pages and fuller service websites built for everyday lead generation.</p>
-          </article>
-          <article class="metric-card glow-card" data-reveal data-reveal-delay="140">
-            <div class="metric-label">Built for</div>
-            <div class="metric-value">Service businesses</div>
-            <p>Professional services, contractors, finance, medical, local businesses, and other trusted service brands.</p>
-          </article>
-          <article class="metric-card glow-card" data-reveal data-reveal-delay="210">
-            <div class="metric-label">What improves</div>
-            <div class="metric-value">Trust + inquiries</div>
-            <p>A better website should strengthen your first impression and make it easier for people to call, book, or request a quote.</p>
-          </article>
-        </div>
-      </div>
-
-      <div class="hero-stage" data-reveal data-reveal-delay="180">
-        <div class="hero-window hero-window-primary glow-card" data-parallax="16">
-          <div class="window-topbar"><span></span><span></span><span></span></div>
-          <div class="window-media">
-            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1400&q=80" alt="Website portfolio planning board" loading="eager">
-          </div>
-          <div class="window-copy">
-            <div class="eyebrow">What stays consistent</div>
-            <h2>Clear offers. Strong proof. Easy next step.</h2>
-            <p>The style shifts by industry, but the goal stays the same: help the right customer understand the business and take action.</p>
-          </div>
+        <div class="wm-item" style="padding-left:20px;border-left:1px solid var(--border);">
+          <div class="wm-num">7d</div>
+          <div class="wm-lbl">First<br>draft</div>
         </div>
       </div>
     </div>
-  </header>
+  </div>
+</header>
 
-  <main>
-    <section class="section showcase-section">
-      <div class="container">
-        <div class="section-heading" data-reveal>
-          <div class="eyebrow">Featured case studies</div>
-          <h2>A blend of focused landing pages and more developed websites.</h2>
-          <p class="section-copy">This mix reflects what small businesses usually need: sometimes a single page that converts, and sometimes a fuller site that supports long-term growth.</p>
-        </div>
+<main>
 
-        <div class="showcase-stack">
-          <a class="showcase-row glow-card" href="https://turnkeycfo.github.io/web-portfolio/landing-pages/04-local-service.html" target="_blank" rel="noreferrer" data-reveal>
-            <div class="showcase-media" data-parallax="12">
-              <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1600&q=80" alt="ClearLedger landing page" loading="lazy">
-              <span class="showcase-count">01</span>
-              <span class="showcase-tag">Landing page</span>
-            </div>
-            <div class="showcase-copy">
-              <div class="showcase-kicker">Local service website</div>
-              <h3>ClearLedger bookkeeping page</h3>
-              <p>Focused on helping visitors understand the offer quickly, trust the business faster, and request help without confusion.</p>
-              <div class="showcase-points"><span>Clear headline</span><span>Easy contact path</span><span>Trust-building proof</span></div>
-              <span class="inline-link">View live example</span>
-            </div>
-          </a>
-
-          <a class="showcase-row showcase-row-flip glow-card" href="https://turnkeycfo.github.io/web-portfolio/landing-pages/01-saas-trial.html" target="_blank" rel="noreferrer" data-reveal>
-            <div class="showcase-media" data-parallax="-10">
-              <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1600&q=80" alt="SaaS trial funnel" loading="lazy">
-              <span class="showcase-count">02</span>
-              <span class="showcase-tag">Offer page</span>
-            </div>
-            <div class="showcase-copy">
-              <div class="showcase-kicker">High-conversion software offer</div>
-              <h3>CloseIQ free trial funnel</h3>
-              <p>A tighter offer page with stronger proof, repeated calls to action, and a clearer path to sign up.</p>
-              <div class="showcase-points"><span>Offer clarity</span><span>Repeated CTA flow</span><span>Lower friction path</span></div>
-              <span class="inline-link">View live example</span>
-            </div>
-          </a>
-
-          <a class="showcase-row glow-card" href="https://turnkeycfo.github.io/web-portfolio/sites/04-ironclad-construction/index.html" target="_blank" rel="noreferrer" data-reveal>
-            <div class="showcase-media" data-parallax="14">
-              <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1600&q=80" alt="Construction website" loading="lazy">
-              <span class="showcase-count">03</span>
-              <span class="showcase-tag">Full website</span>
-            </div>
-            <div class="showcase-copy">
-              <div class="showcase-kicker">Developed service website</div>
-              <h3>Ironclad construction</h3>
-              <p>A fuller service website with room for service pages, project proof, and a stronger quote-request path.</p>
-              <div class="showcase-points"><span>Clear service pages</span><span>Project credibility</span><span>Quote request path</span></div>
-              <span class="inline-link">View live example</span>
-            </div>
-          </a>
-
-          <a class="showcase-row showcase-row-flip glow-card" href="https://turnkeycfo.github.io/web-portfolio/sites/12-arbor-wealth/index.html" target="_blank" rel="noreferrer" data-reveal>
-            <div class="showcase-media" data-parallax="-12">
-              <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1600&q=80" alt="Advisory website" loading="lazy">
-              <span class="showcase-count">04</span>
-              <span class="showcase-tag">Professional site</span>
-            </div>
-            <div class="showcase-copy">
-              <div class="showcase-kicker">Professional services positioning</div>
-              <h3>Arbor Wealth advisory site</h3>
-              <p>A more authority-led site where positioning, proof, and consultation readiness matter more than flashy visuals.</p>
-              <div class="showcase-points"><span>Authority messaging</span><span>Proof-rich layout</span><span>Consultation CTA</span></div>
-              <span class="inline-link">View live example</span>
-            </div>
-          </a>
-        </div>
+  <!-- ── FEATURED CASE STUDIES ── -->
+  <section class="section" style="position:relative;z-index:1;">
+    <div class="container">
+      <div class="section-heading" data-reveal>
+        <span class="eyebrow">Featured work</span>
+        <h2>Four projects. Four completely different businesses. One consistent result.</h2>
+        <p class="section-copy">Every project is built around the same core question: what does this customer need to see before they pick up the phone?</p>
       </div>
-    </section>
 
-    <section class="section">
-      <div class="container">
-        <div class="section-heading" data-reveal>
-          <div class="eyebrow">Portfolio grid</div>
-          <h2>More examples by industry.</h2>
-        </div>
+      <div class="featured-grid">
 
-        <div class="portfolio-grid">
-          <a class="portfolio-card glow-card" href="https://turnkeycfo.github.io/web-portfolio/sites/01-meridian-law/index.html" target="_blank" rel="noreferrer" data-reveal>
-            <div class="portfolio-media"><img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=900&q=80" alt="Law firm site" loading="lazy"></div>
-            <div class="portfolio-body"><div class="portfolio-label">Law</div><h3>Meridian Law Group</h3><p>Practice areas, attorney proof, and stronger consultation flow.</p></div>
-          </a>
-          <a class="portfolio-card glow-card" href="https://turnkeycfo.github.io/web-portfolio/sites/02-apex-saas/index.html" target="_blank" rel="noreferrer" data-reveal>
-            <div class="portfolio-media"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80" alt="SaaS site" loading="lazy"></div>
-            <div class="portfolio-body"><div class="portfolio-label">SaaS</div><h3>Apex revenue intelligence</h3><p>Dashboard visuals, pricing layers, and cleaner trial CTA structure.</p></div>
-          </a>
-          <a class="portfolio-card glow-card" href="https://turnkeycfo.github.io/web-portfolio/sites/05-lumina-medspa/index.html" target="_blank" rel="noreferrer" data-reveal>
-            <div class="portfolio-media"><img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=900&q=80" alt="Med spa site" loading="lazy"></div>
-            <div class="portfolio-body"><div class="portfolio-label">Med spa</div><h3>Lumina Med Spa</h3><p>Luxury service presentation with consultation booking support.</p></div>
-          </a>
-          <a class="portfolio-card glow-card" href="https://turnkeycfo.github.io/web-portfolio/sites/06-crestwood-realty/index.html" target="_blank" rel="noreferrer" data-reveal>
-            <div class="portfolio-media"><img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=80" alt="Real estate site" loading="lazy"></div>
-            <div class="portfolio-body"><div class="portfolio-label">Real estate</div><h3>Crestwood Realty</h3><p>Listing support and stronger local authority positioning.</p></div>
-          </a>
-          <a class="portfolio-card glow-card" href="https://turnkeycfo.github.io/web-portfolio/landing-pages/02-webinar-funnel.html" target="_blank" rel="noreferrer" data-reveal>
-            <div class="portfolio-media"><img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=900&q=80" alt="Webinar page" loading="lazy"></div>
-            <div class="portfolio-body"><div class="portfolio-label">Landing page</div><h3>Webinar registration funnel</h3><p>Urgency, countdown logic, and proof-rich registration flow.</p></div>
-          </a>
-          <a class="portfolio-card glow-card" href="https://turnkeycfo.github.io/web-portfolio/landing-pages/05-ecommerce-product.html" target="_blank" rel="noreferrer" data-reveal>
-            <div class="portfolio-media"><img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=900&q=80" alt="Product page" loading="lazy"></div>
-            <div class="portfolio-body"><div class="portfolio-label">Landing page</div><h3>Velour product launch page</h3><p>Direct response layout with stronger purchase intent structure.</p></div>
-          </a>
-        </div>
-
-        <div class="industry-ribbon" data-reveal>
-          <span>Legal</span><span>Construction</span><span>Medical</span><span>Finance</span><span>Real Estate</span><span>Home Services</span><span>Advisory</span><span>Local Operators</span>
-        </div>
-
-        <div class="case-proof-band glow-card" data-reveal>
-          <span class="star-row" aria-hidden="true">★★★★★</span>
-          <p>Every case study is built around the same buyer questions: Can I trust this business, do they do what I need, and what should I do next?</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section insights-section">
-      <div class="container">
-        <div class="section-heading" data-reveal>
-          <div class="eyebrow">What these examples show</div>
-          <h2>Different industries, same goal: help the business look trustworthy and easy to hire.</h2>
-        </div>
-        <div class="insight-grid">
-          <article class="insight-card glow-card" data-reveal>
-            <div class="insight-visual signal-bars">
-              <div class="signal-bar"><span>Visual polish</span><i style="--bar: 87%"></i></div>
-              <div class="signal-bar"><span>Offer clarity</span><i style="--bar: 84%"></i></div>
-              <div class="signal-bar"><span>Trust design</span><i style="--bar: 82%"></i></div>
+        <!-- 01 - ClearLedger (large) -->
+        <a class="featured-card featured-large glow-card" href="https://turnkeycfo.github.io/web-portfolio/landing-pages/04-local-service.html" target="_blank" rel="noreferrer" data-reveal>
+          <div class="featured-img">
+            <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=2000&q=80" alt="ClearLedger bookkeeping landing page" loading="eager">
+            <div class="featured-overlay"></div>
+            <div class="featured-tags">
+              <span class="featured-tag">Landing page</span>
+              <span class="featured-tag featured-tag-alt">Bookkeeping</span>
             </div>
-            <h3>The work answers the taste and trust question quickly.</h3>
-            <p>That matters because most business owners want to know whether the site will make them look established before anything else.</p>
-          </article>
-          <article class="insight-card glow-card" data-reveal>
-            <div class="insight-visual before-after">
-              <div class="state-card"><span>Landing pages</span><strong>Fast, focused, direct</strong><small>Best for one offer and one path.</small></div>
-              <div class="state-card state-card-good"><span>Full sites</span><strong>Deeper trust and structure</strong><small>Better when the business needs broader proof.</small></div>
-            </div>
-            <h3>You can see what level of build fits your business.</h3>
-            <p>That makes pricing easier to understand because the examples already show the difference between a simple page and a more developed site.</p>
-          </article>
-          <article class="insight-card glow-card" data-reveal>
-            <div class="insight-visual expansion-ladder">
-              <span>Landing pages for campaigns</span>
-              <span>Full sites for established presence</span>
-              <span>Refreshes for weak current sites</span>
-              <span class="active">Care plans after launch</span>
-            </div>
-            <h3>The examples support the whole offer ladder.</h3>
-            <p>They show enough range to support both quick landing page projects and more developed website builds.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <div class="closing-cta glow-card" data-reveal>
-          <div>
-            <div class="eyebrow">Convinced by the work?</div>
-            <h2>Ready to price your project?</h2>
-            <p>The next best step after seeing the work is choosing the package that fits your business.</p>
+            <span class="featured-num">01</span>
           </div>
-          <a class="btn" href="./pricing.html#quote">Build your quote</a>
+          <div class="featured-body">
+            <div class="featured-industry">Local service · Professional services</div>
+            <h3>ClearLedger bookkeeping page</h3>
+            <p>A focused landing page built to help a local bookkeeper compete with larger firms. Clean offer, clear trust signals, and an easy-to-find contact form — above the fold.</p>
+            <div class="featured-points">
+              <span>Offer clarity</span><span>Social proof section</span><span>Fast-loading layout</span><span>Mobile-first</span>
+            </div>
+            <span class="featured-cta">View live example</span>
+          </div>
+        </a>
+
+        <!-- 02 - CloseIQ -->
+        <a class="featured-card glow-card" href="https://turnkeycfo.github.io/web-portfolio/landing-pages/01-saas-trial.html" target="_blank" rel="noreferrer" data-reveal>
+          <div class="featured-img">
+            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1600&q=80" alt="CloseIQ SaaS trial funnel" loading="lazy">
+            <div class="featured-overlay"></div>
+            <div class="featured-tags">
+              <span class="featured-tag">Offer page</span>
+              <span class="featured-tag featured-tag-alt">SaaS</span>
+            </div>
+            <span class="featured-num">02</span>
+          </div>
+          <div class="featured-body">
+            <div class="featured-industry">SaaS · Free trial funnel</div>
+            <h3>CloseIQ free trial funnel</h3>
+            <p>A high-conversion offer page for a sales intelligence SaaS — stronger proof, repeated CTAs, and a lower-friction path to sign up.</p>
+            <div class="featured-points">
+              <span>Conversion focus</span><span>Repeated CTA</span><span>Proof-rich</span>
+            </div>
+            <span class="featured-cta">View live example</span>
+          </div>
+        </a>
+
+        <!-- 03 - Ironclad -->
+        <a class="featured-card glow-card" href="https://turnkeycfo.github.io/web-portfolio/sites/04-ironclad-construction/index.html" target="_blank" rel="noreferrer" data-reveal>
+          <div class="featured-img">
+            <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1600&q=80" alt="Ironclad Construction website" loading="lazy">
+            <div class="featured-overlay"></div>
+            <div class="featured-tags">
+              <span class="featured-tag">Full site</span>
+              <span class="featured-tag featured-tag-alt">Construction</span>
+            </div>
+            <span class="featured-num">03</span>
+          </div>
+          <div class="featured-body">
+            <div class="featured-industry">Construction · General contractor</div>
+            <h3>Ironclad Construction</h3>
+            <p>A complete service website with strong project proof, clear service pages, and a better path for quote requests. Built for a contractor that needed to look established online.</p>
+            <div class="featured-points">
+              <span>Service pages</span><span>Project credibility</span><span>Quote flow</span>
+            </div>
+            <span class="featured-cta">View live example</span>
+          </div>
+        </a>
+
+        <!-- 04 - Arbor Wealth -->
+        <a class="featured-card glow-card" href="https://turnkeycfo.github.io/web-portfolio/sites/12-arbor-wealth/index.html" target="_blank" rel="noreferrer" data-reveal>
+          <div class="featured-img">
+            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1600&q=80" alt="Arbor Wealth advisory site" loading="lazy">
+            <div class="featured-overlay"></div>
+            <div class="featured-tags">
+              <span class="featured-tag">Professional site</span>
+              <span class="featured-tag featured-tag-alt">Finance</span>
+            </div>
+            <span class="featured-num">04</span>
+          </div>
+          <div class="featured-body">
+            <div class="featured-industry">Financial advisory · Wealth management</div>
+            <h3>Arbor Wealth advisory site</h3>
+            <p>An authority-forward advisory site where positioning, proof depth, and consultation readiness matter more than visual flair. Built for a wealth manager looking to attract high-net-worth clients.</p>
+            <div class="featured-points">
+              <span>Authority messaging</span><span>Proof-rich layout</span><span>Consultation CTA</span>
+            </div>
+            <span class="featured-cta">View live example</span>
+          </div>
+        </a>
+
+      </div><!-- /featured-grid -->
+    </div>
+  </section>
+
+  <!-- ── FULL PORTFOLIO GRID ── -->
+  <section class="portfolio-section">
+    <div class="container">
+      <div class="section-heading" data-reveal>
+        <span class="eyebrow">Full portfolio</span>
+        <h2>More examples by industry.</h2>
+        <p class="section-copy">Every project in the portfolio uses the same structure: clear offer, strong trust signals, and a clean path for a visitor to take action.</p>
+      </div>
+
+      <div class="portfolio-grid">
+
+        <a class="portfolio-card glow-card" href="https://turnkeycfo.github.io/web-portfolio/sites/01-meridian-law/index.html" target="_blank" rel="noreferrer" data-reveal data-reveal-delay="0">
+          <div class="portfolio-media">
+            <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=900&q=80" alt="Meridian Law Group website" loading="lazy">
+          </div>
+          <div class="portfolio-body">
+            <div class="portfolio-label">⚖️ Law firm</div>
+            <h3>Meridian Law Group</h3>
+            <p>Practice areas, attorney credentials, and a stronger path to consultation requests. Built for a multi-attorney firm that needed to look as established as they actually are.</p>
+          </div>
+        </a>
+
+        <a class="portfolio-card glow-card" href="https://turnkeycfo.github.io/web-portfolio/sites/02-apex-saas/index.html" target="_blank" rel="noreferrer" data-reveal data-reveal-delay="60">
+          <div class="portfolio-media">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80" alt="Apex SaaS website" loading="lazy">
+          </div>
+          <div class="portfolio-body">
+            <div class="portfolio-label">📊 SaaS</div>
+            <h3>Apex Revenue Intelligence</h3>
+            <p>Dashboard visuals, layered pricing, and a cleaner free-trial CTA structure. Built for a B2B SaaS company competing against much larger players.</p>
+          </div>
+        </a>
+
+        <a class="portfolio-card glow-card" href="https://turnkeycfo.github.io/web-portfolio/sites/05-lumina-medspa/index.html" target="_blank" rel="noreferrer" data-reveal data-reveal-delay="120">
+          <div class="portfolio-media">
+            <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=900&q=80" alt="Lumina Med Spa website" loading="lazy">
+          </div>
+          <div class="portfolio-body">
+            <div class="portfolio-label">💆 Med spa</div>
+            <h3>Lumina Med Spa</h3>
+            <p>Luxury service presentation with treatment detail pages, before/after galleries, and an online booking CTA that converts. Designed to attract premium clientele.</p>
+          </div>
+        </a>
+
+        <a class="portfolio-card glow-card" href="https://turnkeycfo.github.io/web-portfolio/sites/06-crestwood-realty/index.html" target="_blank" rel="noreferrer" data-reveal data-reveal-delay="0">
+          <div class="portfolio-media">
+            <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=80" alt="Crestwood Realty website" loading="lazy">
+          </div>
+          <div class="portfolio-body">
+            <div class="portfolio-label">🏡 Real estate</div>
+            <h3>Crestwood Realty</h3>
+            <p>Listing support, local market authority positioning, and strong agent credibility. Built for a real estate agent looking to earn trust faster in a competitive local market.</p>
+          </div>
+        </a>
+
+        <a class="portfolio-card glow-card" href="https://turnkeycfo.github.io/web-portfolio/landing-pages/02-webinar-funnel.html" target="_blank" rel="noreferrer" data-reveal data-reveal-delay="60">
+          <div class="portfolio-media">
+            <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=900&q=80" alt="Webinar registration landing page" loading="lazy">
+          </div>
+          <div class="portfolio-body">
+            <div class="portfolio-label">🎤 Landing page</div>
+            <h3>Webinar registration funnel</h3>
+            <p>Urgency-driven registration page with countdown logic, proof-rich layout, and a friction-free signup path. Built for an online educator driving high-volume registrations.</p>
+          </div>
+        </a>
+
+        <a class="portfolio-card glow-card" href="https://turnkeycfo.github.io/web-portfolio/landing-pages/05-ecommerce-product.html" target="_blank" rel="noreferrer" data-reveal data-reveal-delay="120">
+          <div class="portfolio-media">
+            <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=900&q=80" alt="Velour product launch page" loading="lazy">
+          </div>
+          <div class="portfolio-body">
+            <div class="portfolio-label">🛍️ Product launch</div>
+            <h3>Velour product launch page</h3>
+            <p>Direct-response layout with strong purchase intent structure, scarcity elements, and a streamlined checkout path. Built for a DTC brand launching a new hero product.</p>
+          </div>
+        </a>
+
+      </div><!-- /portfolio-grid -->
+
+      <!-- Industry proof cards -->
+      <div class="section-heading" style="margin-top:64px;margin-bottom:36px;" data-reveal>
+        <span class="eyebrow">Industries we serve</span>
+        <h2>Different businesses, same goal.</h2>
+        <p class="section-copy">The style shifts by industry — the goal stays the same: make the visitor trust the business and take action faster.</p>
+      </div>
+
+      <div class="industry-proof">
+        <div class="proof-card" data-reveal data-reveal-delay="0">
+          <div class="proof-card-icon">⚖️</div>
+          <div class="proof-card-industry">Law</div>
+          <div class="proof-card-name">Meridian Law Group</div>
+          <div class="proof-card-desc">Practice areas, attorney credibility, and a consultation path that earns trust before the call.</div>
+        </div>
+        <div class="proof-card" data-reveal data-reveal-delay="40">
+          <div class="proof-card-icon">🏗️</div>
+          <div class="proof-card-industry">Construction</div>
+          <div class="proof-card-name">Ironclad Construction</div>
+          <div class="proof-card-desc">Project proof, service pages, and a quote request flow designed for a high-trust trade business.</div>
+        </div>
+        <div class="proof-card" data-reveal data-reveal-delay="80">
+          <div class="proof-card-icon">💆</div>
+          <div class="proof-card-industry">Med Spa</div>
+          <div class="proof-card-name">Lumina Med Spa</div>
+          <div class="proof-card-desc">Luxury service presentation with booking integration — for a brand that competes on experience.</div>
+        </div>
+        <div class="proof-card" data-reveal data-reveal-delay="120">
+          <div class="proof-card-icon">💰</div>
+          <div class="proof-card-industry">Finance</div>
+          <div class="proof-card-name">Arbor Wealth</div>
+          <div class="proof-card-desc">Authority positioning, proof depth, and a consultation-ready structure for a wealth management firm.</div>
+        </div>
+        <div class="proof-card" data-reveal data-reveal-delay="0">
+          <div class="proof-card-icon">🏡</div>
+          <div class="proof-card-industry">Real Estate</div>
+          <div class="proof-card-name">Crestwood Realty</div>
+          <div class="proof-card-desc">Local market authority, listing support, and strong agent credibility for a competitive market.</div>
+        </div>
+        <div class="proof-card" data-reveal data-reveal-delay="40">
+          <div class="proof-card-icon">📊</div>
+          <div class="proof-card-industry">SaaS</div>
+          <div class="proof-card-name">Apex Revenue Intelligence</div>
+          <div class="proof-card-desc">Dashboard-led design with layered pricing and a clean free-trial CTA for a B2B SaaS product.</div>
+        </div>
+        <div class="proof-card" data-reveal data-reveal-delay="80">
+          <div class="proof-card-icon">📚</div>
+          <div class="proof-card-industry">Bookkeeping</div>
+          <div class="proof-card-name">ClearLedger</div>
+          <div class="proof-card-desc">A focused landing page that helped a local bookkeeper look as credible as a much larger firm.</div>
+        </div>
+        <div class="proof-card" data-reveal data-reveal-delay="120">
+          <div class="proof-card-icon">🛍️</div>
+          <div class="proof-card-industry">E-commerce</div>
+          <div class="proof-card-name">Velour Launch Page</div>
+          <div class="proof-card-desc">Direct-response product launch with scarcity elements and a purchase path optimized for conversion.</div>
         </div>
       </div>
-    </section>
-  </main>
 
-  <footer class="footer">
-    <div class="container footer-shell">
-      <div>
-        <div class="brand-name">Turnkey<span>Web</span></div>
-        <p>Websites, landing pages, and SEO-ready growth pages for small businesses that want more calls, better leads, and a stronger first impression.</p>
+    </div>
+  </section>
+
+  <!-- ── WHAT MAKES IT WORK ── -->
+  <section class="section" style="position:relative;z-index:1;">
+    <div class="container">
+      <div class="section-heading" data-reveal>
+        <span class="eyebrow">What makes it work</span>
+        <h2>The work answers the trust question before the visitor even calls.</h2>
       </div>
-      <div class="footer-links">
-        <a href="./index.html">Home</a>
-        <a href="./work.html">Case Studies</a>
-        <a href="./index.html#process">How It Works</a>
-        <a href="./pricing.html">Pricing</a>
-        <a href="./privacy.html">Privacy</a>
-        <a href="./terms.html">Terms</a>
+      <div class="insight-grid">
+        <article class="insight-card glow-card" data-reveal>
+          <div class="insight-visual signal-bars">
+            <div class="signal-bar"><span>Visual polish</span><i style="--bar:88%"></i></div>
+            <div class="signal-bar"><span>Offer clarity</span><i style="--bar:85%"></i></div>
+            <div class="signal-bar"><span>Trust signals</span><i style="--bar:82%"></i></div>
+          </div>
+          <h3>First impressions happen in 50ms.</h3>
+          <p>Before a visitor reads a single word, they've already judged whether the business looks credible. Every design decision is made with that in mind.</p>
+        </article>
+        <article class="insight-card glow-card" data-reveal>
+          <div class="insight-visual before-after">
+            <div class="state-card"><span>Landing pages</span><strong>Fast, focused, direct</strong><small>Best for one offer and one clear action path.</small></div>
+            <div class="state-card state-card-good"><span>Full sites</span><strong>Deeper trust and structure</strong><small>Better when the business needs broader proof and multiple service pages.</small></div>
+          </div>
+          <h3>You'll see which build fits your business.</h3>
+          <p>The portfolio shows enough range to help you understand the difference between a focused landing page and a full service website — so the pricing conversation is easier.</p>
+        </article>
+        <article class="insight-card glow-card" data-reveal>
+          <div class="insight-visual expansion-ladder">
+            <span>Landing pages for campaigns and leads</span>
+            <span>Full sites for established presence</span>
+            <span>Refreshes for weak current sites</span>
+            <span class="active">Care plans after launch</span>
+          </div>
+          <h3>Every example supports the whole offer stack.</h3>
+          <p>From a single landing page to a full multi-page website — the portfolio shows real examples of each type so you can see exactly what you'd be getting before you commit.</p>
+        </article>
       </div>
     </div>
-  </footer>
+  </section>
 
-  <script src="./site.js"></script>
+  <!-- ── CLOSING CTA ── -->
+  <section class="section" style="padding-bottom:88px;position:relative;z-index:1;">
+    <div class="container" data-reveal>
+      <div class="closing-cta glow-card">
+        <div>
+          <span class="eyebrow">Convinced by the work?</span>
+          <h2>Ready to price your project?</h2>
+          <p>Answer 4 questions. Get your estimate in under 3 minutes. Choose your tier and lock it in — no sales call required.</p>
+        </div>
+        <a class="btn" href="./pricing.html#quote" style="background:var(--white);color:var(--purple-d);box-shadow:0 8px 32px rgba(0,0,0,.15);">Build your quote →</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <div class="container footer-shell">
+    <div class="footer-brand">
+      <img src="./assets/tkweb-logo.svg" alt="Turnkey Web" class="footer-logo">
+      <p>Modern websites, landing pages, and SEO-ready builds for small businesses that want more calls, better leads, and a stronger first impression.</p>
+    </div>
+    <div class="footer-links">
+      <a href="./index.html">Home</a>
+      <a href="./work.html">Case Studies</a>
+      <a href="./index.html#process">How It Works</a>
+      <a href="./pricing.html">Pricing</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Turnkey Web. All rights reserved.</span>
+    <span>Austin, Texas</span>
+  </div>
+</footer>
+
+<script src="./site.js"></script>
 </body>
 </html>
