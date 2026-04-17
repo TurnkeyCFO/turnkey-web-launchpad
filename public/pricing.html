@@ -7,13 +7,14 @@
 <meta name="description" content="Get an instant website quote for your small business. Choose from Launch ($1,000), Growth ($1,500), or Authority ($2,000). Transparent pricing, fast delivery.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css?v=5">
 <style>
 /* ── Pricing-page extras ── */
 .pricing-hero-grid{
-  display:grid;grid-template-columns:1fr 380px;
+  display:grid;grid-template-columns:1fr;
   gap:48px;align-items:center;
+  max-width:700px;
 }
 .tier-preview-strip{
   background:var(--white);border:1px solid var(--border);border-radius:20px;padding:28px;
@@ -48,7 +49,7 @@
 
 /* Improved dark section — gradient not just flat dark */
 .dark-value-band{
-  padding:80px 0;position:relative;z-index:1;
+  padding:56px 0;position:relative;z-index:1;
   background:linear-gradient(135deg,var(--purple-d) 0%,var(--dark-mid) 50%,var(--dark) 100%);
   overflow:hidden;
 }
@@ -134,10 +135,10 @@
 <header class="hero">
   <div class="container">
     <div class="pricing-hero-grid">
-      <div class="hero-copy" data-reveal>
+      <div class="hero-copy">
         <span class="eyebrow">Transparent pricing</span>
         <h1>Know what it costs.<br><span class="shimmer">Before you commit.</span></h1>
-        <p class="hero-text">Answer a few questions about your project and get a real estimate in under 3 minutes. Three clear tiers. No surprises. No sales call required.</p>
+        <p class="hero-text">Answer a few questions about your project and get a real estimate in under 3 minutes. No surprises. No sales call required.</p>
         <div class="hero-actions">
           <a class="btn" href="#quote">Build your quote →</a>
           <a class="btn-ghost" href="./work.html">See our work</a>
@@ -148,27 +149,7 @@
           <span class="trust-pill">Unlimited revisions</span>
         </div>
       </div>
-      <div data-reveal data-reveal-delay="120">
-        <div class="tier-preview-strip">
-          <span class="eyebrow">Three clear options</span>
-          <div class="tier-row">
-            <span class="tier-row-name">🚀 Launch</span>
-            <span class="tier-row-price">$1,000</span>
-          </div>
-          <div class="tier-row">
-            <span class="tier-row-name">📈 Growth</span>
-            <div style="display:flex;align-items:center;gap:8px;">
-              <span class="tier-row-badge">Popular</span>
-              <span class="tier-row-price">$1,500</span>
-            </div>
-          </div>
-          <div class="tier-row">
-            <span class="tier-row-name">👑 Authority</span>
-            <span class="tier-row-price">$2,000</span>
-          </div>
-          <p style="font-size:12px;color:var(--gray-lt);margin-top:14px;line-height:1.6;">Starting prices for a Business Website Build. Your custom range is calculated based on scope, goals, features, and timeline.</p>
-        </div>
-      </div>
+
     </div>
   </div>
 </header>
@@ -176,25 +157,25 @@
 <!-- ── VALUE BAND ── -->
 <div class="dark-value-band">
   <div class="container">
-    <div class="section-heading" style="max-width:560px;" data-reveal>
+    <div class="section-heading" style="max-width:560px;">
       <span class="eyebrow">Why this investment pays off</span>
       <h2>A website that works is your best salesperson.</h2>
       <p style="margin-top:12px;">It works 24/7. It never calls in sick. And unlike a paid ad, it keeps building trust and generating leads long after you launch.</p>
     </div>
     <div class="value-grid">
-      <div class="value-item" data-reveal data-reveal-delay="0">
+      <div class="value-item">
         <div class="value-icon">📞</div>
         <div class="value-stat">3x</div>
         <h3>More inbound calls</h3>
         <p>Businesses with a credible, well-structured website typically see 2–4x more inbound inquiries than those without one — or with a poor one.</p>
       </div>
-      <div class="value-item" data-reveal data-reveal-delay="80">
+      <div class="value-item">
         <div class="value-icon">🔍</div>
         <div class="value-stat">Top 3</div>
         <h3>Rank in local search</h3>
         <p>SEO-ready structure, proper meta tags, and local service pages give you a real shot at the top positions in Google for your area.</p>
       </div>
-      <div class="value-item" data-reveal data-reveal-delay="160">
+      <div class="value-item">
         <div class="value-icon">💰</div>
         <div class="value-stat">1 client</div>
         <h3>Pays for itself</h3>
@@ -207,10 +188,10 @@
 <!-- ── QUOTE BUILDER ── -->
 <section class="section" id="quote" style="position:relative;z-index:1;">
   <div class="container">
-    <div class="section-heading" data-reveal>
+    <div class="section-heading">
       <span class="eyebrow">Quote builder</span>
       <h2>Tell us what you need. We'll build your range.</h2>
-      <p class="section-copy">Fill out your project details, enter your email at the end, and press Complete estimate to reveal your three personalized quote options.</p>
+      <p class="section-copy">Fill out your project details, enter your email at the end, and press Get my quote to reveal your three personalized quote options.</p>
     </div>
 
     <div class="estimator-layout">
@@ -227,7 +208,32 @@
           <div class="field-group"><label>First name</label><input id="firstName" name="firstName" placeholder="Alex"></div>
           <div class="field-group"><label>Company</label><input id="company" name="company" placeholder="Your business name"></div>
           <div class="field-group"><label>Phone (optional)</label><input id="phone" name="phone" inputmode="tel" placeholder="512-000-0000"></div>
-          <div class="field-group"><label>Industry</label><input id="industry" name="industry" placeholder="Legal, contractor, advisory…"></div>
+          <div class="field-group">
+            <label>Industry</label>
+            <select id="industry" name="industry" onchange="handleIndustryChange(this)">
+              <option value="">Select your industry…</option>
+              <option value="Legal / Law Firm">Legal / Law Firm</option>
+              <option value="Home Services / Contractor">Home Services / Contractor</option>
+              <option value="Healthcare / Medical">Healthcare / Medical</option>
+              <option value="Real Estate">Real Estate</option>
+              <option value="Restaurant / Food &amp; Beverage">Restaurant / Food &amp; Beverage</option>
+              <option value="Fitness / Wellness">Fitness / Wellness</option>
+              <option value="Professional Services">Professional Services (Accounting, Consulting…)</option>
+              <option value="Retail / E-commerce">Retail / E-commerce</option>
+              <option value="Beauty / Salon / Spa">Beauty / Salon / Spa</option>
+              <option value="Financial Services">Financial Services / Wealth Management</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="field-group" id="other-industry-group" style="display:none;">
+            <label>Your industry</label>
+            <input id="otherIndustry" name="otherIndustry" placeholder="e.g., Architecture, Photography, Landscaping…">
+          </div>
+          <div class="field-group field-group-full">
+            <label>Existing website <span style="font-weight:400;color:var(--gray-lt);">(optional)</span></label>
+            <input id="existingWebsite" name="existingWebsite" type="url" inputmode="url" placeholder="https://yoursite.com">
+            <small class="field-help">We'll review your current site as part of our process.</small>
+          </div>
 
           <!-- PROJECT -->
           <div class="field-group">
@@ -317,40 +323,12 @@
         </div>
 
         <div class="form-actions">
-          <button class="btn" type="submit" id="estimate-submit" style="font-size:15px;padding:14px 36px;">Complete estimate →</button>
+          <button class="btn" type="submit" id="estimate-submit" style="font-size:15px;padding:14px 36px;">Get my quote →</button>
           <p class="form-status" id="estimate-form-status">Fill in your details above, then enter your email to unlock your personalized quote.</p>
         </div>
         <small class="form-promise">Quick version is fine — we can collect the rest after you see the estimate.</small>
       </form>
 
-      <!-- ── LIVE SIDEBAR ── -->
-      <aside class="estimate-card glow-card locked" id="estimate-result">
-        <div class="estimate-lock" id="estimate-lock">
-          <div class="eyebrow">Email required</div>
-          <h3>Fill in the form and enter your email to unlock your three custom quote options.</h3>
-          <p>The range calculates live as you choose options. Your full personalized quote unlocks when you submit.</p>
-        </div>
-        <div class="estimate-main">
-          <div class="eyebrow">Live estimate</div>
-          <h3 id="preview-package">Business Website Build</h3>
-          <div class="estimate-range-value" id="preview-range">$1,000 – $2,000</div>
-          <div class="estimate-badges">
-            <span class="mini-pill">Confidence <strong id="preview-confidence">HIGH</strong></span>
-            <span class="mini-pill" id="preview-monthly">One-time project</span>
-          </div>
-        </div>
-        <div class="estimate-metrics">
-          <article class="metric-mini"><span>Timeline</span><strong id="preview-timeline">30-60 days</strong></article>
-          <article class="metric-mini"><span>Pages</span><strong id="preview-pages">2-3</strong></article>
-          <article class="metric-mini"><span>Goals</span><strong id="preview-goals-count">2</strong></article>
-          <article class="metric-mini"><span>Features</span><strong id="preview-features-count">3</strong></article>
-        </div>
-        <div class="estimate-panel">
-          <div class="eyebrow">Possible add-ons</div>
-          <p id="preview-addons">SEO foundations included.</p>
-          <small id="preview-rationale">Business Website Build · up to 3 pages · standard features</small>
-        </div>
-      </aside>
     </div>
 
     <!-- ── OFFER REVEAL (tier modal) ── -->
@@ -364,12 +342,12 @@
           <div class="offer-letter-copy">
             <div class="eyebrow">Your personalized quote</div>
             <h3 id="result-package">Here's your custom quote.</h3>
-            <p id="result-rationale">Three options built around your goals and scope. Select the tier that fits, then email to lock it in.</p>
+            <p id="result-rationale">Three options built around your goals and scope. Select the tier that fits, then hit Submit — we'll take it from there.</p>
           </div>
           <div class="offer-letter-range">
             <span class="offer-letter-label">Your planning range</span>
             <div class="estimate-range-value" id="result-range">$1,000 – $2,000</div>
-            <span class="offer-letter-caption">Select a tier below and click the email button to get started.</span>
+            <span class="offer-letter-caption">Select a tier below, then press Submit to send your quote.</span>
           </div>
         </div>
 
@@ -390,10 +368,10 @@
             <p id="result-rationale-sub" style="font-size:12px;color:var(--gray-lt);margin-top:6px;"></p>
           </div>
           <div class="result-actions">
-            <a class="btn" id="result-onboarding-link" href="mailto:ricky@turnkeycfo.com" style="font-size:15px;padding:14px 32px;">
-              📧 Email to lock in your quote
-            </a>
-            <small id="result-lead-id">Select a tier above, then email to confirm.</small>
+            <button class="btn" id="result-submit-btn" type="button" disabled style="font-size:15px;padding:14px 36px;">
+              Submit
+            </button>
+            <small class="tier-required-note" id="result-lead-id">Select a tier above to submit your quote.</small>
           </div>
         </div>
 
@@ -405,27 +383,27 @@
 <!-- ── FAQ ── -->
 <section class="section" style="background:var(--white);position:relative;z-index:1;">
   <div class="container">
-    <div class="section-heading" data-reveal>
+    <div class="section-heading">
       <span class="eyebrow">Pricing FAQ</span>
       <h2>Questions people ask before getting started.</h2>
     </div>
     <div class="faq-grid">
-      <article class="faq-card glow-card" data-reveal>
+      <article class="faq-card glow-card">
         <h3>What's the difference between the three tiers?</h3>
         <p>Launch gets you live fast and clean. Growth adds more pages, proof, and conversion polish. Authority goes deepest — SEO pages, CRM integration, and unlimited revisions for 30 days.</p>
       </article>
-      <article class="faq-card glow-card" data-reveal>
+      <article class="faq-card glow-card">
         <h3>How fast will my site be built?</h3>
         <p>First draft within 7 days of receiving your brand questionnaire. Most projects complete in 2–3 weeks total, including revisions.</p>
       </article>
-      <article class="faq-card glow-card" data-reveal>
+      <article class="faq-card glow-card">
         <h3>Do you also help with SEO?</h3>
         <p>Yes. On-page SEO is included in all tiers. Local SEO page sets (3 service-area pages) are included in Authority, and available as an add-on for Launch and Growth.</p>
       </article>
     </div>
-    <div class="faq-accordion" data-reveal>
+    <div class="faq-accordion">
       <details class="faq-item">
-        <summary>What happens after I email to lock in my quote?</summary>
+        <summary>What happens after I submit my quote?</summary>
         <p>You'll receive a short brand questionnaire within one business day. Once returned with your assets, we start building — first draft in 7 days.</p>
       </details>
       <details class="faq-item">
@@ -434,14 +412,14 @@
       </details>
       <details class="faq-item">
         <summary>Can I start with Launch and upgrade later?</summary>
-        <p>Absolutely. Many businesses start with Launch to get live quickly, then upgrade to add more pages, SEO work, or integrations. We make it easy to expand.</p>
+                <p>Absolutely. Many businesses start with Launch to get live quickly, then upgrade to add more pages, SEO work, or integrations. We make it easy to expand.</p>
       </details>
       <details class="faq-item">
         <summary>Can you refresh my current site instead of rebuilding?</summary>
         <p>Yes — the Website Refresh option is built for exactly that. If your site has a solid foundation, a refresh is often the smarter and faster move.</p>
       </details>
     </div>
-    <div class="closing-cta glow-card" data-reveal>
+    <div class="closing-cta glow-card">
       <div>
         <span class="eyebrow">Prefer to see the work first?</span>
         <h2>Check out the case studies.</h2>
@@ -472,6 +450,7 @@
   </div>
 </footer>
 
-<script src="./site.js"></script>
+<script src="./site.js?v=5"></script>
 </body>
 </html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
