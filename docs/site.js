@@ -453,7 +453,7 @@ function openOfferExperience(){
   successPanel.classList.remove("hidden");
   successPanel.setAttribute("aria-hidden","false");
   document.body.style.overflow="hidden";
-  requestAnimationFrame(()=>{
+  setTimeout(()=>{
     successPanel.classList.add("is-visible");
     offerDialog?.focus();
     /* Animate the shell in */
@@ -466,7 +466,7 @@ function openOfferExperience(){
         card.classList.add("tier-visible");
       });
     }, 200);
-  });
+  }, 0);
 }
 function closeOfferExperience(){
   if(!successPanel) return;
