@@ -149,17 +149,10 @@ p{line-height:1.72;}
   position:fixed;inset:0;z-index:0;pointer-events:none;
   background:var(--bg);overflow:hidden;
 }
-/* Brand energy image — right side only, subtle */
-.energy-bg::after{
-  content:'';position:absolute;top:0;right:0;
-  width:60%;height:100%;
-  background:url('./assets/energy-bg.png') right center / cover no-repeat;
-  opacity:.07;
-  pointer-events:none;
-}
+/* Brand energy image disabled on main bg — used only as accent elsewhere */
 .energy-svg{
   position:absolute;top:0;right:0;
-  width:80%;height:100%;opacity:.18;
+  width:80%;height:100%;opacity:.12;
 }
 .energy-path-1{
   fill:none;stroke:var(--purple-d);stroke-width:1.4;stroke-opacity:.22;
