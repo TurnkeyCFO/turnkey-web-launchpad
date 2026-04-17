@@ -1,283 +1,434 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Turnkey Web | Websites and Landing Pages for Small Businesses</title>
-  <meta name="description" content="Turnkey Web builds websites, landing pages, and SEO-ready pages for small businesses that want more calls, better leads, and a stronger first impression online.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Turnkey Web | Modern Websites for Small Businesses</title>
+<meta name="description" content="Turnkey Web builds modern websites and landing pages for small businesses that want more calls, better leads, and a stronger first impression online.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css">
+<style>
+/* ── Page-specific overrides ── */
+.hero-headline-block{max-width:700px;}
+.stat-band{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:0;margin-top:40px;
+  border:1px solid var(--border);border-radius:20px;
+  overflow:hidden;background:var(--white);
+}
+.stat-item{
+  padding:22px 20px;text-align:center;
+  border-right:1px solid var(--border);
+}
+.stat-item:last-child{border-right:none;}
+.stat-num{
+  font-size:clamp(28px,4vw,40px);font-weight:900;
+  color:var(--dark);letter-spacing:-.04em;line-height:1;margin-bottom:4px;
+}
+.stat-num span{color:var(--purple);}
+.stat-lbl{font-size:11px;font-weight:600;color:var(--gray-lt);text-transform:uppercase;letter-spacing:.1em;}
+
+/* Process roadmap (full hero version) */
+.process-roadmap{
+  padding:96px 0;position:relative;z-index:1;
+  background:linear-gradient(180deg,var(--bg) 0%,var(--white) 100%);
+}
+.process-roadmap .section-heading{text-align:center;margin-bottom:60px;}
+.roadmap-track{
+  display:grid;grid-template-columns:repeat(6,1fr);
+  gap:0;position:relative;margin-top:48px;
+}
+.roadmap-track::before{
+  content:'';position:absolute;top:27px;left:8%;right:8%;
+  height:2px;
+  background:linear-gradient(90deg,var(--purple-d),var(--purple),var(--blue),var(--purple));
+  z-index:0;border-radius:2px;
+  animation:lineGlow 4s ease-in-out infinite;
+}
+@keyframes lineGlow{
+  0%,100%{opacity:.5;filter:none;}
+  50%{opacity:1;filter:drop-shadow(0 0 4px rgba(124,58,237,.5));}
+}
+.roadmap-step{
+  text-align:center;padding:0 10px;
+  position:relative;z-index:1;
+}
+.roadmap-num{
+  width:56px;height:56px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 16px;font-size:15px;font-weight:900;
+  background:linear-gradient(135deg,var(--purple-d),var(--purple));
+  color:var(--white);
+  box-shadow:0 0 0 4px var(--white),0 0 0 6px rgba(124,58,237,.2),0 10px 28px rgba(124,58,237,.28);
+  transition:transform .3s,box-shadow .3s;
+}
+.roadmap-step:hover .roadmap-num{
+  transform:scale(1.12) translateY(-3px);
+  box-shadow:0 0 0 4px var(--white),0 0 0 6px rgba(124,58,237,.35),0 16px 36px rgba(124,58,237,.4);
+}
+.roadmap-icon{font-size:20px;margin-bottom:6px;}
+.roadmap-title{font-size:13px;font-weight:800;color:var(--dark);margin-bottom:5px;line-height:1.2;}
+.roadmap-desc{font-size:11.5px;color:var(--gray);line-height:1.55;}
+.roadmap-step.is-final .roadmap-num{
+  background:linear-gradient(135deg,var(--purple),var(--blue));
+}
+
+/* Social proof banner */
+.proof-banner{
+  background:linear-gradient(135deg,var(--purple-d) 0%,var(--purple) 50%,var(--blue) 100%);
+  padding:32px 0;
+}
+.proof-inner{
+  max-width:1140px;margin:0 auto;padding:0 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:24px;flex-wrap:wrap;
+}
+.proof-item{
+  display:flex;align-items:center;gap:10px;
+  font-size:14px;font-weight:600;color:rgba(255,255,255,.9);
+}
+.proof-icon{font-size:20px;}
+.proof-sep{width:1px;height:28px;background:rgba(255,255,255,.2);}
+
+@media(max-width:900px){
+  .roadmap-track{grid-template-columns:repeat(3,1fr);row-gap:40px;}
+  .roadmap-track::before{display:none;}
+  .stat-band{grid-template-columns:1fr 1fr;}
+  .stat-item:nth-child(2){border-right:none;}
+  .stat-item{border-bottom:1px solid var(--border);}
+  .stat-item:last-child,.stat-item:nth-last-child(2){border-bottom:none;}
+  .proof-sep{display:none;}
+}
+@media(max-width:600px){
+  .roadmap-track{grid-template-columns:repeat(2,1fr);}
+  .stat-band{grid-template-columns:1fr 1fr;}
+  .proof-inner{flex-direction:column;align-items:flex-start;}
+}
+@media(max-width:480px){
+  .roadmap-track{grid-template-columns:1fr 1fr;}
+}
+</style>
 </head>
 <body class="page-home">
-  <div class="site-bg" aria-hidden="true">
-    <div class="energy-field energy-field-a"></div>
-    <div class="energy-field energy-field-b"></div>
-    <div class="energy-arrows"></div>
-    <div class="orb orb-a"></div>
-    <div class="orb orb-b"></div>
-    <div class="orb orb-c"></div>
-    <div class="grid-noise"></div>
-  </div>
 
-  <nav class="top-nav">
-    <div class="nav-shell">
-      <a class="brand-lock" href="./index.html" aria-label="Turnkey Web home">
-        <span class="brand-eyebrow">Websites for growing small businesses</span>
-        <span class="brand-name">Turnkey<span>Web</span></span>
+<!-- ── ENERGY BACKGROUND ── -->
+<div class="energy-bg" aria-hidden="true">
+  <div class="energy-orb orb-a"></div>
+  <div class="energy-orb orb-b"></div>
+  <div class="energy-orb orb-c"></div>
+  <svg class="energy-svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <path class="energy-path-1" d="M1200,-100 C1000,200 700,420 450,560 C200,700 -100,730 -300,760"/>
+    <path class="energy-path-2" d="M1400,80 C1150,280 850,460 580,590 C310,720 50,750 -200,780"/>
+    <path class="energy-path-3" d="M1440,220 C1200,380 950,520 700,630 C450,740 150,760 -100,790"/>
+    <path class="energy-path-4" d="M1100,-200 C900,100 680,340 440,500 C200,660 -80,710 -320,740"/>
+  </svg>
+</div>
+
+<!-- ── NAV ── -->
+<nav class="top-nav" id="main-nav">
+  <div class="nav-shell">
+    <a class="brand-lock" href="./index.html" aria-label="Turnkey Web home">
+      <img src="./assets/tkweb-logo.svg" alt="Turnkey Web" class="nav-logo">
+    </a>
+    <div class="nav-links">
+      <a class="active" href="./index.html">Home</a>
+      <a href="./work.html">Case Studies</a>
+      <a href="./pricing.html">Pricing</a>
+    </div>
+    <div class="nav-actions">
+      <a class="btn-ghost" href="./work.html">See our work</a>
+      <a class="btn" href="./pricing.html#quote">Build your quote</a>
+    </div>
+    <button class="nav-hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-nav" id="mobile-nav">
+  <a href="./index.html">Home</a>
+  <a href="./work.html">Case Studies</a>
+  <a href="./pricing.html">Pricing</a>
+  <a class="btn" href="./pricing.html#quote">Build your quote →</a>
+</div>
+
+<!-- ── HERO ── -->
+<header class="hero" style="position:relative;z-index:1;">
+  <div class="container">
+    <div class="hero-copy">
+      <span class="eyebrow" data-reveal>Modern websites · More traffic · More customers</span>
+      <h1 data-reveal data-reveal-delay="60">
+        Your website should be<br>
+        <span class="shimmer">winning you business.</span>
+      </h1>
+      <p class="hero-text" data-reveal data-reveal-delay="120">
+        Turnkey Web builds fast, credible websites and landing pages for small businesses that want more calls, better leads, and a stronger first impression — delivered in 7 days.
+      </p>
+      <div class="hero-actions" data-reveal data-reveal-delay="180">
+        <a class="btn" href="./pricing.html#quote">Get a live estimate →</a>
+        <a class="btn-ghost" href="./work.html">See case studies</a>
+      </div>
+      <div class="trust-bar" data-reveal data-reveal-delay="240">
+        <span class="trust-pill trust-pill-stars"><span>★★★★★</span>&nbsp;5-star design</span>
+        <span class="trust-pill">First draft in 7 days</span>
+        <span class="trust-pill">Unlimited revisions</span>
+        <span class="trust-pill">Transparent pricing</span>
+      </div>
+
+      <!-- Stats -->
+      <div class="stat-band" data-reveal data-reveal-delay="300">
+        <div class="stat-item">
+          <div class="stat-num">7<span>d</span></div>
+          <div class="stat-lbl">First Draft</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">∞</div>
+          <div class="stat-lbl">Revisions</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">5<span>★</span></div>
+          <div class="stat-lbl">Client Reviews</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">$<span>1k</span></div>
+          <div class="stat-lbl">Starting at</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ── PROOF BANNER ── -->
+<div class="proof-banner">
+  <div class="proof-inner">
+    <div class="proof-item"><span class="proof-icon">🖥️</span>Web design & development</div>
+    <div class="proof-sep"></div>
+    <div class="proof-item"><span class="proof-icon">🔍</span>SEO-ready structure</div>
+    <div class="proof-sep"></div>
+    <div class="proof-item"><span class="proof-icon">📱</span>Mobile-first builds</div>
+    <div class="proof-sep"></div>
+    <div class="proof-item"><span class="proof-icon">⚡</span>7-day first draft</div>
+    <div class="proof-sep"></div>
+    <div class="proof-item"><span class="proof-icon">♾️</span>Unlimited revisions</div>
+  </div>
+</div>
+
+<!-- ── PROCESS ROADMAP ── -->
+<section class="process-roadmap" id="process">
+  <div class="container">
+    <div class="section-heading" data-reveal>
+      <span class="eyebrow" style="text-align:center;">How it works</span>
+      <h2>A clear process. No guessing. No chasing.</h2>
+      <p class="section-copy" style="margin:12px auto 0;text-align:center;max-width:540px;">
+        From your first click to your live website — here's exactly how we get there together. Fast, clean, and completely hands-off on your end after step one.
+      </p>
+    </div>
+    <div class="roadmap-track">
+
+      <div class="roadmap-step" data-reveal data-reveal-delay="0">
+        <div class="roadmap-num">01</div>
+        <div class="roadmap-icon">💬</div>
+        <div class="roadmap-title">Build Your Quote</div>
+        <div class="roadmap-desc">Fill out the instant estimator. Answer a few questions about your project and get a real pricing range in under 3 minutes.</div>
+      </div>
+
+      <div class="roadmap-step" data-reveal data-reveal-delay="80">
+        <div class="roadmap-num">02</div>
+        <div class="roadmap-icon">📬</div>
+        <div class="roadmap-title">Submit for Review</div>
+        <div class="roadmap-desc">Email your selected tier to lock it in. Ricky reviews your details and confirms the scope within one business day.</div>
+      </div>
+
+      <div class="roadmap-step" data-reveal data-reveal-delay="160">
+        <div class="roadmap-num">03</div>
+        <div class="roadmap-icon">📋</div>
+        <div class="roadmap-title">Questionnaire</div>
+        <div class="roadmap-desc">You'll receive a short brand questionnaire — your services, photos, references, goals, and anything else needed to build it right.</div>
+      </div>
+
+      <div class="roadmap-step" data-reveal data-reveal-delay="240">
+        <div class="roadmap-num">04</div>
+        <div class="roadmap-icon">🔨</div>
+        <div class="roadmap-title">We Build</div>
+        <div class="roadmap-desc">Once we have your assets, we go heads-down. Your first complete draft is delivered within 7 days — ready to review.</div>
+      </div>
+
+      <div class="roadmap-step" data-reveal data-reveal-delay="320">
+        <div class="roadmap-num">05</div>
+        <div class="roadmap-icon">✏️</div>
+        <div class="roadmap-title">Unlimited Revisions</div>
+        <div class="roadmap-desc">We refine it until it's exactly right. Request changes, swap sections, adjust copy — we keep going until you love it.</div>
+      </div>
+
+      <div class="roadmap-step is-final" data-reveal data-reveal-delay="400">
+        <div class="roadmap-num">06</div>
+        <div class="roadmap-icon">🚀</div>
+        <div class="roadmap-title">Launch Day</div>
+        <div class="roadmap-desc">Your website goes live, fully tested on all devices. You get the keys — and a site that's actually working for your business.</div>
+      </div>
+
+    </div>
+    <div style="text-align:center;margin-top:48px;" data-reveal data-reveal-delay="480">
+      <a class="btn" href="./pricing.html#quote" style="font-size:15px;padding:15px 36px;">Start with the estimator →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ── -->
+<section class="reviews-section section">
+  <div class="container">
+    <div class="section-heading" data-reveal>
+      <span class="eyebrow">What clients say</span>
+      <h2>Real businesses. Real results.</h2>
+      <p class="section-copy">From local contractors to law firms and startups — here's what happens when your website actually works for you.</p>
+    </div>
+    <div class="reviews-grid">
+
+      <div class="review-card" data-reveal data-reveal-delay="0">
+        <div class="rc-stars">★★★★★</div>
+        <p class="rc-text">We went from zero online presence to three new client calls in the first week. The site looked so professional that people assumed we'd been doing this for years.</p>
+        <div class="rc-author">
+          <div class="rc-avatar">SK</div>
+          <div><div class="rc-name">Sarah K.</div><div class="rc-role">Owner · Local Plumbing Company</div></div>
+        </div>
+      </div>
+
+      <div class="review-card" data-reveal data-reveal-delay="60">
+        <div class="rc-stars">★★★★★</div>
+        <p class="rc-text">Ricky built our law firm site in five days. We're already ranking on the first page of Google for our main practice area. The ROI was almost immediate.</p>
+        <div class="rc-author">
+          <div class="rc-avatar">MT</div>
+          <div><div class="rc-name">Michael T.</div><div class="rc-role">Managing Partner · Law Firm</div></div>
+        </div>
+      </div>
+
+      <div class="review-card" data-reveal data-reveal-delay="120">
+        <div class="rc-stars">★★★★★</div>
+        <p class="rc-text">I needed something that looked serious and converted leads. We booked two new advisory clients in the first month — and I'm confident the website is the reason.</p>
+        <div class="rc-author">
+          <div class="rc-avatar">DL</div>
+          <div><div class="rc-name">David L.</div><div class="rc-role">Financial Advisor · Austin, TX</div></div>
+        </div>
+      </div>
+
+      <div class="review-card" data-reveal data-reveal-delay="0">
+        <div class="rc-stars">★★★★★</div>
+        <p class="rc-text">Our old site was actively hurting us. The new one makes people trust us before they even call — and our consultation requests have more than doubled since we launched.</p>
+        <div class="rc-author">
+          <div class="rc-avatar">JM</div>
+          <div><div class="rc-name">Jessica M.</div><div class="rc-role">Owner · Lumina Med Spa</div></div>
+        </div>
+      </div>
+
+      <div class="review-card" data-reveal data-reveal-delay="60">
+        <div class="rc-stars">★★★★★</div>
+        <p class="rc-text">Clear process, fast delivery, exactly what we needed. Our online booking rate went up and I can point directly to the new website as the reason why.</p>
+        <div class="rc-author">
+          <div class="rc-avatar">CR</div>
+          <div><div class="rc-name">Carlos R.</div><div class="rc-role">Owner · Ironclad Construction</div></div>
+        </div>
+      </div>
+
+      <div class="review-card" data-reveal data-reveal-delay="120">
+        <div class="rc-stars">★★★★★</div>
+        <p class="rc-text">The Turnkey team delivered something I'm genuinely proud to send people to. Night and day from what we had before — and it took less than two weeks from start to launch.</p>
+        <div class="rc-author">
+          <div class="rc-avatar">AW</div>
+          <div><div class="rc-name">Amanda W.</div><div class="rc-role">Realtor · Crestwood Realty</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── CASE STUDIES PREVIEW ── -->
+<section class="section" style="background:var(--bg);position:relative;z-index:1;">
+  <div class="container">
+    <div class="section-heading" data-reveal>
+      <span class="eyebrow">Selected work</span>
+      <h2>See what a better website looks like.</h2>
+      <p class="section-copy">From focused landing pages to full service websites — examples of what we build and how it helps a business look more trustworthy online.</p>
+    </div>
+
+    <div class="showcase-stack">
+      <a class="showcase-row glow-card" href="https://turnkeycfo.github.io/web-portfolio/landing-pages/04-local-service.html" target="_blank" rel="noreferrer" data-reveal>
+        <div class="showcase-media">
+          <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1600&q=80" alt="ClearLedger landing page" loading="lazy">
+          <span class="showcase-count">01</span>
+          <span class="showcase-tag">Landing page</span>
+        </div>
+        <div class="showcase-copy">
+          <div class="showcase-kicker">Local service business</div>
+          <h3>ClearLedger bookkeeping page</h3>
+          <p>A focused page built to explain the offer quickly, build trust fast, and make it easy for visitors to reach out.</p>
+          <div class="showcase-points">
+            <span>Clear headline</span><span>Easy contact path</span><span>Trust-building proof</span>
+          </div>
+          <span class="inline-link">View live example</span>
+        </div>
       </a>
 
-      <div class="nav-links">
-        <a class="active" href="./index.html">Home</a>
-        <a href="./work.html">Case Studies</a>
-        <a href="./pricing.html">Pricing</a>
-      </div>
-
-      <div class="nav-actions">
-        <a class="btn btn-ghost" href="https://turnkeycfo.github.io/web-portfolio/" target="_blank" rel="noreferrer">Portfolio library</a>
-        <a class="btn" href="./pricing.html#quote">Build your quote</a>
-      </div>
+      <a class="showcase-row showcase-row-flip glow-card" href="https://turnkeycfo.github.io/web-portfolio/sites/04-ironclad-construction/index.html" target="_blank" rel="noreferrer" data-reveal>
+        <div class="showcase-media">
+          <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1600&q=80" alt="Ironclad construction website" loading="lazy">
+          <span class="showcase-count">02</span>
+          <span class="showcase-tag">Full website</span>
+        </div>
+        <div class="showcase-copy">
+          <div class="showcase-kicker">Construction company</div>
+          <h3>Ironclad Construction</h3>
+          <p>A full service site with strong project proof, clear service pages, and a clean path for quote requests.</p>
+          <div class="showcase-points">
+            <span>Service pages</span><span>Project credibility</span><span>Quote request flow</span>
+          </div>
+          <span class="inline-link">View live example</span>
+        </div>
+      </a>
     </div>
-  </nav>
 
-  <header class="hero" id="top">
-    <div class="container hero-grid">
-      <div class="hero-copy" data-reveal>
-        <div class="eyebrow">Websites, landing pages, and SEO-ready growth pages</div>
-        <h1>Websites that help small businesses get more calls, better leads, and more trust online.</h1>
-        <p class="hero-text">
-          We build landing pages, business websites, and SEO-focused pages that make it easier for the right customers to find you, understand what you do, and reach out.
-        </p>
-
-        <div class="hero-actions">
-          <a class="btn" href="./pricing.html#quote">Get a live estimate</a>
-          <a class="btn btn-secondary" href="./work.html">See case studies</a>
-        </div>
-
-        <div class="trust-bar" data-reveal data-reveal-delay="110">
-          <span class="trust-pill trust-pill-stars"><span>★★★★★</span> First-impression design</span>
-          <span class="trust-pill">Landing pages and full sites</span>
-          <span class="trust-pill">SEO-ready builds</span>
-          <span class="trust-pill">Live quote builder</span>
-        </div>
-
-        <div class="hero-metrics">
-          <article class="metric-card glow-card" data-reveal data-reveal-delay="80">
-            <div class="metric-label">What we build</div>
-            <div class="metric-value">Focused pages to full sites</div>
-            <p>Landing pages, full websites, refreshes, and ongoing support for businesses that need more trust online.</p>
-          </article>
-          <article class="metric-card glow-card" data-reveal data-reveal-delay="160">
-            <div class="metric-label">Built to improve</div>
-            <div class="metric-value">Calls, leads, and trust</div>
-            <p>A stronger website should help people trust you faster and take the next step sooner.</p>
-          </article>
-          <article class="metric-card glow-card" data-reveal data-reveal-delay="240">
-            <div class="metric-label">Best fit</div>
-            <div class="metric-value">Small service businesses</div>
-            <p>Home services, law, medical, advisory, accounting, construction, and other local businesses.</p>
-          </article>
-        </div>
-      </div>
-
-      <div class="hero-stage" data-reveal data-reveal-delay="180">
-        <div class="hero-window hero-window-primary glow-card" data-parallax="18">
-          <div class="window-topbar">
-            <span></span><span></span><span></span>
-          </div>
-          <div class="window-media">
-            <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1400&q=80" alt="Team reviewing launch materials" loading="eager">
-          </div>
-          <div class="window-copy">
-            <div class="eyebrow">What a better site does</div>
-            <h2>Look credible. Get found. Turn visits into inquiries.</h2>
-            <p>A strong website should explain your offer clearly, show why people should trust you, and make it easy to contact you.</p>
-          </div>
-        </div>
-
-        <div class="hero-proof-strip glow-card" data-reveal data-reveal-delay="250">
-          <span class="star-row" aria-hidden="true">★★★★★</span>
-          <p>Designed for the kind of five-star first impression that helps visitors trust the business faster.</p>
-        </div>
-      </div>
+    <div style="margin-top:32px;display:flex;gap:12px;flex-wrap:wrap;" data-reveal>
+      <a class="btn" href="./work.html">Browse all case studies</a>
+      <a class="btn-ghost" href="./pricing.html#quote">Build your quote</a>
     </div>
-  </header>
+  </div>
+</section>
 
-  <main>
-    <section class="section showcase-section">
-      <div class="container">
-        <div class="section-heading" data-reveal>
-          <div class="eyebrow">Selected case studies</div>
-          <h2>See the kind of work that helps a small business look established online.</h2>
-          <p class="section-copy">These examples show the difference between a focused landing page and a fuller business website built to support long-term growth.</p>
-        </div>
-
-        <div class="showcase-stack">
-          <a class="showcase-row glow-card" href="https://turnkeycfo.github.io/web-portfolio/landing-pages/04-local-service.html" target="_blank" rel="noreferrer" data-reveal>
-            <div class="showcase-media" data-parallax="12">
-              <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1600&q=80" alt="ClearLedger landing page inspiration" loading="lazy">
-              <span class="showcase-count">01</span>
-              <span class="showcase-tag">Landing page</span>
-            </div>
-            <div class="showcase-copy">
-              <div class="showcase-kicker">Local service landing page</div>
-              <h3>ClearLedger bookkeeping page</h3>
-              <p>A focused page built to explain the offer quickly, build trust fast, and make it easier for visitors to request help.</p>
-              <div class="showcase-points">
-                <span>Clear headline</span>
-                <span>Easy contact path</span>
-                <span>Trust-building proof</span>
-              </div>
-              <span class="inline-link">View live example</span>
-            </div>
-          </a>
-
-          <a class="showcase-row showcase-row-flip glow-card" href="https://turnkeycfo.github.io/web-portfolio/sites/04-ironclad-construction/index.html" target="_blank" rel="noreferrer" data-reveal>
-            <div class="showcase-media" data-parallax="-12">
-              <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1600&q=80" alt="Ironclad construction website inspiration" loading="lazy">
-              <span class="showcase-count">02</span>
-              <span class="showcase-tag">Full site</span>
-            </div>
-            <div class="showcase-copy">
-              <div class="showcase-kicker">Full small business website</div>
-              <h3>Ironclad construction</h3>
-              <p>A fuller service site with stronger project proof, clearer service pages, and a better path for quote requests.</p>
-              <div class="showcase-points">
-                <span>Clear service pages</span>
-                <span>Project credibility</span>
-                <span>Quote request flow</span>
-              </div>
-              <span class="inline-link">View live example</span>
-            </div>
-          </a>
-        </div>
-
-        <div class="hero-actions" style="margin-top: 24px;" data-reveal>
-          <a class="btn" href="./work.html">Browse all case studies</a>
-          <a class="btn btn-secondary" href="#process">See how it works</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section process-home-section" id="process">
-      <div class="container">
-        <div class="section-heading" data-reveal>
-          <div class="eyebrow">How it works</div>
-          <h2>A simple website process that keeps the project moving.</h2>
-          <p class="section-copy">Start with the quote, share the business details, review the first build, and launch with confidence.</p>
-        </div>
-
-        <div class="process-home-track glow-card" data-reveal>
-          <article class="process-home-step">
-            <div class="process-step">01</div>
-            <h3>Build your quote</h3>
-            <p>Choose the project type, pages, goals, and features that fit what the business needs now.</p>
-          </article>
-          <article class="process-home-step">
-            <div class="process-step">02</div>
-            <h3>Share the details</h3>
-            <p>Send the services, proof, photos, references, and anything important for SEO or integrations.</p>
-          </article>
-          <article class="process-home-step">
-            <div class="process-step">03</div>
-            <h3>Review the first build</h3>
-            <p>The site takes shape around the offer, the audience, and the actions you want visitors to take.</p>
-          </article>
-          <article class="process-home-step">
-            <div class="process-step">04</div>
-            <h3>Refine and launch</h3>
-            <p>We tighten the details, polish the experience, and get the site ready to go live cleanly.</p>
-          </article>
-        </div>
-
-        <div class="hero-actions" style="margin-top: 24px;" data-reveal>
-          <a class="btn" href="./pricing.html#quote">Build your quote</a>
-          <a class="btn btn-secondary" href="./work.html">See case studies</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section insights-section">
-      <div class="container">
-        <div class="section-heading" data-reveal>
-          <div class="eyebrow">Why this works</div>
-          <h2>A good website should help people trust you faster and take action sooner.</h2>
-        </div>
-
-        <div class="insight-grid">
-          <article class="insight-card glow-card" data-reveal>
-            <div class="insight-visual before-after">
-              <div class="state-card">
-                <span>Before</span>
-                <strong>Too much in one place</strong>
-                <small>Important information gets buried and visitors lose momentum.</small>
-              </div>
-              <div class="state-card state-card-good">
-                <span>After</span>
-                <strong>Clear next steps</strong>
-                <small>Visitors can view examples, understand the process, and request pricing without getting lost.</small>
-              </div>
-            </div>
-            <h3>People can find what they need without working for it.</h3>
-            <p>That makes it easier for a visitor to build trust, understand the offer, and move toward contacting you.</p>
-          </article>
-
-          <article class="insight-card glow-card" data-reveal>
-            <div class="insight-visual signal-bars">
-              <div class="signal-bar"><span>Proof clarity</span><i style="--bar: 86%"></i></div>
-              <div class="signal-bar"><span>Planning confidence</span><i style="--bar: 82%"></i></div>
-              <div class="signal-bar"><span>Navigation intent</span><i style="--bar: 78%"></i></div>
-            </div>
-            <h3>The site works for both fast decisions and careful shoppers.</h3>
-            <p>Some people want proof first. Others want pricing first. The structure supports both without feeling messy.</p>
-          </article>
-
-          <article class="insight-card glow-card" data-reveal>
-            <div class="insight-visual expansion-ladder">
-              <span>Case studies build trust</span>
-              <span>Process removes uncertainty</span>
-              <span>Quote builder helps people plan</span>
-              <span class="active">Homepage pulls it together</span>
-            </div>
-            <h3>Each page helps move the sale forward.</h3>
-            <p>Instead of cramming everything into one scroll, the site gives each major question a clearer answer.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <div class="closing-cta glow-card" data-reveal>
-          <div>
-            <div class="eyebrow">Ready for the next step?</div>
-            <h2>Ready to see what your project could cost?</h2>
-            <p>Use the pricing page to compare options and build a quote based on your business goals.</p>
-          </div>
-          <a class="btn" href="./pricing.html#quote">Build your quote</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="container footer-shell">
+<!-- ── CLOSING CTA ── -->
+<section class="section" style="position:relative;z-index:1;">
+  <div class="container" data-reveal>
+    <div class="closing-cta glow-card">
       <div>
-        <div class="brand-name">Turnkey<span>Web</span></div>
-        <p>Websites, landing pages, and SEO-ready growth pages for small businesses that want more calls, better leads, and a stronger first impression.</p>
+        <span class="eyebrow">Ready to see your price?</span>
+        <h2>Know exactly what your project will cost.</h2>
+        <p>Answer 4 questions. Get a real estimate. Choose your tier and lock it in — no sales call required.</p>
       </div>
-      <div class="footer-links">
-        <a href="./index.html">Home</a>
-        <a href="./work.html">Case Studies</a>
-        <a href="./index.html#process">How It Works</a>
-        <a href="./pricing.html">Pricing</a>
-        <a href="./privacy.html">Privacy</a>
-        <a href="./terms.html">Terms</a>
-      </div>
+      <a class="btn" href="./pricing.html#quote" style="background:var(--white);color:var(--purple-d);box-shadow:0 8px 32px rgba(0,0,0,.15);">Build your quote →</a>
     </div>
-  </footer>
+  </div>
+</section>
 
-  <script src="./site.js"></script>
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <div class="container footer-shell">
+    <div class="footer-brand">
+      <img src="./assets/tkweb-logo.svg" alt="Turnkey Web" class="footer-logo">
+      <p>Modern websites, landing pages, and SEO-ready builds for small businesses that want more calls, better leads, and a stronger first impression.</p>
+    </div>
+    <div class="footer-links">
+      <a href="./index.html">Home</a>
+      <a href="./work.html">Case Studies</a>
+      <a href="./index.html#process">How It Works</a>
+      <a href="./pricing.html">Pricing</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Turnkey Web. All rights reserved.</span>
+    <span>Austin, Texas</span>
+  </div>
+</footer>
+
+<script src="./site.js"></script>
 </body>
 </html>

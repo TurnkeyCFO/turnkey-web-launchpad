@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 72" role="img" aria-label="Turnkey Web">
+  <defs>
+    <!-- K gradient: dark slate-blue → light periwinkle blue (matches actual logo) -->
+    <linearGradient id="kGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#3B5EA6"/>
+      <stop offset="55%"  stop-color="#6B9FE8"/>
+      <stop offset="100%" stop-color="#A8C8F8"/>
+    </linearGradient>
+    <!-- WEB wordmark: medium blue -->
+    <linearGradient id="webGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#4A80D4"/>
+      <stop offset="100%" stop-color="#7BB0F0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- T mark: horizontal bar + vertical stem (dark navy) -->
+  <rect x="2"  y="6"  width="50" height="12" rx="2.5" fill="#1E2D40"/>
+  <rect x="19" y="6"  width="16" height="60" rx="2.5" fill="#1E2D40"/>
+
+  <!-- K mark: chevron/arrow style, blue gradient -->
+  <!-- Upper blade -->
+  <polygon points="36,19 68,6 68,20 36,36" fill="url(#kGrad)"/>
+  <!-- Lower blade -->
+  <polygon points="36,36 68,52 68,66 36,53" fill="url(#kGrad)"/>
+
+  <!-- Wordmark: TURNKEY (dark gray, wide tracking) -->
+  <text
+    x="84" y="33"
+    font-family="'Exo 2', 'Segoe UI', Arial, sans-serif"
+    font-size="14"
+    font-weight="600"
+    fill="#4A5568"
+    letter-spacing="3.5"
+  >TURNKEY</text>
+
+  <!-- Wordmark: WEB (blue, bold) -->
+  <text
+    x="83" y="57"
+    font-family="'Exo 2', 'Segoe UI', Arial, sans-serif"
+    font-size="22"
+    font-weight="700"
+    fill="url(#webGrad)"
+    letter-spacing="1"
+  >WEB</text>
+</svg>

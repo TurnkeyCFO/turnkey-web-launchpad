@@ -1,337 +1,373 @@
+/* ═══════════════════════════════════════════════════
+   TURNKEY WEB — site.js
+   Pricing: $1k / $1.5k / $2k spread
+   Tiers: Launch / Growth / Authority (fully differentiated)
+   Tier selection tracked + included in mailto
+   ═══════════════════════════════════════════════════ */
+
+/* ── PRICING MATRIX ── */
 const packageMatrix = {
-  "landing-page-sprint": { base: 500, band: 300, monthlyLow: 0, monthlyHigh: 0 },
-  "business-website-build": { base: 1000, band: 400, monthlyLow: 0, monthlyHigh: 0 },
-  "website-refresh": { base: 500, band: 300, monthlyLow: 0, monthlyHigh: 0 },
-  "website-care-plan": { base: 100, band: 150, monthlyLow: 100, monthlyHigh: 250 }
+  "landing-page-sprint":    { base: 700,  band: 700,  monthlyLow: 0,   monthlyHigh: 0   },
+  "business-website-build": { base: 1000, band: 1000, monthlyLow: 0,   monthlyHigh: 0   },
+  "website-refresh":        { base: 600,  band: 600,  monthlyLow: 0,   monthlyHigh: 0   },
+  "website-care-plan":      { base: 150,  band: 350,  monthlyLow: 150, monthlyHigh: 500 }
 };
 
 const pageCountAdjustments = {
-  "1 page": 0,
+  "1 page":    0,
   "2-3 pages": 0,
-  "4-5 pages": 300,
-  "6-8 pages": 850,
-  "9+ pages": 1400
+  "4-5 pages": 250,
+  "6-8 pages": 600,
+  "9+ pages":  1000
 };
 
 const featureAdjustments = {
-  "Contact forms": 0,
-  "Calendar booking": 0,
-  "Blog/resources": 0,
-  "Portfolio/case studies": 0,
-  "Testimonials": 0,
-  "Quote request flow": 0,
-  "CRM/email integration": 200,
-  "Analytics and tracking": 0,
-  "Local SEO pages": 300,
-  "E-commerce / payments": 700
+  "Contact forms":           0,
+  "Calendar booking":        0,
+  "Blog/resources":          0,
+  "Portfolio/case studies":  0,
+  "Testimonials":            0,
+  "Quote request flow":      0,
+  "CRM/email integration":   150,
+  "Analytics and tracking":  0,
+  "Local SEO pages":         250,
+  "E-commerce / payments":   600
 };
 
 const goalAdjustments = {
-  "Generate leads": 0,
-  "Look more credible": 0,
-  "Book appointments": 0,
-  "Launch paid ads": 100,
+  "Generate leads":             0,
+  "Look more credible":         0,
+  "Book appointments":          0,
+  "Launch paid ads":            100,
   "Improve SEO/local discovery": 0,
-  "Refresh branding": 100
+  "Refresh branding":           100
 };
 
 const timelineAdjustments = {
-  "ASAP (under 2 weeks)": 200,
-  "This month": 100,
-  "Next 30-60 days": 0,
+  "ASAP (under 2 weeks)":    250,
+  "This month":              100,
+  "Next 30-60 days":         0,
   "Flexible / planning ahead": 0
 };
 
-const quoteForm = document.getElementById("estimate-form");
-const statusNode = document.getElementById("estimate-form-status");
-const estimateCard = document.getElementById("estimate-result");
-const successPanel = document.getElementById("estimate-success-panel");
-const offerDialog = successPanel?.querySelector(".offer-letter-shell");
-const offerCloseButton = document.getElementById("offer-close");
-const emailInput = document.getElementById("email");
-const isStaticMode = window.location.hostname.includes("github.io");
-const OFFER_STORAGE_KEY = "turnkey-web-offer-data";
+/* ── TIER FEATURES (per project type, per tier level) ── */
+const tierFeatures = {
+  "business-website-build": {
+    launch: [
+      "Up to 3 pages (Home, About, Contact)",
+      "Mobile-responsive design & layout",
+      "Contact form setup + spam protection",
+      "Google Analytics 4 installation",
+      "On-page SEO: meta titles, descriptions & image alt tags",
+      "First draft delivered within 7 days",
+      "2 rounds of revisions included"
+    ],
+    growth: [
+      "Everything in Launch, plus:",
+      "Up to 5 pages (adds Services + Testimonials page)",
+      "Testimonials & social proof section with rich layout",
+      "Calendly or booking widget integration",
+      "Blog template (ready for your first post)",
+      "Enhanced lead capture form with thank-you redirect",
+      "Google Business Profile optimization guidance",
+      "5 rounds of revisions included"
+    ],
+    authority: [
+      "Everything in Growth, plus:",
+      "Up to 8 pages (adds Location/Service SEO pages)",
+      "3 local SEO service-area pages built & optimized",
+      "CRM or email list integration (Mailchimp, HubSpot, etc.)",
+      "Core Web Vitals performance optimization",
+      "Custom case study or portfolio section",
+      "One free 30-min strategy call post-launch",
+      "Unlimited revisions for 30 days after launch",
+      "Priority support queue & faster turnaround"
+    ]
+  },
+  "landing-page-sprint": {
+    launch: [
+      "1 focused, high-converting landing page",
+      "Mobile-responsive & cross-browser tested",
+      "Headline, subhead, and CTA copy structure",
+      "Contact or lead capture form",
+      "Google Analytics 4 setup",
+      "First draft within 5 days",
+      "2 revision rounds"
+    ],
+    growth: [
+      "Everything in Launch, plus:",
+      "A/B headline variant for split testing",
+      "Trust section: logos, reviews, or proof badges",
+      "Calendly or booking embed integration",
+      "Thank-you page with follow-up CTA",
+      "Facebook Pixel or Google Ads tag setup",
+      "4 revision rounds"
+    ],
+    authority: [
+      "Everything in Growth, plus:",
+      "Full-scroll multi-section storytelling layout",
+      "Video embed or walkthrough section",
+      "Live chat or chatbot integration",
+      "Heatmap tool setup (Hotjar or similar)",
+      "CRM or email automation connection",
+      "Unlimited revisions for 21 days",
+      "30-min post-launch debrief call"
+    ]
+  },
+  "website-refresh": {
+    launch: [
+      "Design refresh of up to 3 existing pages",
+      "Updated typography, colors & spacing",
+      "Mobile responsiveness fixes",
+      "Speed & image optimization pass",
+      "Updated meta titles & descriptions",
+      "First draft within 7 days",
+      "2 revision rounds"
+    ],
+    growth: [
+      "Everything in Launch, plus:",
+      "Refresh of up to 5 pages",
+      "New testimonials section added",
+      "Improved CTA placement & conversion flow",
+      "Contact form rebuild or repair",
+      "Calendly booking integration",
+      "4 revision rounds"
+    ],
+    authority: [
+      "Everything in Growth, plus:",
+      "Full brand alignment across all pages",
+      "Up to 7 pages refreshed",
+      "Core Web Vitals performance fixes",
+      "Google Analytics 4 migration or audit",
+      "New local SEO page added",
+      "Unlimited revisions for 21 days",
+      "Priority support"
+    ]
+  },
+  "website-care-plan": {
+    launch: [
+      "Core updates and routine site maintenance",
+      "Monthly uptime & security monitoring",
+      "Up to 2 hours of edits per month",
+      "Plugin & platform updates",
+      "Light SEO tune-ups (meta tags, content tweaks)",
+      "Email support with 48-hour response"
+    ],
+    growth: [
+      "Everything in Essential, plus:",
+      "Up to 5 hours of edits per month",
+      "Monthly conversion review & improvement suggestion",
+      "Google Analytics monthly report",
+      "One new section or page element per month",
+      "SEO content update (1 page/month)",
+      "Priority email support with 24-hour response"
+    ],
+    authority: [
+      "Everything in Growth, plus:",
+      "Up to 10 hours of edits per month",
+      "Monthly 30-min strategy call",
+      "Proactive UX improvement recommendations",
+      "2 SEO content updates per month",
+      "New blog post drafting assistance",
+      "Highest priority support (same-day response)",
+      "Quarterly full site audit"
+    ]
+  }
+};
+
+/* ── STATE ── */
 let estimateUnlocked = false;
+let selectedTierName = null;
+let selectedTierPrice = null;
 
-function formatCurrency(value) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0
-  }).format(Number(value || 0));
+/* ── DOM REFS ── */
+const quoteForm       = document.getElementById("estimate-form");
+const statusNode      = document.getElementById("estimate-form-status");
+const estimateCard    = document.getElementById("estimate-result");
+const successPanel    = document.getElementById("estimate-success-panel");
+const offerDialog     = successPanel?.querySelector(".offer-letter-shell");
+const offerCloseBtn   = document.getElementById("offer-close");
+const emailInput      = document.getElementById("email");
+const isStaticMode    = window.location.hostname.includes("github.io");
+const OFFER_STORAGE   = "turnkey-web-offer-data";
+
+/* ── UTILITIES ── */
+function formatCurrency(v){
+  return new Intl.NumberFormat("en-US",{style:"currency",currency:"USD",minimumFractionDigits:0,maximumFractionDigits:0}).format(Number(v||0));
+}
+function roundTo50(v){ return Math.max(0, Math.round(Number(v||0)/50)*50); }
+function setText(id,v){ const n=document.getElementById(id); if(n) n.textContent=v; }
+function escapeHtml(v){
+  return String(v??"")
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+}
+function collectMultiSelect(name){
+  return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(i=>i.value);
+}
+function humanizeProjectType(v){
+  return String(v||"").split("-").map(p=>`${p[0].toUpperCase()}${p.slice(1)}`).join(" ");
+}
+function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(v||"").trim()); }
+
+/* ── GET FORM PAYLOAD ── */
+function getPayload(){
+  if(!quoteForm) return null;
+  const fd = new FormData(quoteForm);
+  const p  = Object.fromEntries(fd.entries());
+  p.goals    = collectMultiSelect("goals");
+  p.features = collectMultiSelect("features");
+  return p;
 }
 
-function roundTo50(value) {
-  return Math.max(0, Math.round(Number(value || 0) / 50) * 50);
-}
+/* ── COMPUTE ESTIMATE ── */
+function computeEstimate(payload){
+  const pt  = payload.projectType    || "business-website-build";
+  const pcb = payload.pageCountBand  || "2-3 pages";
+  const sel = payload.features       || [];
+  const gls = payload.goals          || [];
+  const tl  = payload.timeline       || "Next 30-60 days";
 
-function applyPublicCeiling(range, projectType, pageCountBand) {
-  if (projectType === "website-care-plan") {
-    return range;
-  }
+  const base   = packageMatrix[pt] || packageMatrix["business-website-build"];
+  const pageAdj= pageCountAdjustments[pcb] || 0;
+  const tlAdj  = timelineAdjustments[tl]   || 0;
 
-  if (!["1 page", "2-3 pages", "4-5 pages"].includes(pageCountBand) || range.high <= 3500) {
-    return range;
-  }
+  let price = base.base + pageAdj + tlAdj;
+  sel.forEach(f => { price += featureAdjustments[f] || 0; });
+  gls.forEach(g => { price += goalAdjustments[g]    || 0; });
 
-  const overflow = range.high - 3500;
-  return {
-    low: roundTo50(Math.max(0, range.low - overflow)),
-    high: 3500
-  };
-}
-
-function setText(id, value) {
-  const node = document.getElementById(id);
-  if (node) {
-    node.textContent = value;
-  }
-}
-
-function collectMultiSelect(name) {
-  return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map((input) => input.value);
-}
-
-function humanizeProjectType(value) {
-  return String(value || "")
-    .split("-")
-    .map((part) => `${part.slice(0, 1).toUpperCase()}${part.slice(1)}`)
-    .join(" ");
-}
-
-function validEmail(value) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value || "").trim());
-}
-
-function getPayload() {
-  if (!quoteForm) {
-    return null;
-  }
-
-  const formData = new FormData(quoteForm);
-  const payload = Object.fromEntries(formData.entries());
-  payload.goals = collectMultiSelect("goals");
-  payload.features = collectMultiSelect("features");
-  return payload;
-}
-
-function computeEstimate(payload) {
-  const projectType = payload.projectType || "business-website-build";
-  const pageCountBand = payload.pageCountBand || "2-3 pages";
-  const selectedFeatures = payload.features || [];
-  const selectedGoals = payload.goals || [];
-  const timeline = payload.timeline || "Next 30-60 days";
-
-  const base = packageMatrix[projectType] || packageMatrix["business-website-build"];
-  const pageAdjustment = pageCountAdjustments[pageCountBand] || 0;
-  const timelineAdjustment = timelineAdjustments[timeline] || 0;
-
-  let price = base.base + pageAdjustment + timelineAdjustment;
-
-  selectedFeatures.forEach((feature) => {
-    price += featureAdjustments[feature] || 0;
-  });
-
-  selectedGoals.forEach((goal) => {
-    price += goalAdjustments[goal] || 0;
-  });
-
-  const pricedAddOns = selectedFeatures.filter((feature) => featureAdjustments[feature] > 0);
+  const pricedAddOns = sel.filter(f => featureAdjustments[f] > 0);
   const complexitySignals = [
     pricedAddOns.length > 0,
-    selectedGoals.includes("Launch paid ads"),
-    selectedGoals.includes("Refresh branding"),
-    pageCountBand === "6-8 pages",
-    pageCountBand === "9+ pages"
+    gls.includes("Launch paid ads"),
+    gls.includes("Refresh branding"),
+    pcb === "6-8 pages",
+    pcb === "9+ pages"
   ].filter(Boolean).length;
 
-  let band = base.band || 400;
-  if (projectType === "website-care-plan") {
-    band = 150;
-  } else if (selectedFeatures.includes("E-commerce / payments") || pageCountBand === "9+ pages") {
-    band = 500;
-  } else if (complexitySignals >= 2) {
-    band = 400;
-  }
+  let band = base.band || 1000;
+  if(pt === "website-care-plan") band = 350;
+  else if(sel.includes("E-commerce / payments") || pcb === "9+ pages") band = 1200;
+  else if(complexitySignals >= 2) band = 1000;
 
-  const range = applyPublicCeiling(
-    {
-      low: roundTo50(price),
-      high: roundTo50(price + band)
-    },
-    projectType,
-    pageCountBand
-  );
+  const low  = roundTo50(price);
+  const high = roundTo50(price + band);
+
   const addOns = [];
-
-  if (selectedGoals.includes("Improve SEO/local discovery")) {
+  if(gls.includes("Improve SEO/local discovery")){
     addOns.push("SEO foundations included");
-    if (!selectedFeatures.includes("Local SEO pages") && projectType !== "website-care-plan") {
-      addOns.push("Local SEO page set recommended");
-    }
+    if(!sel.includes("Local SEO pages") && pt !== "website-care-plan") addOns.push("Local SEO page set recommended");
   }
-  if (selectedFeatures.includes("CRM/email integration")) {
-    addOns.push("CRM integration");
-  }
-  if (selectedFeatures.includes("Local SEO pages")) {
-    addOns.push("Local SEO page set");
-  }
-  if (selectedFeatures.includes("E-commerce / payments")) {
-    addOns.push("Payments setup");
-  }
-  if (selectedGoals.includes("Launch paid ads")) {
-    addOns.push("Campaign landing page support");
-  }
-  if (selectedGoals.includes("Refresh branding")) {
-    addOns.push("Brand polish");
-  }
-  if (timeline === "ASAP (under 2 weeks)") {
-    addOns.push("Rush delivery");
-  }
-  if (projectType === "website-care-plan" && selectedGoals.includes("Improve SEO/local discovery")) {
-    addOns.push("Monthly SEO tune-ups");
-  }
+  if(sel.includes("CRM/email integration")) addOns.push("CRM integration");
+  if(sel.includes("Local SEO pages"))       addOns.push("Local SEO page set");
+  if(sel.includes("E-commerce / payments")) addOns.push("Payments setup");
+  if(gls.includes("Launch paid ads"))       addOns.push("Campaign landing page support");
+  if(gls.includes("Refresh branding"))      addOns.push("Brand polish");
+  if(tl === "ASAP (under 2 weeks)")         addOns.push("Rush delivery");
 
-  const confidence = projectType === "website-care-plan" || band <= 450 ? "high" : "medium";
+  const confidence = pt === "website-care-plan" || band <= 400 ? "high" : "medium";
 
   return {
-    range,
-    recommendedPackage: humanizeProjectType(projectType),
-    formattedRange: `${formatCurrency(range.low)} - ${formatCurrency(range.high)}`,
+    range: { low, high },
+    recommendedPackage: humanizeProjectType(pt),
+    formattedRange: `${formatCurrency(low)} – ${formatCurrency(high)}`,
     confidence,
     addOns,
     rationale: [
-      `${humanizeProjectType(projectType)} starting point`,
-      pageCountBand === "2-3 pages" ? "up to 3 pages included" : pageCountBand,
-      pricedAddOns.length ? `${pricedAddOns.length} priced add-on${pricedAddOns.length === 1 ? "" : "s"}` : "standard features included"
+      `${humanizeProjectType(pt)} starting point`,
+      pcb === "2-3 pages" ? "up to 3 pages included" : pcb,
+      pricedAddOns.length ? `${pricedAddOns.length} priced add-on${pricedAddOns.length===1?"":"s"}` : "standard features included"
     ],
-    monthlyRange: base.monthlyLow || base.monthlyHigh ? { low: base.monthlyLow, high: base.monthlyHigh } : null
+    monthlyRange: (base.monthlyLow || base.monthlyHigh) ? { low: base.monthlyLow, high: base.monthlyHigh } : null
   };
 }
 
-function escapeHtml(value) {
-  return String(value ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
+/* ── BUILD TIER OPTIONS ── */
+function buildTierOptions(estimate, payload){
+  const pt   = payload.projectType || "business-website-build";
+  const ptKey = pt.replace(/-/g,"").replace("websitecareplan","websitecarep");
+  const isCarePlan = pt === "website-care-plan";
 
-function buildTierOptions(estimate, payload) {
-  const isCarePlan = payload.projectType === "website-care-plan";
-  const pageSummary = payload.pageCountBand === "2-3 pages" ? "Up to 3 pages in the standard scope" : `${payload.pageCountBand} scope`;
-  const needsSeoDepth = payload.goals.includes("Improve SEO/local discovery") || payload.features.includes("Local SEO pages");
-  const needsCampaignSupport = payload.goals.includes("Launch paid ads");
-  const hasPayments = payload.features.includes("E-commerce / payments");
-  const featuredPoint = needsSeoDepth
-    ? "More room for SEO depth and stronger service structure"
-    : needsCampaignSupport
-      ? "More room for campaign support and stronger conversion flow"
-      : hasPayments
-        ? "More room for checkout, payments, and trust-building structure"
-        : "More room for proof, polish, and stronger page flow";
+  const low  = isCarePlan ? (estimate.monthlyRange?.low  || estimate.range.low)  : estimate.range.low;
+  const high = isCarePlan ? (estimate.monthlyRange?.high || estimate.range.high) : estimate.range.high;
+  const mid  = roundTo50((low + high) / 2);
 
-  if (isCarePlan) {
-    const low = estimate.monthlyRange?.low || estimate.range.low;
-    const high = estimate.monthlyRange?.high || estimate.range.high;
-    const mid = roundTo50((low + high) / 2);
-    return [
-      {
-        badge: "Lean monthly support",
-        name: "Essential Care",
-        priceLabel: `${formatCurrency(low)}/mo`,
-        fit: "Best for businesses that mainly need updates, upkeep, and light SEO support.",
-        summary: "Reliable monthly upkeep for businesses that want the site looked after without a big retainer.",
-        points: [
-          "Core updates, routine maintenance, and light monthly improvements",
-          "Best when you mostly need support, edits, and simple SEO tune-ups",
-          "A good fit when the site already has a solid foundation"
-        ]
-      },
-      {
-        badge: "Most balanced",
-        name: "Growth Care",
-        priceLabel: `${formatCurrency(mid)}/mo`,
-        fit: "Best for businesses that want steady improvements without a heavy retainer.",
-        summary: "The strongest balance of monthly support, iterative improvements, and growth-focused website upkeep.",
-        points: [
-          "Faster turnaround on edits and more room for ongoing improvements",
-          needsSeoDepth ? "Includes more consistent SEO-focused page and content work" : "Includes more room for conversion and proof refinements",
-          "Best for businesses that want the site to keep getting sharper over time"
-        ]
-      },
-      {
-        badge: "Most complete",
-        name: "Priority Care",
-        priceLabel: `${formatCurrency(high)}/mo`,
-        fit: "Best for businesses that want a more proactive website partner each month.",
-        summary: "The most hands-on option for businesses that want priority support and a more proactive monthly website partner.",
-        points: [
-          "Highest level of support, refinements, and strategic monthly attention",
-          needsSeoDepth ? "More proactive SEO improvements and growth-focused updates" : "More proactive polish, conversion improvements, and faster support",
-          "Best when the website is an active part of how the business grows"
-        ]
-      }
-    ];
-  }
+  const suffix = isCarePlan ? "/mo" : "";
+  const features = tierFeatures[pt] || tierFeatures["business-website-build"];
 
-  const low = estimate.range.low;
-  const high = estimate.range.high;
-  const mid = roundTo50((low + high) / 2);
+  /* Personalized value statement based on goals */
+  const needsSEO     = payload.goals.includes("Improve SEO/local discovery") || payload.features.includes("Local SEO pages");
+  const needsAds     = payload.goals.includes("Launch paid ads");
+  const needsBooking = payload.goals.includes("Book appointments") || payload.features.includes("Calendar booking");
+  const needsCRM     = payload.features.includes("CRM/email integration");
 
-  return [
-    {
-      badge: "Leanest path",
-      name: "Launch",
-      priceLabel: formatCurrency(low),
-      fit: "Best for getting live quickly with the essentials handled well.",
-      summary: "A clean, credible launch with the essentials in place and a tighter scope.",
-      points: [
-        pageSummary,
-        "Core messaging, mobile layout, and clear contact or booking path",
-        "Best when you want to get live fast and look more established online"
-      ]
-    },
-    {
-      badge: "Most balanced",
-      name: "Growth",
-      priceLabel: formatCurrency(mid),
-      fit: "Best for most small businesses that need stronger trust and conversion support.",
-      summary: "The strongest balance of polish, proof, and conversion support for most small businesses.",
-      points: [
-        pageSummary,
-        "More proof, stronger page flow, and better conversion polish throughout",
-        featuredPoint
-      ]
-    },
-    {
-      badge: "Most complete",
-      name: "Authority",
-      priceLabel: formatCurrency(high),
-      fit: "Best for businesses where trust, depth, or complexity matter more.",
-      summary: "The most developed version of the same project, with more refinement, depth, and strategic polish.",
-      points: [
-        pageSummary,
-        "The deepest version of the design, messaging, and trust structure",
-        needsCampaignSupport ? "Best when the site also needs campaign-ready or ad-ready support" : featuredPoint
-      ]
+  function valueLine(tier){
+    if(tier === "launch"){
+      if(needsBooking) return "Get live fast with a clean booking path — start capturing appointments right away.";
+      if(needsAds)     return "A solid page ready to run ads to — clean structure, clear CTA, fast load time.";
+      return "Get a professional web presence live fast — the cleanest, most focused version of your project.";
     }
+    if(tier === "growth"){
+      if(needsSEO)     return "The strongest balance of trust, proof, and SEO structure — built to rank and convert.";
+      if(needsBooking) return "More trust signals + a booking system that works — the level most clients see the clearest ROI on.";
+      if(needsCRM)     return "Integrated with your CRM so every lead is captured, tracked, and followed up automatically.";
+      return "More proof, stronger conversion flow, and the depth most small businesses actually need to look established.";
+    }
+    /* authority */
+    if(needsSEO)  return "Maximum SEO depth — service-area pages, structured content, and authority signals that compound over time.";
+    if(needsAds)  return "Built for scale: ad-ready landing support, full analytics, and CRM integration from day one.";
+    return "The most complete version — designed for businesses where trust, depth, and first-impression quality matter most.";
+  }
+
+  const tierNames    = isCarePlan ? ["Essential Care", "Growth Care", "Priority Care"] : ["Launch", "Growth", "Authority"];
+  const tierBadges   = ["Leanest path", "Most balanced", "Most complete"];
+  const tierFitLines = [
+    isCarePlan ? "Best for businesses that mainly need upkeep and light support."
+               : "Best for getting live quickly with a clean, professional presence.",
+    isCarePlan ? "Best balance of ongoing improvements and steady support."
+               : "Best for most small businesses that want stronger trust + conversion.",
+    isCarePlan ? "Best for businesses that want a proactive, hands-on website partner."
+               : "Best for businesses where authority, depth, or complexity matter most."
   ];
+  const tierPrices = [
+    `${formatCurrency(low)}${suffix}`,
+    `${formatCurrency(mid)}${suffix}`,
+    `${formatCurrency(high)}${suffix}`
+  ];
+  const tierSummaries = [
+    isCarePlan
+      ? "Reliable monthly upkeep with updates, maintenance, and light SEO support."
+      : "A clean, credible launch with the core essentials handled professionally.",
+    isCarePlan
+      ? "The strongest balance of ongoing support, improvements, and growth-focused upkeep."
+      : "The strongest balance of polish, proof, and conversion depth for most businesses.",
+    isCarePlan
+      ? "The most hands-on option — proactive support, strategy calls, and faster response."
+      : "The most developed version — more depth, more refinement, and more strategic reach."
+  ];
+  const tierKeys = ["launch","growth","authority"];
+
+  return tierNames.map((name, i) => ({
+    badge:    tierBadges[i],
+    name,
+    priceLabel: tierPrices[i],
+    fit:      tierFitLines[i],
+    summary:  tierSummaries[i],
+    valueLine: valueLine(tierKeys[i]),
+    points:   features[tierKeys[i]] || []
+  }));
 }
 
-function renderTierOptions(tiers) {
+/* ── RENDER TIER CARDS ── */
+function renderTierOptions(tiers){
   const container = document.getElementById("offer-tier-grid");
-  if (!container) {
-    return;
-  }
+  if(!container) return;
 
   container.innerHTML = tiers.map((tier, index) => `
-    <article class="offer-tier${index === 1 ? " offer-tier-featured" : ""}">
-      ${index === 1 ? '<div class="tier-highlight">Recommended</div>' : ""}
+    <article class="offer-tier${index===1?" offer-tier-featured":""}">
+      ${index===1 ? '<div class="tier-highlight">⭐ Recommended</div>' : ""}
       <div class="tier-topline">
-        <span class="tier-step">Option ${String(index + 1).padStart(2, "0")}</span>
+        <span class="tier-step">Option ${String(index+1).padStart(2,"0")}</span>
         <div class="tier-badge">${escapeHtml(tier.badge)}</div>
       </div>
       <div class="tier-head">
@@ -344,470 +380,301 @@ function renderTierOptions(tiers) {
           <div class="tier-price">${escapeHtml(tier.priceLabel)}</div>
         </div>
       </div>
-      <div class="tier-fit">${escapeHtml(tier.fit || "")}</div>
+      <div class="tier-fit">${escapeHtml(tier.valueLine)}</div>
       <ul>
-        ${tier.points.map((point) => `<li>${escapeHtml(point)}</li>`).join("")}
+        ${tier.points.map(pt=>`<li>${escapeHtml(pt)}</li>`).join("")}
       </ul>
+      <button
+        class="tier-select-btn"
+        type="button"
+        data-tier-index="${index}"
+        data-tier-name="${escapeHtml(tier.name)}"
+        data-tier-price="${escapeHtml(tier.priceLabel)}"
+        onclick="selectTier(this)"
+      >Select ${escapeHtml(tier.name)}</button>
     </article>
   `).join("");
 }
 
-function persistOfferData(data) {
-  try {
-    window.localStorage.setItem(OFFER_STORAGE_KEY, JSON.stringify(data));
-  } catch (error) {
-    console.warn("Unable to persist offer data", error);
+/* ── TIER SELECTION ── */
+window.selectTier = function(btn){
+  document.querySelectorAll(".tier-select-btn").forEach(b => b.classList.remove("selected"));
+  btn.classList.add("selected");
+  selectedTierName  = btn.dataset.tierName;
+  selectedTierPrice = btn.dataset.tierPrice;
+  btn.textContent = `✓ ${selectedTierName} Selected`;
+
+  /* Update the mailto link with the selected tier */
+  const link = document.getElementById("result-onboarding-link");
+  if(link && link.href){
+    const raw = decodeURIComponent(link.href.split("body=")[1] || "");
+    if(raw){
+      const updated = raw.replace(
+        /Selected tier:.*?\n/,
+        `Selected tier: ${selectedTierName} (${selectedTierPrice})\n`
+      );
+      link.href = link.href.split("body=")[0] + "body=" + encodeURIComponent(updated);
+    }
   }
+};
+
+/* ── PERSIST / READ OFFER DATA ── */
+function persistOfferData(data){
+  try{ window.localStorage.setItem(OFFER_STORAGE, JSON.stringify(data)); }
+  catch(e){ console.warn("Unable to persist offer data", e); }
+}
+function readOfferData(){
+  try{ const r=window.localStorage.getItem(OFFER_STORAGE); return r?JSON.parse(r):null; }
+  catch(e){ return null; }
 }
 
-function readOfferData() {
-  try {
-    const raw = window.localStorage.getItem(OFFER_STORAGE_KEY);
-    return raw ? JSON.parse(raw) : null;
-  } catch (error) {
-    console.warn("Unable to read offer data", error);
-    return null;
-  }
-}
-
-function launchOfferPage(data) {
-  persistOfferData(data);
-  const nextUrl = new URL("./offer.html", window.location.href);
-  window.location.href = nextUrl.toString();
-}
-
-function openOfferExperience() {
-  if (!successPanel) {
-    return;
-  }
-
+/* ── OPEN / CLOSE OFFER SHEET ── */
+function openOfferExperience(){
+  if(!successPanel) return;
   successPanel.classList.remove("hidden");
-  successPanel.setAttribute("aria-hidden", "false");
-  document.body.classList.add("offer-open");
-
-  window.requestAnimationFrame(() => {
+  successPanel.setAttribute("aria-hidden","false");
+  document.body.style.overflow="hidden";
+  requestAnimationFrame(()=>{
     successPanel.classList.add("is-visible");
     offerDialog?.focus();
   });
 }
-
-function closeOfferExperience() {
-  if (!successPanel) {
-    return;
-  }
-
+function closeOfferExperience(){
+  if(!successPanel) return;
   successPanel.classList.remove("is-visible");
-  successPanel.setAttribute("aria-hidden", "true");
-  document.body.classList.remove("offer-open");
-
-  window.setTimeout(() => {
-    if (!successPanel.classList.contains("is-visible")) {
-      successPanel.classList.add("hidden");
-    }
+  successPanel.setAttribute("aria-hidden","true");
+  document.body.style.overflow="";
+  setTimeout(()=>{
+    if(!successPanel.classList.contains("is-visible")) successPanel.classList.add("hidden");
   }, 420);
 }
 
-function updateChoicePills() {
-  document.querySelectorAll(".choice-pill").forEach((pill) => {
-    const input = pill.querySelector("input");
-    pill.classList.toggle("is-selected", Boolean(input?.checked));
-  });
-}
-
-function updateLockState() {
-  const hasValidEmail = validEmail(emailInput?.value);
-  const unlocked = estimateUnlocked && hasValidEmail;
-  estimateCard?.classList.toggle("locked", !unlocked);
-  if (statusNode) {
-    if (!hasValidEmail) {
-      statusNode.textContent = "Enter a valid email, then press Complete estimate to reveal your three quote options.";
-    } else if (!estimateUnlocked) {
-      statusNode.textContent = "Press Complete estimate to open your custom quote page.";
-    } else {
-      statusNode.textContent = "Your custom quote page is ready.";
-    }
-  }
-  return unlocked;
-}
-
-function renderPreview(payload) {
-  const estimate = computeEstimate(payload);
-  setText("preview-package", estimate.recommendedPackage);
-  setText("preview-range", estimate.formattedRange);
-  setText("preview-confidence", estimate.confidence.toUpperCase());
-  setText("preview-pages", payload.pageCountBand || "2-3 pages");
-  setText("preview-timeline", payload.timeline || "Next 30-60 days");
-  setText("preview-goals-count", String(payload.goals.length));
-  setText("preview-features-count", String(payload.features.length));
-  setText("preview-addons", estimate.addOns.length ? estimate.addOns.join(", ") : "No extra add-ons suggested yet.");
-  setText("preview-rationale", estimate.rationale.join(" - "));
-  setText(
-    "preview-monthly",
-    estimate.monthlyRange
-      ? `Monthly guidance ${formatCurrency(estimate.monthlyRange.low)} - ${formatCurrency(estimate.monthlyRange.high)}`
-      : "One-time project range"
-  );
-  return estimate;
-}
-
-async function postJson(url, payload) {
-  const response = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  });
-  return response.json();
-}
-
-function activateTab(name, options = {}) {
-  const { syncHash = false } = options;
-  document.querySelectorAll(".tab-button").forEach((button) => {
-    const active = button.dataset.tabTarget === name;
-    button.classList.toggle("active", active);
-    button.setAttribute("aria-selected", String(active));
-  });
-
-  document.querySelectorAll(".tab-panel").forEach((panel) => {
-    panel.classList.toggle("active", panel.id === `tab-${name}`);
-  });
-
-  if (syncHash && window.location.pathname.toLowerCase().includes("pricing")) {
-    const nextHash = name === "quote" ? "#quote" : "#pricing";
-    window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}${nextHash}`);
-  }
-}
-
-function activateTabFromLocation() {
-  const hash = String(window.location.hash || "").replace("#", "").toLowerCase();
-  if (hash === "quote") {
-    activateTab("quote");
-  } else if (hash === "guide" || hash === "pricing") {
-    activateTab("guide");
-  }
-}
-
-function revealOnScroll() {
-  document.querySelectorAll("[data-reveal-delay]").forEach((node) => {
-    node.style.setProperty("--reveal-delay", `${Number(node.dataset.revealDelay || 0)}ms`);
-  });
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("in-view");
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.16 }
-  );
-
-  document.querySelectorAll("[data-reveal]").forEach((node) => observer.observe(node));
-}
-
-function bindGlowCards() {
-  document.querySelectorAll(".glow-card").forEach((card) => {
-    card.addEventListener("pointermove", (event) => {
-      const rect = card.getBoundingClientRect();
-      const x = ((event.clientX - rect.left) / rect.width) * 100;
-      const y = ((event.clientY - rect.top) / rect.height) * 100;
-      card.style.setProperty("--glow-x", `${x}%`);
-      card.style.setProperty("--glow-y", `${y}%`);
-    });
-  });
-}
-
-function bindParallax() {
-  const nodes = Array.from(document.querySelectorAll("[data-parallax]"));
-  if (!nodes.length || window.innerWidth < 900) {
-    return;
-  }
-
-  const apply = () => {
-    const viewportHeight = window.innerHeight || 1;
-    nodes.forEach((node) => {
-      const rect = node.getBoundingClientRect();
-      const strength = Number(node.dataset.parallax || 10);
-      const centerOffset = rect.top + rect.height / 2 - viewportHeight / 2;
-      const translate = Math.max(Math.min(centerOffset / viewportHeight, 1), -1) * strength;
-      node.style.transform = `translate3d(0, ${translate}px, 0)`;
-    });
-  };
-
-  apply();
-  let ticking = false;
-  window.addEventListener("scroll", () => {
-    if (ticking) {
-      return;
-    }
-    ticking = true;
-    window.requestAnimationFrame(() => {
-      apply();
-      ticking = false;
-    });
-  }, { passive: true });
-}
-
-function buildMailto(payload, estimate, tiers = []) {
-  const leadName = [payload.firstName, payload.lastName].filter(Boolean).join(" ") || payload.company || "Project lead";
+/* ── BUILD MAILTO (includes selected tier) ── */
+function buildMailto(payload, estimate, tiers=[]){
+  const name = [payload.firstName, payload.lastName].filter(Boolean).join(" ") || payload.company || "Project lead";
   const tierSummary = tiers.length
-    ? tiers.map((tier) => `${tier.name}: ${tier.priceLabel}`).join(" | ")
+    ? tiers.map(t=>`${t.name}: ${t.priceLabel}`).join(" | ")
     : "Not generated";
-  const subject = encodeURIComponent(`Turnkey Web estimate request - ${estimate.recommendedPackage} - ${estimate.formattedRange}`);
+  const subject = encodeURIComponent(`Turnkey Web estimate — ${estimate.recommendedPackage} — ${estimate.formattedRange}`);
   const body = encodeURIComponent(
 `Hi Ricky,
 
 I completed the Turnkey Web quote builder and would like to move forward.
 
-Contact: ${leadName}
-Company: ${payload.company || ""}
-Email: ${payload.email || ""}
-Phone: ${payload.phone || ""}
-Industry: ${payload.industry || ""}
-Current site: ${payload.currentSiteUrl || ""}
-Project type: ${estimate.recommendedPackage}
-Timeline: ${payload.timeline || ""}
-Budget band: ${payload.budgetBand || ""}
-Page count: ${payload.pageCountBand || ""}
-Goals: ${(payload.goals || []).join(", ") || "None listed"}
-Features: ${(payload.features || []).join(", ") || "None listed"}
-Recommended add-ons: ${estimate.addOns.join(", ") || "None"}
-Estimate range: ${estimate.formattedRange}
-Tier options: ${tierSummary}
-Notes: ${payload.notes || ""}
+CONTACT DETAILS
+---------------
+Name:         ${name}
+Company:      ${payload.company || ""}
+Email:        ${payload.email   || ""}
+Phone:        ${payload.phone   || ""}
+Industry:     ${payload.industry|| ""}
 
-Please send me the next step to get started.
+PROJECT DETAILS
+---------------
+Project type: ${estimate.recommendedPackage}
+Timeline:     ${payload.timeline    || ""}
+Budget band:  ${payload.budgetBand  || ""}
+Page count:   ${payload.pageCountBand|| ""}
+Goals:        ${(payload.goals    ||[]).join(", ") || "None listed"}
+Features:     ${(payload.features ||[]).join(", ") || "None listed"}
+Notes:        ${payload.notes || ""}
+
+QUOTE
+-----
+Estimate range: ${estimate.formattedRange}
+Tier options:   ${tierSummary}
+Selected tier:  [not yet selected — please reply with your preferred option]
+Add-ons noted:  ${estimate.addOns.join(", ") || "None"}
+
+Please send me the next steps to get started.
 `
   );
   return `mailto:ricky@turnkeycfo.com?subject=${subject}&body=${body}`;
 }
 
-function renderSuccess(estimate, payload, result = null) {
+/* ── RENDER PREVIEW CARD ── */
+function renderPreview(payload){
+  const est = computeEstimate(payload);
+  setText("preview-package",       est.recommendedPackage);
+  setText("preview-range",         est.formattedRange);
+  setText("preview-confidence",    est.confidence.toUpperCase());
+  setText("preview-pages",         payload.pageCountBand || "2-3 pages");
+  setText("preview-timeline",      payload.timeline      || "Next 30-60 days");
+  setText("preview-goals-count",   String(payload.goals.length));
+  setText("preview-features-count",String(payload.features.length));
+  setText("preview-addons",        est.addOns.length ? est.addOns.join(", ") : "No extra add-ons suggested yet.");
+  setText("preview-rationale",     est.rationale.join(" – "));
+  setText("preview-monthly",
+    est.monthlyRange
+      ? `Monthly guidance ${formatCurrency(est.monthlyRange.low)} – ${formatCurrency(est.monthlyRange.high)}`
+      : "One-time project range"
+  );
+  return est;
+}
+
+/* ── UPDATE LOCK STATE ── */
+function updateLockState(){
+  const hasEmail = validEmail(emailInput?.value);
+  const unlocked = estimateUnlocked && hasEmail;
+  estimateCard?.classList.toggle("locked",!unlocked);
+  if(statusNode){
+    if(!hasEmail) statusNode.textContent = "Enter your email last and press Complete estimate to reveal your three quote options.";
+    else if(!estimateUnlocked) statusNode.textContent = "Press Complete estimate to open your custom quote page.";
+    else statusNode.textContent = "Your custom quote page is ready — choose your tier above.";
+  }
+  return unlocked;
+}
+function updateChoicePills(){
+  document.querySelectorAll(".choice-pill").forEach(pill=>{
+    pill.classList.toggle("is-selected", Boolean(pill.querySelector("input")?.checked));
+  });
+}
+
+/* ── RENDER SUCCESS / OFFER PAGE ── */
+function renderSuccess(estimate, payload){
   const tiers = buildTierOptions(estimate, payload);
   renderTierOptions(tiers);
-  setText("result-package", "Choose the level that fits best.");
-  setText(
-    "result-range",
+
+  setText("result-package", `Here's your custom quote, ${payload.firstName || "friend"}.`);
+  setText("result-range",
     payload.projectType === "website-care-plan" && estimate.monthlyRange
-      ? `${formatCurrency(estimate.monthlyRange.low)} - ${formatCurrency(estimate.monthlyRange.high)}/mo`
+      ? `${formatCurrency(estimate.monthlyRange.low)} – ${formatCurrency(estimate.monthlyRange.high)}/mo`
       : estimate.formattedRange
   );
-  setText(
-    "result-addons",
+  setText("result-addons",
     estimate.addOns.length
-      ? `Suggested extras based on your selections: ${estimate.addOns.join(", ")}.`
-      : "No major add-ons are being pushed into this quote. If you want more SEO, integrations, or campaign support, we can tighten that into the final version you choose."
+      ? `Suggested extras based on your inputs: ${estimate.addOns.join(", ")}.`
+      : "No major add-ons are being pushed. If you want more SEO depth, integrations, or campaign support, we can scope that into the version you choose."
   );
-  setText(
-    "result-rationale",
-    `All three options point to the same ${estimate.recommendedPackage} direction, then add more proof, polish, and strategic depth as the investment climbs.`
+  setText("result-rationale",
+    `Based on your ${estimate.recommendedPackage} scope — pick the level of polish and depth that fits your goals and timeline. Select a tier below, then email to lock it in.`
   );
-  setText("result-lead-id", result?.leadId ? `Reference ${result.leadId}` : "Ready when you are.");
+  setText("result-lead-id","Ready when you are — select a tier above and send the email.");
 
   const link = document.getElementById("result-onboarding-link");
-  if (!link) {
-    return;
+  if(link){
+    link.href = buildMailto(payload, estimate, tiers);
+    link.textContent = "Email to lock in your quote";
   }
 
-  link.href = buildMailto(payload, estimate, tiers);
-  link.textContent = "Email to lock in your quote";
-
-  launchOfferPage({
-    payload,
-    estimate,
-    result,
-    tiers,
-    mailto: link.href,
-    generatedAt: new Date().toISOString()
-  });
+  persistOfferData({ payload, estimate, tiers, mailto: link?.href, generatedAt: new Date().toISOString() });
+  openOfferExperience();
 }
 
-function initOfferPage() {
-  if (!document.body.classList.contains("page-offer")) {
-    return;
-  }
-
-  const data = readOfferData();
-  if (!data?.payload || !data?.estimate || !Array.isArray(data?.tiers)) {
-    window.location.replace("./pricing.html#quote");
-    return;
-  }
-
-  const { payload, estimate, tiers, result, mailto } = data;
-  renderTierOptions(tiers);
-
-  setText("offer-heading", "Choose the level that fits best.");
-  setText(
-    "offer-rationale",
-    `We developed these three options around your ${estimate.recommendedPackage} direction so you can choose the right level of polish, proof, and strategic depth.`
-  );
-  setText(
-    "offer-range",
-    payload.projectType === "website-care-plan" && estimate.monthlyRange
-      ? `${formatCurrency(estimate.monthlyRange.low)} - ${formatCurrency(estimate.monthlyRange.high)}/mo`
-      : estimate.formattedRange
-  );
-  setText("offer-project-type", estimate.recommendedPackage);
-  setText("offer-pages", payload.pageCountBand || "2-3 pages");
-  setText("offer-timeline", payload.timeline || "Next 30-60 days");
-  setText("offer-confidence", String(estimate.confidence || "high").toUpperCase());
-  setText(
-    "offer-addons",
-    estimate.addOns.length
-      ? `Suggested additions based on your selections: ${estimate.addOns.join(", ")}.`
-      : "No major add-ons are being pushed into this quote. If you want more SEO, integration depth, or campaign support, we can tighten that into the final version you choose."
-  );
-  setText("offer-reference", result?.leadId ? `Reference ${result.leadId}` : "Reply when you are ready and we will lock the right version in cleanly.");
-
-  const mailtoLink = mailto || buildMailto(payload, estimate, tiers);
-  const cta = document.getElementById("result-onboarding-link");
-  const topCta = document.getElementById("offer-email-top");
-  if (cta) {
-    cta.href = mailtoLink;
-  }
-  if (topCta) {
-    topCta.href = mailtoLink;
-  }
-
-  window.requestAnimationFrame(() => {
-    document.body.classList.add("offer-page-ready");
-  });
-}
-
-async function submitEstimate(event) {
-  event.preventDefault();
-  activateTab("quote");
-
+/* ── SUBMIT HANDLER ── */
+async function submitEstimate(e){
+  e.preventDefault();
   const payload = getPayload();
-  if (!payload) {
-    return;
-  }
-
-  if (!quoteForm.reportValidity()) {
-    return;
-  }
+  if(!payload || !quoteForm.reportValidity()) return;
 
   estimateUnlocked = true;
   const unlocked = updateLockState();
-  if (!unlocked) {
-    emailInput?.focus();
-    return;
-  }
+  if(!unlocked){ emailInput?.focus(); return; }
 
   const estimate = renderPreview(payload);
-  const submitButton = document.getElementById("estimate-submit");
-  if (submitButton) {
-    submitButton.disabled = true;
-    submitButton.textContent = "Preparing estimate...";
-  }
+  const btn = document.getElementById("estimate-submit");
+  if(btn){ btn.disabled=true; btn.textContent="Preparing quote..."; }
 
-  try {
-    if (!isStaticMode) {
-      const result = await postJson("/api/estimate", payload);
-      if (!result.ok) {
-        throw new Error(result.error || "Submission failed");
-      }
-      renderSuccess(estimate, payload, result);
-      if (statusNode) {
-        statusNode.textContent = "Opening your custom quote page now.";
-      }
-    } else {
-      renderSuccess(estimate, payload);
-      if (statusNode) {
-        statusNode.textContent = "Opening your custom quote page now.";
-      }
-    }
-
-  } catch (error) {
+  try{
     renderSuccess(estimate, payload);
-    if (statusNode) {
-      statusNode.textContent = `${error.message || "Submission failed"}. Opening your custom quote page anyway.`;
-    }
-  } finally {
-    if (submitButton) {
-      submitButton.disabled = false;
-      submitButton.textContent = "Complete estimate";
-    }
+    if(statusNode) statusNode.textContent = "Opening your custom quote now.";
+  } catch(err){
+    renderSuccess(estimate, payload);
+  } finally{
+    if(btn){ btn.disabled=false; btn.textContent="Complete estimate"; }
   }
 }
 
-quoteForm?.addEventListener("input", () => {
+/* ── EVENT LISTENERS ── */
+quoteForm?.addEventListener("input", ()=>{
   updateChoicePills();
-  const payload = getPayload();
-  if (payload) {
-    renderPreview(payload);
-  }
-  if (!validEmail(emailInput?.value)) {
-    estimateUnlocked = false;
-    closeOfferExperience();
-  }
+  const p = getPayload();
+  if(p) renderPreview(p);
+  if(!validEmail(emailInput?.value)){ estimateUnlocked=false; }
   updateLockState();
 });
 quoteForm?.addEventListener("change", updateChoicePills);
 quoteForm?.addEventListener("submit", submitEstimate);
 
-offerCloseButton?.addEventListener("click", closeOfferExperience);
-successPanel?.addEventListener("click", (event) => {
-  const target = event.target;
-  if (target instanceof HTMLElement && target.hasAttribute("data-offer-close")) {
-    closeOfferExperience();
+offerCloseBtn?.addEventListener("click", closeOfferExperience);
+successPanel?.addEventListener("click", e=>{
+  if(e.target?.hasAttribute("data-offer-close")) closeOfferExperience();
+});
+document.addEventListener("keydown", e=>{
+  if(e.key==="Escape" && successPanel?.classList.contains("is-visible")) closeOfferExperience();
+});
+
+/* ── SCROLL REVEAL ── */
+function revealOnScroll(){
+  document.querySelectorAll("[data-reveal-delay]").forEach(n=>{
+    n.style.setProperty("--reveal-delay",`${Number(n.dataset.revealDelay||0)}ms`);
+  });
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){ entry.target.classList.add("in-view"); obs.unobserve(entry.target); }
+    });
+  },{threshold:0.12});
+  document.querySelectorAll("[data-reveal]").forEach(n=>obs.observe(n));
+}
+
+/* ── GLOW CARDS ── */
+function bindGlowCards(){
+  document.querySelectorAll(".glow-card").forEach(card=>{
+    card.addEventListener("pointermove", e=>{
+      const r = card.getBoundingClientRect();
+      card.style.setProperty("--glow-x",`${((e.clientX-r.left)/r.width)*100}%`);
+      card.style.setProperty("--glow-y",`${((e.clientY-r.top)/r.height)*100}%`);
+    });
+  });
+}
+
+/* ── PARALLAX ── */
+function bindParallax(){
+  const nodes = Array.from(document.querySelectorAll("[data-parallax]"));
+  if(!nodes.length || window.innerWidth<900) return;
+  const apply = ()=>{
+    const vh = window.innerHeight||1;
+    nodes.forEach(n=>{
+      const r = n.getBoundingClientRect();
+      const s = Number(n.dataset.parallax||10);
+      const t = Math.max(Math.min((r.top+r.height/2-vh/2)/vh,1),-1)*s;
+      n.style.transform=`translate3d(0,${t}px,0)`;
+    });
+  };
+  apply();
+  let tick=false;
+  window.addEventListener("scroll",()=>{
+    if(tick) return; tick=true;
+    requestAnimationFrame(()=>{ apply(); tick=false; });
+  },{passive:true});
+}
+
+/* ── NAV SCROLL STATE ── */
+function bindNav(){
+  const nav = document.querySelector(".top-nav");
+  if(!nav) return;
+  const check = ()=> nav.classList.toggle("scrolled", window.scrollY>20);
+  window.addEventListener("scroll", check, {passive:true});
+  check();
+
+  const hb = document.querySelector(".nav-hamburger");
+  const mn = document.querySelector(".mobile-nav");
+  if(hb && mn){
+    hb.addEventListener("click",()=>{
+      hb.classList.toggle("open");
+      mn.classList.toggle("open");
+    });
+    mn.querySelectorAll("a").forEach(a=>{
+      a.addEventListener("click",()=>{ hb.classList.remove("open"); mn.classList.remove("open"); });
+    });
   }
-});
+}
 
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && successPanel?.classList.contains("is-visible")) {
-    closeOfferExperience();
-  }
-});
-
-document.querySelectorAll(".tab-button").forEach((button) => {
-  button.addEventListener("click", () => activateTab(button.dataset.tabTarget, { syncHash: true }));
-});
-
-document.querySelectorAll("[data-open-tab]").forEach((trigger) => {
-  trigger.addEventListener("click", () => activateTab(trigger.dataset.openTab));
-});
-
+/* ── INIT ── */
 updateChoicePills();
 updateLockState();
-if (quoteForm) {
-  renderPreview(getPayload());
-}
-initOfferPage();
-activateTabFromLocation();
-window.addEventListener("hashchange", activateTabFromLocation);
+if(quoteForm){ renderPreview(getPayload()); }
 revealOnScroll();
 bindGlowCards();
 bindParallax();
-
-const GHL_CHAT_LOCATION_ID = "REPLACE_WITH_TURNKEY_WEB_GHL_LOCATION_ID";
-const GHL_CHAT_LOADER_URL = "https://widgets.leadconnectorhq.com/loader.js";
-const GHL_CHAT_RESOURCES_URL = "https://widgets.leadconnectorhq.com/chat-widget/loader.js";
-const GHL_CHAT_SKIP_PAGES = new Set(["admin.html", "onboarding.html", "operations.html", "social-agent.html"]);
-
-function loadGhlChatWidget() {
-  const currentPage = window.location.pathname.split("/").filter(Boolean).pop() || "index.html";
-  const locationId = String(GHL_CHAT_LOCATION_ID || "").trim();
-  if (!locationId || locationId.startsWith("REPLACE_WITH_") || GHL_CHAT_SKIP_PAGES.has(currentPage)) {
-    return;
-  }
-
-  if (!document.querySelector(`chat-widget[location-id="${locationId}"]`)) {
-    const widget = document.createElement("chat-widget");
-    widget.setAttribute("location-id", locationId);
-    document.body.appendChild(widget);
-  }
-
-  if (document.querySelector(`script[src="${GHL_CHAT_LOADER_URL}"]`)) {
-    return;
-  }
-
-  const script = document.createElement("script");
-  script.src = GHL_CHAT_LOADER_URL;
-  script.async = true;
-  script.setAttribute("data-resources-url", GHL_CHAT_RESOURCES_URL);
-  document.body.appendChild(script);
-}
-
-loadGhlChatWidget();
+bindNav();
