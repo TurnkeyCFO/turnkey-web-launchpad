@@ -663,22 +663,19 @@ p{line-height:1.72;}
 ════════════════════════════════ */
 .quote-offer-sheet{
   position:fixed;inset:0;z-index:500;
-  display:flex;align-items:flex-start;justify-content:center;
-  padding:24px 16px;overflow-y:auto;
+  background:rgba(15,23,42,.68);backdrop-filter:blur(8px);
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:32px 16px 56px;
 }
 .quote-offer-sheet.hidden{display:none;}
-.quote-offer-backdrop{
-  position:absolute;inset:0;
-  background:rgba(15,23,42,.6);backdrop-filter:blur(6px);
-  z-index:0;
-}
+.quote-offer-backdrop{display:none;}
 .offer-letter-shell{
-  position:relative;z-index:10;
+  position:relative;
   max-width:1000px;width:100%;
+  margin:0 auto;
   background:var(--white);border-radius:28px;
   overflow:hidden;
-  box-shadow:0 40px 120px rgba(15,23,42,.3);
-  margin:auto;
+  box-shadow:0 40px 120px rgba(15,23,42,.35);
 }
 .offer-letter-close{
   position:absolute;top:16px;right:16px;
